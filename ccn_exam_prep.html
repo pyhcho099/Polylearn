@@ -1,0 +1,2367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CCN Exam Prep – Computer Communication & Networks</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --surface: #0e1520;
+  --surface2: #141d2e;
+  --border: #1e2d45;
+  --accent: #00d4ff;
+  --accent2: #ff6b35;
+  --accent3: #7fff6b;
+  --accent4: #a855f7;
+  --text: #e2eaf5;
+  --muted: #6b7fa3;
+  --high: #ff4d6d;
+  --med: #ffd166;
+  --low: #06d6a0;
+  --card-glow: rgba(0,212,255,0.06);
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body {
+  font-family: 'Sora', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Grid background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,12,20,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+.logo span { color: var(--muted); }
+
+.header-nav {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 6px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.filter-btn:hover, .filter-btn.active {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.filter-btn[data-filter="high"].active { background: var(--high); border-color: var(--high); }
+.filter-btn[data-filter="med"].active { background: var(--med); border-color: var(--med); color: var(--bg); }
+.filter-btn[data-filter="low"].active { background: var(--low); border-color: var(--low); color: var(--bg); }
+
+/* Hero */
+.hero {
+  position: relative;
+  z-index: 1;
+  padding: 60px 32px 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.hero-tag::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: var(--accent);
+}
+
+h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 0%, var(--accent) 60%, var(--accent4) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 300;
+  max-width: 600px;
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.stats-bar {
+  display: flex;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+.stat-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Module tabs */
+.module-tabs {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 16px;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.module-tab {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.module-tab:hover, .module-tab.active {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(0,212,255,0.08);
+}
+
+/* Main content */
+.main {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px 80px;
+}
+
+/* Section headers */
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 40px 0 24px;
+}
+.section-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  padding: 4px 10px;
+  border-radius: 3px;
+}
+.badge-high { background: rgba(255,77,109,0.15); color: var(--high); border: 1px solid rgba(255,77,109,0.3); }
+.badge-med  { background: rgba(255,209,102,0.15); color: var(--med); border: 1px solid rgba(255,209,102,0.3); }
+.badge-low  { background: rgba(6,214,160,0.15); color: var(--low); border: 1px solid rgba(6,214,160,0.3); }
+
+.section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.section-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* Question cards */
+.q-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+  overflow: visible;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  animation: fadeIn 0.4s ease both;
+}
+/* Keep header clipped to card's rounded corners */
+.q-header { border-radius: 12px 12px 0 0; }
+.q-card.open .q-header { border-radius: 0; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.q-card:hover {
+  border-color: rgba(0,212,255,0.3);
+  box-shadow: 0 4px 32px var(--card-glow);
+}
+
+.q-card.priority-high { border-left: 3px solid var(--high); }
+.q-card.priority-med  { border-left: 3px solid var(--med); }
+.q-card.priority-low  { border-left: 3px solid var(--low); }
+
+.q-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.q-number {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--muted);
+  min-width: 32px;
+  padding-top: 2px;
+}
+
+.q-meta {
+  flex: 1;
+}
+
+.q-marks {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 3px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+.marks-7 { background: rgba(255,77,109,0.12); color: var(--high); }
+.marks-3 { background: rgba(255,209,102,0.12); color: var(--med); }
+.marks-1 { background: rgba(6,214,160,0.12); color: var(--low); }
+
+.q-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.q-chevron {
+  color: var(--muted);
+  font-size: 18px;
+  transition: transform 0.3s;
+  min-width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 4px;
+}
+.q-card.open .q-chevron { transform: rotate(180deg); }
+
+.q-body {
+  display: none;
+  padding: 0 24px 24px 72px;
+  border-top: 1px solid var(--border);
+}
+.q-card.open .q-body { display: block; }
+.q-card.open .q-header { background: rgba(255,255,255,0.02); }
+
+/* Answer content */
+.answer-section {
+  margin-top: 20px;
+}
+
+.ans-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+p.ans-text {
+  color: #b8c8e0;
+  font-size: 14px;
+  line-height: 1.75;
+  margin-bottom: 12px;
+}
+
+ul.ans-list, ol.ans-list {
+  color: #b8c8e0;
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 8px 0 12px 20px;
+}
+ul.ans-list li, ol.ans-list li { margin-bottom: 6px; }
+ul.ans-list li strong, ol.ans-list li strong { color: var(--text); }
+
+/* Tables */
+.ans-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 13px;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.ans-table thead th {
+  background: var(--surface2);
+  color: var(--accent);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+.ans-table tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(30,45,69,0.6);
+  color: #b8c8e0;
+  vertical-align: top;
+}
+.ans-table tbody tr:last-child td { border-bottom: none; }
+.ans-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.ans-table tbody td:first-child {
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Diagrams */
+.diagram-wrap {
+  margin: 20px 0;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: visible;
+  -webkit-overflow-scrolling: touch;
+}
+.diagram-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.diagram-label::before {
+  content: '◈';
+  color: var(--accent);
+}
+.diagram-svg {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+/* Layer diagrams */
+.layer-stack {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.layer-model {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+}
+.layer-model-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+.layer-box {
+  padding: 9px 12px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  margin-bottom: 3px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  cursor: default;
+}
+.layer-box:hover { border-color: var(--accent); color: var(--accent); }
+
+.l-app { background: rgba(168,85,247,0.15); color: #c084fc; border-color: rgba(168,85,247,0.3); }
+.l-pres { background: rgba(168,85,247,0.1); color: #a855f7; border-color: rgba(168,85,247,0.2); }
+.l-sess { background: rgba(99,102,241,0.15); color: #818cf8; border-color: rgba(99,102,241,0.3); }
+.l-trans { background: rgba(0,212,255,0.15); color: #00d4ff; border-color: rgba(0,212,255,0.3); }
+.l-net { background: rgba(6,214,160,0.15); color: #06d6a0; border-color: rgba(6,214,160,0.3); }
+.l-dl { background: rgba(255,209,102,0.15); color: #ffd166; border-color: rgba(255,209,102,0.3); }
+.l-phy { background: rgba(255,107,53,0.15); color: #ff6b35; border-color: rgba(255,107,53,0.3); }
+
+/* Topology diagrams using SVG */
+.topo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 20px;
+}
+.topo-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+.topo-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+.topo-card svg { overflow: visible; }
+
+/* IPv4 class table special styling */
+.class-badge {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.ca { background: rgba(255,77,109,0.2); color: #ff4d6d; }
+.cb { background: rgba(0,212,255,0.2); color: #00d4ff; }
+.cc { background: rgba(6,214,160,0.2); color: #06d6a0; }
+.cd { background: rgba(168,85,247,0.2); color: #a855f7; }
+.ce { background: rgba(255,209,102,0.2); color: #ffd166; }
+
+/* DNS diagram */
+.dns-tree {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 20px;
+}
+.dns-node {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 20px;
+  border-radius: 6px;
+  border: 1px solid;
+  text-align: center;
+  min-width: 160px;
+}
+.dns-root { background: rgba(255,77,109,0.15); color: #ff4d6d; border-color: rgba(255,77,109,0.4); }
+.dns-tld  { background: rgba(0,212,255,0.15); color: #00d4ff; border-color: rgba(0,212,255,0.4); }
+.dns-auth { background: rgba(6,214,160,0.15); color: #06d6a0; border-color: rgba(6,214,160,0.4); }
+.dns-res  { background: rgba(168,85,247,0.15); color: #a855f7; border-color: rgba(168,85,247,0.4); }
+.dns-arrow {
+  font-size: 20px;
+  color: var(--muted);
+  line-height: 1;
+}
+.dns-step-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  color: var(--muted);
+  letter-spacing: 1px;
+}
+.dns-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* FTP diagram */
+.ftp-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 24px;
+  flex-wrap: wrap;
+}
+.ftp-box {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid;
+  text-align: center;
+  min-width: 130px;
+}
+.ftp-client { background: rgba(0,212,255,0.15); color: #00d4ff; border-color: rgba(0,212,255,0.4); }
+.ftp-server { background: rgba(255,107,53,0.15); color: #ff6b35; border-color: rgba(255,107,53,0.4); }
+.ftp-conn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 16px;
+  gap: 8px;
+}
+.ftp-line {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--accent);
+  text-align: center;
+}
+.ftp-arrow { font-size: 18px; color: var(--muted); }
+
+/* CSMA/CD flowchart */
+.flow-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 20px;
+}
+.flow-node {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 6px;
+  border: 1px solid;
+  text-align: center;
+  max-width: 220px;
+  width: 100%;
+}
+.flow-start { background: rgba(168,85,247,0.15); color: #a855f7; border-color: rgba(168,85,247,0.4); border-radius: 50px; }
+.flow-proc  { background: rgba(0,212,255,0.12); color: #00d4ff; border-color: rgba(0,212,255,0.35); }
+.flow-dec   { background: rgba(255,209,102,0.12); color: #ffd166; border-color: rgba(255,209,102,0.35); border-radius: 0; transform: none; padding: 14px 24px; }
+.flow-end   { background: rgba(6,214,160,0.12); color: #06d6a0; border-color: rgba(6,214,160,0.35); border-radius: 50px; }
+.flow-arrow { color: var(--muted); font-size: 18px; margin: 4px 0; }
+.flow-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--muted); margin: 2px; }
+
+/* IPv6 header */
+.ipv6-header {
+  padding: 20px;
+  overflow-x: auto;
+}
+.ipv6-row {
+  display: flex;
+  margin-bottom: 2px;
+}
+.ipv6-field {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 8px;
+  text-align: center;
+  border: 1px solid var(--border);
+  line-height: 1.3;
+}
+.ipv6-bits {
+  font-size: 9px;
+  font-weight: 400;
+  opacity: 0.7;
+  display: block;
+}
+
+.f-ver  { flex: 4; background: rgba(168,85,247,0.2); color: #c084fc; }
+.f-tc   { flex: 8; background: rgba(0,212,255,0.15); color: #00d4ff; }
+.f-fl   { flex: 20; background: rgba(6,214,160,0.12); color: #06d6a0; }
+.f-pl   { flex: 16; background: rgba(255,107,53,0.15); color: #ff6b35; }
+.f-nh   { flex: 8; background: rgba(255,209,102,0.15); color: #ffd166; }
+.f-hl   { flex: 8; background: rgba(168,85,247,0.15); color: #a855f7; }
+.f-src  { flex: 1; background: rgba(0,212,255,0.1); color: #00d4ff; padding: 14px; }
+.f-dst  { flex: 1; background: rgba(6,214,160,0.08); color: #06d6a0; padding: 14px; }
+
+/* Stop and wait */
+.saw-diagram {
+  padding: 20px;
+  overflow-x: auto;
+}
+.saw-timeline {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  min-width: 320px;
+}
+.saw-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.saw-col-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.saw-line {
+  width: 2px;
+  background: var(--border);
+  flex: 1;
+  min-height: 200px;
+}
+.saw-event {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  white-space: nowrap;
+  margin: 4px 0;
+}
+.saw-send { background: rgba(0,212,255,0.15); color: #00d4ff; }
+.saw-ack  { background: rgba(6,214,160,0.15); color: #06d6a0; }
+.saw-wait { background: rgba(255,209,102,0.1); color: var(--muted); font-size: 9px; }
+
+/* Formula box */
+.formula-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 12px 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+}
+.formula-label {
+  font-size: 10px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+
+/* Quick facts grid */
+.facts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.fact-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: border-color 0.2s;
+}
+.fact-card:hover { border-color: var(--low); }
+.fact-q {
+  font-size: 13px;
+  color: var(--muted);
+}
+.fact-a {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--low);
+}
+
+/* Highlight */
+.hl { color: var(--accent); font-weight: 700; }
+
+/* Scroll to top */
+.scroll-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 44px;
+  height: 44px;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 20px rgba(0,212,255,0.4);
+  transition: transform 0.2s;
+  z-index: 50;
+}
+.scroll-top:hover { transform: translateY(-3px); }
+
+/* Search */
+.search-wrap {
+  position: relative;
+  max-width: 400px;
+}
+.search-input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 16px 10px 40px;
+  color: var(--text);
+  font-family: 'Sora', sans-serif;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-input::placeholder { color: var(--muted); }
+.search-input:focus { border-color: var(--accent); }
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-size: 16px;
+}
+
+/* ── Global SVG responsive ── */
+svg { max-width: 100%; height: auto; }
+
+/* ── Tables: horizontal scroll on overflow ── */
+.ans-table { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.ans-table thead, .ans-table tbody, .ans-table tr { display: table; width: 100%; table-layout: auto; }
+.ans-table tbody td, .ans-table thead th { white-space: normal; word-break: break-word; }
+
+/* ── Diagram wraps: scroll instead of clip ── */
+.diagram-wrap { overflow-x: auto; overflow-y: visible; -webkit-overflow-scrolling: touch; }
+.diagram-svg { min-width: fit-content; }
+
+/* ── Inline layouts ── */
+.ftp-diagram { flex-wrap: wrap; }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  /* Layout */
+  .hero, .main, .module-tabs { padding-left: 12px; padding-right: 12px; }
+  header { padding: 10px 12px; gap: 8px; }
+
+  /* Header: stack search and filters */
+  header > div { flex-direction: column; align-items: stretch; width: 100%; }
+  .search-wrap { max-width: 100%; }
+  .header-nav { justify-content: flex-start; flex-wrap: wrap; }
+  .filter-btn { font-size: 10px; padding: 5px 10px; }
+
+  /* Hero */
+  .stats-bar { gap: 16px; }
+  .stat-num { font-size: 22px; }
+
+  /* Module tabs */
+  .module-tabs { gap: 6px; padding-bottom: 10px; }
+  .module-tab { font-size: 10px; padding: 6px 10px; }
+
+  /* Cards */
+  .q-card { overflow-x: hidden; }
+  .q-body { padding: 0 12px 20px 12px; }
+  .q-header { padding: 14px 12px; gap: 10px; }
+  .q-number { min-width: 24px; font-size: 10px; }
+  .q-title { font-size: 14px; }
+
+  /* Diagrams */
+  .topo-grid { grid-template-columns: 1fr; }
+  .layer-stack { gap: 12px; flex-direction: column; align-items: center; }
+  .layer-model { width: 100%; max-width: 260px; }
+  .topo-card svg { width: 100%; }
+
+  /* FTP */
+  .ftp-diagram { flex-direction: column; align-items: center; }
+
+  /* DNS */
+  .dns-tree { padding: 12px; }
+  .dns-node { min-width: 120px; font-size: 11px; padding: 6px 12px; }
+
+  /* Flow chart */
+  .flow-chart { padding: 12px; }
+  .flow-node { font-size: 11px; padding: 8px 14px; max-width: 100%; }
+
+  /* IPv6 */
+  .ipv6-header { padding: 10px; }
+  .ipv6-field { font-size: 9px; padding: 7px 4px; }
+
+  /* Formulas */
+  .formula-box { font-size: 12px; padding: 10px 12px; }
+
+  /* Facts */
+  .facts-grid { grid-template-columns: 1fr; }
+
+  /* Scroll-to-top */
+  .scroll-top { bottom: 16px; right: 16px; width: 38px; height: 38px; font-size: 16px; }
+
+  /* Section headers */
+  .section-header { gap: 10px; margin: 28px 0 16px; }
+  .section-title { font-size: 11px; }
+}
+
+.hidden { display: none !important; }
+
+.module-section { }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+  <div class="logo">CCN<span> / </span>EXAM PREP</div>
+  <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="text" placeholder="Search questions…" id="searchInput">
+    </div>
+    <div class="header-nav">
+      <button class="filter-btn active" data-filter="all">ALL</button>
+      <button class="filter-btn" data-filter="high">🔴 HIGH</button>
+      <button class="filter-btn" data-filter="med">🟡 MED</button>
+      <button class="filter-btn" data-filter="low">🟢 LOW</button>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-tag">TED (21) 4132 — Revision 2021</div>
+  <h1>Computer Communication<br>&amp; Networks</h1>
+  <p class="hero-sub">Priority-ranked questions with detailed answers and diagrams, compiled from April 2023, 2024 &amp; 2025 past papers.</p>
+  <div class="stats-bar">
+    <div class="stat"><span class="stat-num">11</span><span class="stat-label">7-Mark Qs</span></div>
+    <div class="stat"><span class="stat-num">13</span><span class="stat-label">3-Mark Qs</span></div>
+    <div class="stat"><span class="stat-num">20+</span><span class="stat-label">1-Mark Facts</span></div>
+    <div class="stat"><span class="stat-num">4</span><span class="stat-label">Modules</span></div>
+  </div>
+</div>
+
+<!-- Module Tabs -->
+<div class="module-tabs">
+  <button class="module-tab active" data-module="all">All Modules</button>
+  <button class="module-tab" data-module="m1">Module 1 – Networks & Models</button>
+  <button class="module-tab" data-module="m2">Module 2 – Physical & MAC</button>
+  <button class="module-tab" data-module="m3">Module 3 – Network & Transport</button>
+  <button class="module-tab" data-module="m4">Module 4 – Application Layer</button>
+</div>
+
+<!-- Main -->
+<div class="main" id="mainContent">
+
+  <!-- HIGH PRIORITY -->
+  <div class="section-header">
+    <span class="section-badge badge-high">🔴 HIGH PRIORITY</span>
+    <span class="section-title">7-Mark Questions — Most Repeated</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q1: OSI vs TCP/IP -->
+  <div class="q-card priority-high" data-priority="high" data-module="m1">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">01</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Compare TCP/IP and OSI Models (or Describe OSI Model with Diagram)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">The OSI (Open Systems Interconnection) model is a conceptual framework with 7 layers developed by ISO. The TCP/IP model is a practical 5-layer model that drives the Internet, developed by the U.S. Department of Defense.</p>
+
+        <!-- OSI vs TCP/IP Diagram -->
+        <div class="diagram-wrap">
+          <div class="diagram-label">Layer Stack Diagram — OSI vs TCP/IP</div>
+          <div class="diagram-svg">
+            <div class="layer-stack">
+              <div class="layer-model">
+                <div class="layer-model-title">OSI MODEL (7 Layers)</div>
+                <div class="layer-box l-app">Application</div>
+                <div class="layer-box l-pres">Presentation</div>
+                <div class="layer-box l-sess">Session</div>
+                <div class="layer-box l-trans">Transport</div>
+                <div class="layer-box l-net">Network</div>
+                <div class="layer-box l-dl">Data Link</div>
+                <div class="layer-box l-phy">Physical</div>
+              </div>
+              <div style="display:flex;flex-direction:column;justify-content:space-around;align-items:center;color:var(--muted);font-size:18px;padding:30px 0;">
+                <span style="color:var(--accent);font-size:20px;">⟷</span>
+                <span style="color:var(--accent);font-size:20px;">⟷</span>
+                <span style="color:var(--accent);font-size:20px;">⟷</span>
+                <span style="color:var(--accent);font-size:20px;">⟷</span>
+                <span style="color:var(--accent);font-size:20px;">⟷</span>
+              </div>
+              <div class="layer-model">
+                <div class="layer-model-title">TCP/IP MODEL (5 Layers)</div>
+                <div class="layer-box l-app" style="margin-bottom:2px;">Application</div>
+                <div class="layer-box l-pres" style="opacity:0.3;font-size:10px;">↑ (combined)</div>
+                <div class="layer-box l-sess" style="opacity:0.3;font-size:10px;">↑ (combined)</div>
+                <div class="layer-box l-trans">Transport</div>
+                <div class="layer-box l-net">Network (Internet)</div>
+                <div class="layer-box l-dl">Data Link</div>
+                <div class="layer-box l-phy">Physical</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>OSI Model</th><th>TCP/IP Model</th></tr></thead>
+          <tbody>
+            <tr><td>Layers</td><td>7 layers</td><td>5 layers</td></tr>
+            <tr><td>Developer</td><td>ISO (International Standards Org.)</td><td>DoD (U.S. Dept. of Defense)</td></tr>
+            <tr><td>Nature</td><td>Protocol-independent (reference model)</td><td>Protocol-specific (practical)</td></tr>
+            <tr><td>Session/Presentation</td><td>Separate dedicated layers</td><td>Combined into Application layer</td></tr>
+            <tr><td>Transport Layer</td><td>Guarantees delivery</td><td>Does not guarantee delivery</td></tr>
+            <tr><td>Usage</td><td>Teaching/reference standard</td><td>Drives the actual Internet</td></tr>
+            <tr><td>Approach</td><td>Top-down (vertical)</td><td>Bottom-up (horizontal)</td></tr>
+          </tbody>
+        </table>
+        <p class="ans-text"><strong>Key Protocols by Layer:</strong> Application → HTTP, FTP, SMTP, DNS | Transport → TCP, UDP | Network → IP, ICMP, ARP | Data Link → Ethernet, PPP</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q2: Network Topologies -->
+  <div class="q-card priority-high" data-priority="high" data-module="m1">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">02</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Describe Various Network Topologies (Mesh, Star, Bus, Ring)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">A network topology defines the physical or logical arrangement of nodes and links in a network.</p>
+
+        <!-- Topology Diagrams -->
+        <div class="diagram-wrap">
+          <div class="diagram-label">Network Topology Diagrams</div>
+          <div class="topo-grid">
+            <!-- Mesh -->
+            <div class="topo-card">
+              <div class="topo-title">MESH TOPOLOGY</div>
+              <svg width="150" height="120" viewBox="0 0 150 120" style="max-width:100%;height:auto;">
+                <defs>
+                  <marker id="ah" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                    <circle cx="3" cy="3" r="2" fill="#6b7fa3"/>
+                  </marker>
+                </defs>
+                <!-- Lines between all nodes -->
+                <line x1="30" y1="30" x2="120" y2="30" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="30" y1="30" x2="30" y2="90" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="30" y1="30" x2="120" y2="90" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="120" y1="30" x2="30" y2="90" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="120" y1="30" x2="120" y2="90" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="30" y1="90" x2="120" y2="90" stroke="#1e2d45" stroke-width="1.5"/>
+                <!-- Nodes -->
+                <circle cx="30" cy="30" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="120" cy="30" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="30" cy="90" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="120" cy="90" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <text x="30" y="34" text-anchor="middle" fill="#00d4ff" font-size="9" font-family="JetBrains Mono">A</text>
+                <text x="120" y="34" text-anchor="middle" fill="#00d4ff" font-size="9" font-family="JetBrains Mono">B</text>
+                <text x="30" y="94" text-anchor="middle" fill="#00d4ff" font-size="9" font-family="JetBrains Mono">C</text>
+                <text x="120" y="94" text-anchor="middle" fill="#00d4ff" font-size="9" font-family="JetBrains Mono">D</text>
+                <text x="75" y="115" text-anchor="middle" fill="#6b7fa3" font-size="9">Links = n(n-1)/2</text>
+              </svg>
+            </div>
+            <!-- Star -->
+            <div class="topo-card">
+              <div class="topo-title">STAR TOPOLOGY</div>
+              <svg width="150" height="120" viewBox="0 0 150 120" style="max-width:100%;height:auto;">
+                <line x1="75" y1="60" x2="30" y2="20" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="75" y1="60" x2="120" y2="20" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="75" y1="60" x2="20" y2="70" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="75" y1="60" x2="130" y2="70" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="75" y1="60" x2="75" y2="105" stroke="#1e2d45" stroke-width="1.5"/>
+                <!-- Hub -->
+                <rect x="60" y="48" width="30" height="24" rx="4" fill="rgba(255,107,53,0.2)" stroke="#ff6b35" stroke-width="1.5"/>
+                <text x="75" y="64" text-anchor="middle" fill="#ff6b35" font-size="8" font-family="JetBrains Mono">HUB</text>
+                <!-- End nodes -->
+                <circle cx="30" cy="20" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="120" cy="20" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="20" cy="70" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="130" cy="70" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="75" cy="105" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <!-- Bus -->
+            <div class="topo-card">
+              <div class="topo-title">BUS TOPOLOGY</div>
+              <svg width="150" height="120" viewBox="0 0 150 120" style="max-width:100%;height:auto;">
+                <!-- Backbone -->
+                <line x1="10" y1="60" x2="140" y2="60" stroke="#ffd166" stroke-width="2.5"/>
+                <text x="75" y="80" text-anchor="middle" fill="#6b7fa3" font-size="8" font-family="JetBrains Mono">Backbone Cable</text>
+                <!-- Drop lines -->
+                <line x1="30" y1="60" x2="30" y2="30" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="60" y1="60" x2="60" y2="30" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="90" y1="60" x2="90" y2="30" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="120" y1="60" x2="120" y2="30" stroke="#1e2d45" stroke-width="1.5"/>
+                <!-- Nodes -->
+                <circle cx="30" cy="20" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="60" cy="20" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="90" cy="20" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="120" cy="20" r="9" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <!-- Terminators -->
+                <rect x="4" y="54" width="8" height="12" rx="2" fill="rgba(255,77,109,0.3)" stroke="#ff4d6d" stroke-width="1"/>
+                <rect x="138" y="54" width="8" height="12" rx="2" fill="rgba(255,77,109,0.3)" stroke="#ff4d6d" stroke-width="1"/>
+              </svg>
+            </div>
+            <!-- Ring -->
+            <div class="topo-card">
+              <div class="topo-title">RING TOPOLOGY</div>
+              <svg width="150" height="120" viewBox="0 0 150 120" style="max-width:100%;height:auto;">
+                <!-- Ring path -->
+                <circle cx="75" cy="60" r="42" fill="none" stroke="#1e2d45" stroke-width="1.5" stroke-dasharray="6,3"/>
+                <!-- Arrows on ring -->
+                <text x="108" y="35" fill="#6b7fa3" font-size="12">→</text>
+                <text x="108" y="95" fill="#6b7fa3" font-size="12">↓</text>
+                <text x="28" y="95" fill="#6b7fa3" font-size="12">←</text>
+                <text x="28" y="35" fill="#6b7fa3" font-size="12">↑</text>
+                <!-- Nodes at 4 points of ring -->
+                <circle cx="75" cy="18" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="117" cy="60" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="75" cy="102" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <circle cx="33" cy="60" r="10" fill="rgba(0,212,255,0.2)" stroke="#00d4ff" stroke-width="1.5"/>
+                <text x="75" y="22" text-anchor="middle" fill="#00d4ff" font-size="9">A</text>
+                <text x="117" y="64" text-anchor="middle" fill="#00d4ff" font-size="9">B</text>
+                <text x="75" y="106" text-anchor="middle" fill="#00d4ff" font-size="9">C</text>
+                <text x="33" y="64" text-anchor="middle" fill="#00d4ff" font-size="9">D</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <table class="ans-table">
+          <thead><tr><th>Topology</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+          <tbody>
+            <tr><td>Mesh</td><td>Robust, private links, fault isolation easy</td><td>Expensive, n(n-1)/2 cables, complex install</td></tr>
+            <tr><td>Star</td><td>Easy install, fault isolation, less cable</td><td>Hub failure = entire network down</td></tr>
+            <tr><td>Bus</td><td>Easy install, less cable, cost-effective</td><td>Hard fault isolation, signal reflection, limited length</td></tr>
+            <tr><td>Ring</td><td>No collision, repeaters boost signal</td><td>Break disables network, unidirectional flow</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q3: IPv4 Addressing -->
+  <div class="q-card priority-high" data-priority="high" data-module="m3">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">03</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Explain IPv4 Addressing Scheme (Classes A, B, C, D, E with Subnetting)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">An IPv4 address is a <span class="hl">32-bit</span> binary address expressed in dotted-decimal notation (e.g., 192.168.1.1). It has two parts: Network ID and Host ID. IPv4 addresses are divided into 5 classes:</p>
+        <table class="ans-table">
+          <thead><tr><th>Class</th><th>Range</th><th>Mask</th><th>Networks</th><th>Hosts/Network</th><th>First Bits</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td><span class="class-badge ca">A</span></td><td>1–126</td><td>/8 (255.0.0.0)</td><td>126</td><td>16,777,214</td><td>0xxx</td><td>Large orgs</td></tr>
+            <tr><td><span class="class-badge cb">B</span></td><td>128–191</td><td>/16 (255.255.0.0)</td><td>16,384</td><td>65,534</td><td>10xx</td><td>Medium orgs</td></tr>
+            <tr><td><span class="class-badge cc">C</span></td><td>192–223</td><td>/24 (255.255.255.0)</td><td>2,097,152</td><td>254</td><td>110x</td><td>Small orgs</td></tr>
+            <tr><td><span class="class-badge cd">D</span></td><td>224–239</td><td>—</td><td>—</td><td>—</td><td>1110</td><td>Multicast</td></tr>
+            <tr><td><span class="class-badge ce">E</span></td><td>240–255</td><td>—</td><td>—</td><td>—</td><td>1111</td><td>Experimental</td></tr>
+          </tbody>
+        </table>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">IPv4 Address Structure — Class C Example</div>
+          <div style="padding:20px;overflow-x:auto;">
+            <svg width="500" height="90" viewBox="0 0 500 90" style="max-width:100%">
+              <!-- 32 bits row -->
+              <rect x="10" y="10" width="230" height="36" rx="4" fill="rgba(0,212,255,0.12)" stroke="#00d4ff" stroke-width="1.5"/>
+              <rect x="245" y="10" width="245" height="36" rx="4" fill="rgba(6,214,160,0.12)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="125" y="32" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="12" font-weight="700">Network ID (24 bits)</text>
+              <text x="372" y="32" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="12" font-weight="700">Host ID (8 bits)</text>
+              <!-- Labels -->
+              <text x="125" y="62" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="10">192 . 168 . 1</text>
+              <text x="372" y="62" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="10">. X (0–255)</text>
+              <text x="255" y="82" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">← Total: 32 bits = 4 bytes = Dotted-decimal notation →</text>
+            </svg>
+          </div>
+        </div>
+
+        <p class="ans-text"><strong>Subnetting Example (from April 2024 paper):</strong> Find IP range and subnet mask for 16 computers including 192.168.1.21.</p>
+        <ul class="ans-list">
+          <li>Need 16 hosts → require 4 host bits (2⁴ = 16)</li>
+          <li>Subnet mask = /28 → <span class="hl">255.255.255.240</span></li>
+          <li>Block size = 16; Network containing .21 → 192.168.1.16</li>
+          <li>Range: <span class="hl">192.168.1.16 – 192.168.1.31</span></li>
+          <li>Usable hosts: 192.168.1.17 – 192.168.1.30 (14 hosts)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q4: TCP vs UDP -->
+  <div class="q-card priority-high" data-priority="high" data-module="m3">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">04</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Differentiate TCP and UDP Services (Features & Applications)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">Both TCP and UDP are Transport Layer protocols providing process-to-process delivery via port numbers.</p>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>TCP (Transmission Control Protocol)</th><th>UDP (User Datagram Protocol)</th></tr></thead>
+          <tbody>
+            <tr><td>Connection</td><td>Connection-oriented (3-way handshake)</td><td>Connectionless</td></tr>
+            <tr><td>Reliability</td><td>Reliable (ACK, retransmission)</td><td>Unreliable (best-effort)</td></tr>
+            <tr><td>Header Size</td><td>20–60 bytes (variable)</td><td>8 bytes (fixed)</td></tr>
+            <tr><td>Flow Control</td><td>Yes (sliding window)</td><td>No</td></tr>
+            <tr><td>Error Control</td><td>Yes (checksum + ACK)</td><td>Checksum only (optional)</td></tr>
+            <tr><td>Congestion Control</td><td>Yes (AIMD algorithm)</td><td>No</td></tr>
+            <tr><td>Speed</td><td>Slower (overhead)</td><td>Faster (low overhead)</td></tr>
+            <tr><td>PDU Name</td><td>Segment</td><td>Datagram</td></tr>
+            <tr><td>Full-Duplex</td><td>Yes</td><td>Yes</td></tr>
+            <tr><td>Applications</td><td>HTTP, HTTPS, FTP, SMTP, Email</td><td>DNS, VoIP, Video Streaming, Gaming</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram-wrap">
+          <div class="diagram-label">TCP 3-Way Handshake vs UDP No Handshake</div>
+          <div style="padding:24px;display:flex;gap:40px;justify-content:center;flex-wrap:wrap;">
+            <div style="text-align:center;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);margin-bottom:12px;letter-spacing:1px;">TCP HANDSHAKE</div>
+              <svg width="200" height="130" viewBox="0 0 200 130" style="max-width:100%;height:auto;">
+                <text x="40" y="20" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="11" font-weight="700">CLIENT</text>
+                <text x="160" y="20" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="11" font-weight="700">SERVER</text>
+                <line x1="40" y1="25" x2="40" y2="120" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="160" y1="25" x2="160" y2="120" stroke="#1e2d45" stroke-width="1.5"/>
+                <!-- SYN -->
+                <line x1="40" y1="40" x2="155" y2="55" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arrow)"/>
+                <text x="100" y="44" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9">SYN</text>
+                <!-- SYN-ACK -->
+                <line x1="160" y1="60" x2="45" y2="75" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#arrow)"/>
+                <text x="100" y="73" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">SYN-ACK</text>
+                <!-- ACK -->
+                <line x1="40" y1="80" x2="155" y2="95" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arrow)"/>
+                <text x="100" y="90" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">ACK</text>
+                <text x="100" y="115" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Connection Established</text>
+                <defs>
+                  <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                    <path d="M0,0 L0,6 L6,3 z" fill="#6b7fa3"/>
+                  </marker>
+                </defs>
+              </svg>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--med);margin-bottom:12px;letter-spacing:1px;">UDP — NO HANDSHAKE</div>
+              <svg width="200" height="130" viewBox="0 0 200 130" style="max-width:100%;height:auto;">
+                <text x="40" y="20" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="11" font-weight="700">SENDER</text>
+                <text x="160" y="20" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="11" font-weight="700">RECEIVER</text>
+                <line x1="40" y1="25" x2="40" y2="120" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="160" y1="25" x2="160" y2="120" stroke="#1e2d45" stroke-width="1.5"/>
+                <line x1="40" y1="40" x2="155" y2="50" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="100" y="39" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">Datagram 1</text>
+                <line x1="40" y1="60" x2="155" y2="70" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="100" y="59" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">Datagram 2</text>
+                <line x1="40" y1="80" x2="155" y2="90" stroke="#ffd166" stroke-width="1.5" stroke-dasharray="5,3"/>
+                <text x="100" y="79" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">Datagram 3</text>
+                <text x="100" y="115" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">No ACK, No Connection</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q5: ALOHA -->
+  <div class="q-card priority-high" data-priority="high" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">05</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Describe Random Access Protocol – ALOHA (Pure and Slotted)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">ALOHA is a random access protocol where stations transmit data without checking the medium first. There are two versions:</p>
+        
+        <p class="ans-text"><strong>1. Pure ALOHA:</strong> Stations transmit whenever they have data. If a collision occurs, they wait a random time and retransmit.</p>
+        <ul class="ans-list">
+          <li>Vulnerable period = <span class="hl">2 × Tfr</span> (frame transmission time)</li>
+          <li>Maximum throughput = <span class="hl">18.4%</span> at load G = 0.5</li>
+        </ul>
+        <div class="formula-box">
+          <div class="formula-label">PURE ALOHA THROUGHPUT FORMULA</div>
+          S = G × e<sup>−2G</sup>
+        </div>
+
+        <p class="ans-text"><strong>2. Slotted ALOHA:</strong> Time is divided into slots equal to frame transmission time. Stations may only transmit at the start of a slot.</p>
+        <ul class="ans-list">
+          <li>Vulnerable period = <span class="hl">Tfr</span> (half that of Pure ALOHA)</li>
+          <li>Maximum throughput = <span class="hl">37%</span> at load G = 1</li>
+        </ul>
+        <div class="formula-box">
+          <div class="formula-label">SLOTTED ALOHA THROUGHPUT FORMULA</div>
+          S = G × e<sup>−G</sup>
+        </div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">Pure ALOHA vs Slotted ALOHA — Timeline</div>
+          <div style="padding:20px;overflow-x:auto;">
+            <svg width="520" height="160" viewBox="0 0 520 160" style="max-width:100%">
+              <!-- Title labels -->
+              <text x="10" y="20" fill="#00d4ff" font-family="JetBrains Mono" font-size="11" font-weight="700">Pure ALOHA</text>
+              <text x="10" y="95" fill="#06d6a0" font-family="JetBrains Mono" font-size="11" font-weight="700">Slotted ALOHA</text>
+              
+              <!-- Pure ALOHA timeline -->
+              <line x1="10" y1="35" x2="510" y2="35" stroke="#1e2d45" stroke-width="1"/>
+              <!-- Station transmissions (Pure) -->
+              <rect x="30" y="25" width="80" height="18" rx="3" fill="rgba(0,212,255,0.3)" stroke="#00d4ff" stroke-width="1"/>
+              <text x="70" y="37" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9">Station A</text>
+              <rect x="80" y="25" width="80" height="18" rx="3" fill="rgba(255,107,53,0.3)" stroke="#ff6b35" stroke-width="1" opacity="0.8"/>
+              <text x="140" y="37" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="9">Station B</text>
+              <text x="110" y="58" text-anchor="middle" fill="#ff4d6d" font-family="JetBrains Mono" font-size="9">⚡ COLLISION</text>
+              <rect x="220" y="25" width="80" height="18" rx="3" fill="rgba(0,212,255,0.3)" stroke="#00d4ff" stroke-width="1"/>
+              <text x="260" y="37" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9">Retransmit A</text>
+              <rect x="340" y="25" width="80" height="18" rx="3" fill="rgba(255,107,53,0.3)" stroke="#ff6b35" stroke-width="1"/>
+              <text x="380" y="37" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="9">Retransmit B</text>
+              <text x="265" y="12" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Vulnerable time = 2×Tfr</text>
+              <line x1="30" y1="8" x2="160" y2="8" stroke="#6b7fa3" stroke-width="1" stroke-dasharray="2,2"/>
+              
+              <!-- Slotted ALOHA timeline -->
+              <line x1="10" y1="110" x2="510" y2="110" stroke="#1e2d45" stroke-width="1"/>
+              <!-- Slot markers -->
+              <line x1="30" y1="105" x2="30" y2="120" stroke="#1e2d45" stroke-width="1"/>
+              <line x1="110" y1="105" x2="110" y2="120" stroke="#1e2d45" stroke-width="1"/>
+              <line x1="190" y1="105" x2="190" y2="120" stroke="#1e2d45" stroke-width="1"/>
+              <line x1="270" y1="105" x2="270" y2="120" stroke="#1e2d45" stroke-width="1"/>
+              <line x1="350" y1="105" x2="350" y2="120" stroke="#1e2d45" stroke-width="1"/>
+              <line x1="430" y1="105" x2="430" y2="120" stroke="#1e2d45" stroke-width="1"/>
+              <text x="70" y="130" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Slot 1</text>
+              <text x="150" y="130" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Slot 2</text>
+              <text x="230" y="130" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Slot 3</text>
+              <text x="310" y="130" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Slot 4</text>
+              <!-- Transmissions aligned to slots -->
+              <rect x="30" y="96" width="80" height="18" rx="3" fill="rgba(255,107,53,0.3)" stroke="#ff6b35" stroke-width="1"/>
+              <text x="70" y="108" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="9">Station B</text>
+              <rect x="190" y="96" width="80" height="18" rx="3" fill="rgba(6,214,160,0.3)" stroke="#06d6a0" stroke-width="1"/>
+              <text x="230" y="108" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">Station A</text>
+              <rect x="350" y="96" width="80" height="18" rx="3" fill="rgba(6,214,160,0.3)" stroke="#06d6a0" stroke-width="1"/>
+              <text x="390" y="108" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">Station C</text>
+              <text x="265" y="85" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">No collision — slots prevent overlap</text>
+            </svg>
+          </div>
+        </div>
+
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>Pure ALOHA</th><th>Slotted ALOHA</th></tr></thead>
+          <tbody>
+            <tr><td>Transmission Time</td><td>Any time</td><td>Only at slot boundaries</td></tr>
+            <tr><td>Vulnerable Time</td><td>2 × Tfr</td><td>Tfr</td></tr>
+            <tr><td>Max Throughput</td><td>18.4% at G=0.5</td><td>37% at G=1</td></tr>
+            <tr><td>Efficiency</td><td>Lower</td><td>Twice that of Pure ALOHA</td></tr>
+            <tr><td>Complexity</td><td>Simpler</td><td>Requires time synchronization</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q6: CSMA/CD -->
+  <div class="q-card priority-high" data-priority="high" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">06</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Describe CSMA/CD Protocol with Diagram (Ethernet)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">CSMA/CD (Carrier Sense Multiple Access with Collision Detection) is a MAC protocol used in wired Ethernet (IEEE 802.3). It detects collisions after they occur and recovers from them.</p>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">CSMA/CD Flowchart</div>
+          <div class="flow-chart" style="padding:24px;">
+            <div class="flow-node flow-start">Station Has Data to Send</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node flow-proc">Sense the Channel (Carrier Sense)</div>
+            <div class="flow-arrow">↓</div>
+            <div class="flow-node flow-dec">Channel Idle?</div>
+            <div style="display:flex;gap:32px;align-items:flex-start;margin:4px 0;">
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <span class="flow-label" style="color:var(--low);">YES</span>
+                <span class="flow-arrow">↓</span>
+                <div class="flow-node flow-proc" style="max-width:180px;">Start Transmitting Frame</div>
+                <span class="flow-arrow">↓</span>
+                <div class="flow-node flow-dec" style="max-width:180px;">Collision Detected?</div>
+                <div style="display:flex;gap:20px;align-items:flex-start;margin-top:4px;">
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <span class="flow-label" style="color:var(--low);">NO</span>
+                    <span class="flow-arrow">↓</span>
+                    <div class="flow-node flow-end" style="max-width:140px;">Transmission Complete ✓</div>
+                  </div>
+                  <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                    <span class="flow-label" style="color:var(--high);">YES</span>
+                    <span class="flow-arrow">↓</span>
+                    <div class="flow-node flow-proc" style="max-width:140px;">Send Jam Signal</div>
+                    <span class="flow-arrow">↓</span>
+                    <div class="flow-node flow-proc" style="max-width:140px;">Binary Exponential Backoff</div>
+                    <span class="flow-arrow">↓</span>
+                    <div class="flow-node flow-proc" style="max-width:140px;">Retry (max 16 attempts)</div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+                <span class="flow-label" style="color:var(--high);">NO (Busy)</span>
+                <span class="flow-arrow">↓</span>
+                <div class="flow-node flow-proc" style="max-width:160px;">Wait & Retry (1-Persistent)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="ans-list">
+          <li><strong>Carrier Sense:</strong> Listen before transmitting.</li>
+          <li><strong>Multiple Access:</strong> Multiple stations share the medium.</li>
+          <li><strong>Collision Detection:</strong> Monitor while transmitting; detect voltage spikes.</li>
+          <li><strong>Jam Signal:</strong> 32-bit signal sent to alert all stations of collision.</li>
+          <li><strong>Binary Exponential Backoff:</strong> Wait time = random(0, 2ᵏ−1) × slot time, where k = retry count.</li>
+          <li><strong>Minimum Frame Size:</strong> 64 bytes (ensures collision is detected during transmission).</li>
+          <li><strong>Standard:</strong> IEEE 802.3 (Ethernet)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q7: SMTP -->
+  <div class="q-card priority-high" data-priority="high" data-module="m4">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">07</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Describe Electronic Mail Protocol – SMTP with Merits and Demerits</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">SMTP (Simple Mail Transfer Protocol) is a <span class="hl">push protocol</span> used for sending emails from client to server and between servers. It operates on <span class="hl">TCP Port 25</span> and uses 7-bit ASCII text-based commands.</p>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">Email Architecture — Mail Flow Diagram</div>
+          <div style="padding:24px;overflow-x:auto;">
+            <svg width="540" height="120" viewBox="0 0 540 120" style="max-width:100%">
+              <!-- Components -->
+              <rect x="10" y="30" width="90" height="50" rx="6" fill="rgba(0,212,255,0.12)" stroke="#00d4ff" stroke-width="1.5"/>
+              <text x="55" y="52" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="10" font-weight="700">Sender</text>
+              <text x="55" y="67" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9">MUA</text>
+              
+              <rect x="140" y="30" width="100" height="50" rx="6" fill="rgba(255,107,53,0.12)" stroke="#ff6b35" stroke-width="1.5"/>
+              <text x="190" y="52" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="10" font-weight="700">Sender's</text>
+              <text x="190" y="65" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="9">SMTP Server</text>
+              <text x="190" y="78" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">(MTA)</text>
+              
+              <rect x="290" y="30" width="100" height="50" rx="6" fill="rgba(255,107,53,0.12)" stroke="#ff6b35" stroke-width="1.5"/>
+              <text x="340" y="52" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="10" font-weight="700">Receiver's</text>
+              <text x="340" y="65" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="9">SMTP Server</text>
+              <text x="340" y="78" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">(MTA)</text>
+              
+              <rect x="440" y="30" width="90" height="50" rx="6" fill="rgba(6,214,160,0.12)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="485" y="52" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="10" font-weight="700">Receiver</text>
+              <text x="485" y="67" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">MUA</text>
+              
+              <!-- Arrows -->
+              <line x1="100" y1="55" x2="138" y2="55" stroke="#6b7fa3" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <text x="119" y="48" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">SMTP</text>
+              
+              <line x1="240" y1="55" x2="288" y2="55" stroke="#6b7fa3" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <text x="264" y="48" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">SMTP</text>
+              <text x="264" y="72" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Internet</text>
+              
+              <line x1="390" y1="55" x2="438" y2="55" stroke="#6b7fa3" stroke-width="1.5" marker-end="url(#arr2)"/>
+              <text x="414" y="48" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">POP3/</text>
+              <text x="414" y="58" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">IMAP</text>
+              
+              <defs>
+                <marker id="arr2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#6b7fa3"/>
+                </marker>
+              </defs>
+              
+              <!-- Port labels -->
+              <text x="55" y="100" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Port 25</text>
+              <text x="340" y="100" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Port 110/143</text>
+            </svg>
+          </div>
+        </div>
+
+        <p class="ans-text"><strong>SMTP Commands:</strong> HELO, MAIL FROM, RCPT TO, DATA, QUIT.</p>
+        <table class="ans-table">
+          <thead><tr><th>Merits</th><th>Demerits</th></tr></thead>
+          <tbody>
+            <tr><td>Simple, text-based, widely supported</td><td>Only supports 7-bit ASCII natively</td></tr>
+            <tr><td>Reliable delivery with acknowledgment</td><td>No built-in encryption (needs TLS/SSL)</td></tr>
+            <tr><td>Persistent connections for efficiency</td><td>Vulnerable to spam and email spoofing</td></tr>
+            <tr><td>Open standard, universal compatibility</td><td>No guaranteed delivery confirmation</td></tr>
+          </tbody>
+        </table>
+        <p class="ans-text"><strong>MIME (Multipurpose Internet Mail Extensions):</strong> Extends SMTP to support attachments, non-ASCII text, multimedia, and binary data.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q8: DNS -->
+  <div class="q-card priority-high" data-priority="high" data-module="m4">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">08</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Illustrate the Working of DNS (Domain Name System)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">DNS (Domain Name System) is an application layer protocol that maps human-readable domain names (e.g., www.google.com) to IP addresses (e.g., 142.250.190.46). It operates on <span class="hl">UDP Port 53</span> (and TCP for large transfers).</p>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">DNS Hierarchy Tree</div>
+          <div class="diagram-svg" style="flex-direction:column;align-items:center;">
+            <div class="dns-tree">
+              <div class="dns-node dns-root">Root DNS Server (.)</div>
+              <div class="dns-arrow">↓</div>
+              <div class="dns-step-label">TLD SERVER</div>
+              <div style="display:flex;gap:16px;margin:4px 0;">
+                <div class="dns-node dns-tld" style="min-width:90px;font-size:11px;">. com</div>
+                <div class="dns-node dns-tld" style="min-width:90px;font-size:11px;">.org</div>
+                <div class="dns-node dns-tld" style="min-width:90px;font-size:11px;">.in</div>
+                <div class="dns-node dns-tld" style="min-width:90px;font-size:11px;">.edu</div>
+              </div>
+              <div class="dns-arrow">↓</div>
+              <div class="dns-step-label">AUTHORITATIVE SERVER</div>
+              <div style="display:flex;gap:16px;margin:4px 0;">
+                <div class="dns-node dns-auth" style="min-width:120px;font-size:10px;">google.com</div>
+                <div class="dns-node dns-auth" style="min-width:120px;font-size:10px;">amazon.com</div>
+              </div>
+              <div class="dns-arrow">↓</div>
+              <div class="dns-node dns-res">www → 142.250.190.46</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">DNS Resolution Process — Step by Step</div>
+          <div style="padding:20px;overflow-x:auto;">
+            <svg width="520" height="160" viewBox="0 0 520 160" style="max-width:100%">
+              <!-- Boxes -->
+              <rect x="10" y="60" width="90" height="40" rx="5" fill="rgba(0,212,255,0.15)" stroke="#00d4ff" stroke-width="1.5"/>
+              <text x="55" y="77" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9" font-weight="700">Browser /</text>
+              <text x="55" y="90" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9">User</text>
+              
+              <rect x="140" y="60" width="90" height="40" rx="5" fill="rgba(168,85,247,0.15)" stroke="#a855f7" stroke-width="1.5"/>
+              <text x="185" y="77" text-anchor="middle" fill="#a855f7" font-family="JetBrains Mono" font-size="9" font-weight="700">Recursive</text>
+              <text x="185" y="90" text-anchor="middle" fill="#a855f7" font-family="JetBrains Mono" font-size="9">Resolver</text>
+              
+              <rect x="270" y="10" width="80" height="36" rx="5" fill="rgba(255,77,109,0.15)" stroke="#ff4d6d" stroke-width="1.5"/>
+              <text x="310" y="25" text-anchor="middle" fill="#ff4d6d" font-family="JetBrains Mono" font-size="9" font-weight="700">Root DNS</text>
+              <text x="310" y="38" text-anchor="middle" fill="#ff4d6d" font-family="JetBrains Mono" font-size="9">Server</text>
+              
+              <rect x="390" y="10" width="80" height="36" rx="5" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="430" y="25" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9" font-weight="700">TLD Server</text>
+              <text x="430" y="38" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">(.com)</text>
+              
+              <rect x="390" y="105" width="80" height="36" rx="5" fill="rgba(6,214,160,0.15)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="430" y="120" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9" font-weight="700">Authoritative</text>
+              <text x="430" y="133" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">Server</text>
+              
+              <!-- Arrows with step numbers -->
+              <line x1="100" y1="80" x2="138" y2="80" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arr3)"/>
+              <text x="119" y="73" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="8">① Query</text>
+              
+              <line x1="230" y1="72" x2="268" y2="34" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arr3)"/>
+              <text x="245" y="55" text-anchor="middle" fill="#a855f7" font-family="JetBrains Mono" font-size="8">② Ask Root</text>
+              
+              <line x1="350" y1="28" x2="388" y2="28" stroke="#ff4d6d" stroke-width="1.5" marker-end="url(#arr3)"/>
+              <text x="369" y="22" text-anchor="middle" fill="#ff4d6d" font-family="JetBrains Mono" font-size="8">③ TLD Addr</text>
+              
+              <line x1="430" y1="46" x2="430" y2="103" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arr3)"/>
+              <text x="448" y="78" text-anchor="left" fill="#ffd166" font-family="JetBrains Mono" font-size="8">④ Auth Addr</text>
+              
+              <line x1="390" y1="123" x2="232" y2="85" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#arr3)"/>
+              <text x="310" y="118" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="8">⑤ IP Address</text>
+              
+              <line x1="140" y1="80" x2="102" y2="80" stroke="#a855f7" stroke-width="1.5" marker-end="url(#arr3)"/>
+              <text x="119" y="95" text-anchor="middle" fill="#a855f7" font-family="JetBrains Mono" font-size="8">⑥ Return IP</text>
+              
+              <defs>
+                <marker id="arr3" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#6b7fa3"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <p class="ans-text">Result is cached at the resolver for future queries (TTL-based caching), reducing load on authoritative servers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q9: IPv4 vs IPv6 -->
+  <div class="q-card priority-high" data-priority="high" data-module="m3">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">09</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Compare IPv4 and IPv6 Addressing Schemes (with IPv6 Header Diagram)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>IPv4</th><th>IPv6</th></tr></thead>
+          <tbody>
+            <tr><td>Address Size</td><td>32-bit</td><td>128-bit</td></tr>
+            <tr><td>Address Space</td><td>~4.3 billion (2³²)</td><td>~3.4 × 10³⁸ (2¹²⁸)</td></tr>
+            <tr><td>Notation</td><td>Dotted decimal: 192.168.1.1</td><td>Hex with colons: 2001:db8::1</td></tr>
+            <tr><td>Header Length</td><td>Variable (20–60 bytes)</td><td>Fixed 40 bytes</td></tr>
+            <tr><td>Fragmentation</td><td>By routers and sender</td><td>By sender only</td></tr>
+            <tr><td>Header Checksum</td><td>Present</td><td>Removed (handled by layers)</td></tr>
+            <tr><td>Security</td><td>IPsec optional</td><td>IPsec mandatory (built-in)</td></tr>
+            <tr><td>Broadcast</td><td>Supported</td><td>No broadcast (Multicast/Anycast)</td></tr>
+            <tr><td>Configuration</td><td>Manual / DHCP</td><td>SLAAC (auto-configuration)</td></tr>
+          </tbody>
+        </table>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">IPv6 Base Header Format — Fixed 40 Bytes</div>
+          <div class="ipv6-header">
+            <div class="ipv6-row">
+              <div class="ipv6-field f-ver">Version<span class="ipv6-bits">4 bits</span></div>
+              <div class="ipv6-field f-tc">Traffic Class<span class="ipv6-bits">8 bits</span></div>
+              <div class="ipv6-field f-fl">Flow Label<span class="ipv6-bits">20 bits</span></div>
+            </div>
+            <div class="ipv6-row">
+              <div class="ipv6-field f-pl">Payload Length<span class="ipv6-bits">16 bits</span></div>
+              <div class="ipv6-field f-nh">Next Header<span class="ipv6-bits">8 bits</span></div>
+              <div class="ipv6-field f-hl">Hop Limit<span class="ipv6-bits">8 bits</span></div>
+            </div>
+            <div class="ipv6-row">
+              <div class="ipv6-field f-src">Source Address (128 bits)</div>
+            </div>
+            <div class="ipv6-row">
+              <div class="ipv6-field f-dst">Destination Address (128 bits)</div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="ans-list">
+          <li><strong>Version (4 bits):</strong> Always 6 for IPv6.</li>
+          <li><strong>Traffic Class (8 bits):</strong> QoS differentiation.</li>
+          <li><strong>Flow Label (20 bits):</strong> Identifies packet flows for real-time traffic.</li>
+          <li><strong>Payload Length (16 bits):</strong> Length of data following the header.</li>
+          <li><strong>Next Header (8 bits):</strong> Identifies upper-layer protocol (like TCP/UDP).</li>
+          <li><strong>Hop Limit (8 bits):</strong> Equivalent to TTL in IPv4; decremented at each hop.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q10: Distance Vector Routing -->
+  <div class="q-card priority-high" data-priority="high" data-module="m3">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">10</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Describe Distance Vector Routing with Advantages and Disadvantages</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">Distance Vector Routing is a dynamic routing algorithm where each router maintains a table of distances (costs) to every destination. Routers share their complete table only with direct neighbors periodically.</p>
+        
+        <p class="ans-text"><strong>Algorithm (Bellman-Ford):</strong></p>
+        <div class="formula-box">
+          <div class="formula-label">BELLMAN-FORD EQUATION</div>
+          D<sub>x</sub>(y) = min<sub>v</sub> { C(x,v) + D<sub>v</sub>(y) }
+        </div>
+        <p class="ans-text">Where C(x,v) is the cost from x to neighbor v, and D<sub>v</sub>(y) is v's known distance to destination y.</p>
+
+        <div class="diagram-wrap">
+          <div class="diagram-label">Distance Vector — Router Sharing</div>
+          <div style="padding:20px;overflow-x:auto;">
+            <svg width="400" height="140" viewBox="0 0 400 140" style="max-width:100%">
+              <!-- Routers -->
+              <rect x="30" y="50" width="70" height="40" rx="6" fill="rgba(0,212,255,0.15)" stroke="#00d4ff" stroke-width="1.5"/>
+              <text x="65" y="68" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="11" font-weight="700">Router A</text>
+              <text x="65" y="82" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">DV Table</text>
+              
+              <rect x="165" y="50" width="70" height="40" rx="6" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="200" y="68" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="11" font-weight="700">Router B</text>
+              <text x="200" y="82" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">DV Table</text>
+              
+              <rect x="300" y="50" width="70" height="40" rx="6" fill="rgba(6,214,160,0.15)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="335" y="68" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="11" font-weight="700">Router C</text>
+              <text x="335" y="82" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">DV Table</text>
+              
+              <!-- Bidirectional arrows -->
+              <line x1="100" y1="70" x2="163" y2="70" stroke="#1e2d45" stroke-width="2"/>
+              <text x="132" y="62" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">Cost=2</text>
+              <text x="132" y="90" text-anchor="middle" fill="#a855f7" font-family="JetBrains Mono" font-size="8">← Full Table →</text>
+              
+              <line x1="235" y1="70" x2="298" y2="70" stroke="#1e2d45" stroke-width="2"/>
+              <text x="267" y="62" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">Cost=3</text>
+              <text x="267" y="90" text-anchor="middle" fill="#a855f7" font-family="JetBrains Mono" font-size="8">← Full Table →</text>
+              
+              <text x="200" y="120" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="9">Each router shares complete routing table periodically</text>
+            </svg>
+          </div>
+        </div>
+
+        <table class="ans-table">
+          <thead><tr><th>Advantages</th><th>Disadvantages</th></tr></thead>
+          <tbody>
+            <tr><td>Simple to implement</td><td>Count-to-infinity problem</td></tr>
+            <tr><td>Low memory usage</td><td>Slow convergence</td></tr>
+            <tr><td>Good for small networks</td><td>Routing loops possible</td></tr>
+            <tr><td>Low processing overhead</td><td>Bandwidth wasted sharing full tables</td></tr>
+          </tbody>
+        </table>
+        <p class="ans-text"><strong>Solutions to Count-to-Infinity:</strong> Split Horizon (don't advertise route back to source), Poison Reverse (advertise with infinite metric ∞), Hold-down timers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- MEDIUM PRIORITY SECTION -->
+  <div class="section-header">
+    <span class="section-badge badge-med">🟡 MEDIUM PRIORITY</span>
+    <span class="section-title">3-Mark Questions — Part B</span>
+    <div class="section-line"></div>
+  </div>
+
+  <!-- Q11: Data Flow Methods -->
+  <div class="q-card priority-med" data-priority="med" data-module="m1">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">11</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Write Different Data Flow Methods with Examples</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <div class="diagram-wrap">
+          <div class="diagram-label">Data Flow Modes — Visual</div>
+          <div style="padding:20px;overflow-x:auto;">
+            <svg width="460" height="150" viewBox="0 0 460 150" style="max-width:100%">
+              <!-- Simplex -->
+              <text x="75" y="20" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="10" font-weight="700">SIMPLEX</text>
+              <rect x="10" y="28" width="50" height="28" rx="4" fill="rgba(0,212,255,0.15)" stroke="#00d4ff" stroke-width="1.5"/>
+              <text x="35" y="46" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9">A</text>
+              <line x1="62" y1="42" x2="120" y2="42" stroke="#6b7fa3" stroke-width="1.5" marker-end="url(#arr4)"/>
+              <rect x="122" y="28" width="50" height="28" rx="4" fill="rgba(6,214,160,0.15)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="147" y="46" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">B</text>
+              <text x="75" y="72" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">One direction only</text>
+              <text x="75" y="84" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">e.g., Keyboard→CPU</text>
+              
+              <!-- Half Duplex -->
+              <text x="242" y="20" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="10" font-weight="700">HALF-DUPLEX</text>
+              <rect x="177" y="28" width="50" height="28" rx="4" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="202" y="46" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">A</text>
+              <line x1="229" y1="38" x2="285" y2="38" stroke="#6b7fa3" stroke-width="1.5" marker-end="url(#arr4)"/>
+              <line x1="285" y1="48" x2="229" y2="48" stroke="#6b7fa3" stroke-width="1.5" marker-end="url(#arr4)"/>
+              <rect x="287" y="28" width="50" height="28" rx="4" fill="rgba(255,209,102,0.15)" stroke="#ffd166" stroke-width="1.5"/>
+              <text x="312" y="46" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">B</text>
+              <text x="242" y="72" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Both, not simultaneously</text>
+              <text x="242" y="84" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">e.g., Walkie-talkie</text>
+              
+              <!-- Full Duplex -->
+              <text x="395" y="20" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="10" font-weight="700">FULL-DUPLEX</text>
+              <rect x="347" y="28" width="50" height="28" rx="4" fill="rgba(6,214,160,0.15)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="372" y="46" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">A</text>
+              <line x1="399" y1="37" x2="445" y2="37" stroke="#00d4ff" stroke-width="1.5" marker-end="url(#arr4)"/>
+              <line x1="445" y1="49" x2="399" y2="49" stroke="#ff6b35" stroke-width="1.5" marker-end="url(#arr4)"/>
+              <rect x="407" y="28" width="50" height="28" rx="4" fill="rgba(6,214,160,0.15)" stroke="#06d6a0" stroke-width="1.5"/>
+              <text x="432" y="46" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">B</text>
+              <text x="395" y="72" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">Both simultaneously</text>
+              <text x="395" y="84" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">e.g., Telephone</text>
+              
+              <defs>
+                <marker id="arr4" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#6b7fa3"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q12: Transmission Impairments -->
+  <div class="q-card priority-med" data-priority="med" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">12</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Write a Note on Different Types of Transmission Impairments</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <table class="ans-table">
+          <thead><tr><th>Impairment</th><th>Definition</th><th>Cause</th><th>Effect</th></tr></thead>
+          <tbody>
+            <tr><td>Attenuation</td><td>Loss of signal energy over distance</td><td>Resistance of medium</td><td>Weak signal at receiver</td></tr>
+            <tr><td>Distortion</td><td>Change in signal shape/form</td><td>Different frequencies travel at different speeds in a medium</td><td>Signal arrives distorted</td></tr>
+            <tr><td>Noise</td><td>Random unwanted signals added to transmitted signal</td><td>Thermal, induced, crosstalk, impulse</td><td>Corrupted data</td></tr>
+          </tbody>
+        </table>
+        <ul class="ans-list">
+          <li><strong>Thermal Noise:</strong> Random motion of electrons due to temperature.</li>
+          <li><strong>Induced Noise:</strong> From motors or other electrical sources.</li>
+          <li><strong>Crosstalk:</strong> Signal from one line picked up by another.</li>
+          <li><strong>Impulse Noise:</strong> Sudden spikes (lightning, power surges).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q13: Stop and Wait -->
+  <div class="q-card priority-med" data-priority="med" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">13</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Describe Stop-and-Wait Protocol with Diagram</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">Stop-and-Wait is the simplest flow control protocol. The sender transmits one frame and waits for an acknowledgment (ACK) before sending the next. If no ACK arrives within a timeout, the frame is retransmitted.</p>
+        
+        <div class="diagram-wrap">
+          <div class="diagram-label">Stop-and-Wait — Timeline Diagram</div>
+          <div style="padding:20px;overflow-x:auto;">
+            <svg width="400" height="200" viewBox="0 0 400 200" style="max-width:100%">
+              <!-- Timeline lines -->
+              <line x1="80" y1="20" x2="80" y2="185" stroke="#00d4ff" stroke-width="2"/>
+              <line x1="320" y1="20" x2="320" y2="185" stroke="#ff6b35" stroke-width="2"/>
+              <text x="80" y="14" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="10" font-weight="700">SENDER</text>
+              <text x="320" y="14" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="10" font-weight="700">RECEIVER</text>
+              
+              <!-- Frame 0 -->
+              <line x1="80" y1="35" x2="320" y2="70" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arr5)"/>
+              <text x="200" y="47" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">Frame 0 →</text>
+              
+              <!-- ACK 0 -->
+              <line x1="320" y1="75" x2="80" y2="105" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#arr5)"/>
+              <text x="200" y="97" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">← ACK 0</text>
+              
+              <!-- Frame 1 -->
+              <line x1="80" y1="110" x2="320" y2="145" stroke="#ffd166" stroke-width="1.5" marker-end="url(#arr5)"/>
+              <text x="200" y="122" text-anchor="middle" fill="#ffd166" font-family="JetBrains Mono" font-size="9">Frame 1 →</text>
+              
+              <!-- ACK 1 -->
+              <line x1="320" y1="150" x2="80" y2="178" stroke="#06d6a0" stroke-width="1.5" marker-end="url(#arr5)"/>
+              <text x="200" y="172" text-anchor="middle" fill="#06d6a0" font-family="JetBrains Mono" font-size="9">← ACK 1</text>
+              
+              <!-- Wait label -->
+              <rect x="82" y="105" width="55" height="20" rx="3" fill="rgba(255,209,102,0.1)" stroke="rgba(255,209,102,0.3)" stroke-width="1"/>
+              <text x="109" y="118" text-anchor="middle" fill="#6b7fa3" font-family="JetBrains Mono" font-size="8">WAIT…</text>
+              
+              <defs>
+                <marker id="arr5" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                  <path d="M0,0 L0,6 L6,3 z" fill="#6b7fa3"/>
+                </marker>
+              </defs>
+            </svg>
+          </div>
+        </div>
+        <ul class="ans-list">
+          <li><strong>Advantage:</strong> Simple, easy to implement.</li>
+          <li><strong>Disadvantage:</strong> Low efficiency — link is idle while waiting for ACK.</li>
+          <li>Efficiency η = Tfr / (Tfr + 2×Tp) where Tp is propagation delay.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q14: CSMA/CD vs CSMA/CA -->
+  <div class="q-card priority-med" data-priority="med" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">14</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Differentiate CSMA/CD and CSMA/CA</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>CSMA/CD</th><th>CSMA/CA</th></tr></thead>
+          <tbody>
+            <tr><td>Full Form</td><td>Carrier Sense Multiple Access / Collision Detection</td><td>Carrier Sense Multiple Access / Collision Avoidance</td></tr>
+            <tr><td>Strategy</td><td>Detect collision after occurrence</td><td>Avoid collision before occurrence</td></tr>
+            <tr><td>Medium</td><td>Wired (IEEE 802.3 Ethernet)</td><td>Wireless (IEEE 802.11 Wi-Fi)</td></tr>
+            <tr><td>Mechanism</td><td>Jam signal → Random Backoff</td><td>IFS + Contention Window + ACK</td></tr>
+            <tr><td>Collision Detection</td><td>Easy (voltage monitoring)</td><td>Difficult in wireless</td></tr>
+            <tr><td>Hidden Node Problem</td><td>Not applicable</td><td>Addressed using RTS/CTS</td></tr>
+            <tr><td>Efficiency</td><td>Higher in wired networks</td><td>Lower but necessary for wireless</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q15: TCP/IP Protocol Suite -->
+  <div class="q-card priority-med" data-priority="med" data-module="m1">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">15</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Draw the TCP/IP Protocol Suite (Layers and Protocols)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <div class="diagram-wrap">
+          <div class="diagram-label">TCP/IP Protocol Suite</div>
+          <div style="padding:20px;">
+            <div style="display:flex;flex-direction:column;gap:4px;max-width:420px;margin:0 auto;">
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="layer-box l-app" style="width:130px;min-width:130px;font-size:12px;">Application</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7fa3;">HTTP · FTP · SMTP · DNS · SSH · TELNET · POP3 · IMAP</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="layer-box l-trans" style="width:130px;min-width:130px;font-size:12px;">Transport</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7fa3;">TCP · UDP · SCTP</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="layer-box l-net" style="width:130px;min-width:130px;font-size:12px;">Network</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7fa3;">IP · ICMP · ARP · IGMP · OSPF · BGP</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="layer-box l-dl" style="width:130px;min-width:130px;font-size:12px;">Data Link</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7fa3;">Ethernet · PPP · Wi-Fi · Frame Relay</div>
+              </div>
+              <div style="display:flex;align-items:center;gap:12px;">
+                <div class="layer-box l-phy" style="width:130px;min-width:130px;font-size:12px;">Physical</div>
+                <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#6b7fa3;">Cables · Optical Fiber · Radio Waves</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q16: LAN vs WAN -->
+  <div class="q-card priority-med" data-priority="med" data-module="m1">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">16</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Compare LAN and WAN (or LAN and MAN)</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>LAN</th><th>MAN</th><th>WAN</th></tr></thead>
+          <tbody>
+            <tr><td>Coverage</td><td>Building / Campus (up to 1 km)</td><td>City / Town (up to 100 km)</td><td>Country / World (unlimited)</td></tr>
+            <tr><td>Ownership</td><td>Private (single org)</td><td>Private or Public</td><td>Leased / ISP</td></tr>
+            <tr><td>Speed</td><td>High (10 Mbps – 10 Gbps)</td><td>Medium (1–100 Mbps)</td><td>Lower (variable)</td></tr>
+            <tr><td>Error Rate</td><td>Low</td><td>Moderate</td><td>High</td></tr>
+            <tr><td>Example</td><td>Office network, lab</td><td>Cable TV, metro network</td><td>Internet</td></tr>
+            <tr><td>Technology</td><td>Ethernet, Wi-Fi</td><td>FDDI, ATM</td><td>MPLS, Frame Relay</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q17: Framing -->
+  <div class="q-card priority-med" data-priority="med" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">17</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Define Framing and Various Methods Used in Framing</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text"><strong>Framing</strong> is the Data Link Layer function of encapsulating a network layer datagram into a frame by adding a header and trailer, marking the start and end of each frame so the receiver can identify boundaries.</p>
+        <table class="ans-table">
+          <thead><tr><th>Method</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Character Count</td><td>Header field specifies number of characters in the frame.</td></tr>
+            <tr><td>Flag Bytes with Byte Stuffing</td><td>Special flag byte (01111110) marks start/end. Escape byte inserted before flag in data.</td></tr>
+            <tr><td>Starting/Ending Flags with Bit Stuffing</td><td>Flag pattern (01111110) marks boundaries. A 0-bit inserted after five consecutive 1s in data.</td></tr>
+            <tr><td>Physical Layer Coding Violations</td><td>Uses invalid signal patterns (not used in data) to indicate frame boundaries.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q18: HTTP -->
+  <div class="q-card priority-med" data-priority="med" data-module="m4">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">18</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Describe HTTP Persistent vs Non-Persistent Connections</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">HTTP (HyperText Transfer Protocol) is a stateless application layer protocol using <span class="hl">TCP Port 80</span>.</p>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>Non-Persistent (HTTP/1.0)</th><th>Persistent (HTTP/1.1)</th></tr></thead>
+          <tbody>
+            <tr><td>Connection</td><td>New TCP connection for each object</td><td>Single TCP connection for multiple objects</td></tr>
+            <tr><td>RTT per object</td><td>2 RTT (1 for TCP, 1 for HTTP)</td><td>1 RTT after initial connection</td></tr>
+            <tr><td>Overhead</td><td>High (repeated connection setup)</td><td>Low</td></tr>
+            <tr><td>Pipelining</td><td>Not supported</td><td>Supported</td></tr>
+            <tr><td>Performance</td><td>Slower for web pages with many objects</td><td>Faster, more efficient</td></tr>
+          </tbody>
+        </table>
+        <div class="diagram-wrap">
+          <div class="diagram-label">FTP Basic Model — Two Connections</div>
+          <div class="ftp-diagram">
+            <div class="ftp-box ftp-client">
+              <div>FTP CLIENT</div>
+              <div style="font-size:10px;margin-top:4px;opacity:0.7;">Control Process<br>Data Transfer Process</div>
+            </div>
+            <div class="ftp-conn">
+              <div class="ftp-line">Port 21 (Control)</div>
+              <div class="ftp-arrow">⟷</div>
+              <div class="ftp-line">Port 20 (Data)</div>
+              <div class="ftp-arrow">⟷</div>
+            </div>
+            <div class="ftp-box ftp-server">
+              <div>FTP SERVER</div>
+              <div style="font-size:10px;margin-top:4px;opacity:0.7;">Control Process<br>Data Transfer Process</div>
+            </div>
+          </div>
+        </div>
+        <ul class="ans-list">
+          <li><strong>FTP Merits:</strong> Reliable file transfer, resume support, multiple file types.</li>
+          <li><strong>FTP Demerits:</strong> No encryption (use SFTP/FTPS), firewall issues with data port, credentials sent in plain text.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q19: SSH Components -->
+  <div class="q-card priority-med" data-priority="med" data-module="m4">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">19</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">List the SSH Components and Describe SSH Protocol</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">SSH (Secure Shell) is a cryptographic network protocol for secure remote login and command execution over an unsecured network. It uses <span class="hl">TCP Port 22</span>.</p>
+        <table class="ans-table">
+          <thead><tr><th>SSH Component</th><th>Function</th></tr></thead>
+          <tbody>
+            <tr><td>SSH-TRANS (Transport Layer Protocol)</td><td>Provides server authentication, confidentiality, and integrity. Creates the secure encrypted tunnel.</td></tr>
+            <tr><td>SSH-AUTH (User Authentication Protocol)</td><td>Authenticates the client to the server using passwords, public keys, or host-based methods.</td></tr>
+            <tr><td>SSH-CONN (Connection Protocol)</td><td>Multiplexes the secure tunnel into multiple logical channels (terminal sessions, file transfers, etc.).</td></tr>
+            <tr><td>SSH Applications</td><td>SFTP (Secure File Transfer), SCP (Secure Copy), Remote Login (replacing Telnet).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q20: Peer-to-Peer -->
+  <div class="q-card priority-med" data-priority="med" data-module="m4">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">20</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Write about the Peer-to-Peer Network Paradigm</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">In the P2P paradigm, each node (peer) acts as both a client and a server simultaneously. There is no centralized server; resources are shared directly between peers.</p>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>Client-Server</th><th>Peer-to-Peer (P2P)</th></tr></thead>
+          <tbody>
+            <tr><td>Server</td><td>Dedicated central server</td><td>No dedicated server</td></tr>
+            <tr><td>Cost</td><td>High (server hardware/maintenance)</td><td>Low</td></tr>
+            <tr><td>Scalability</td><td>Limited by server</td><td>Highly scalable</td></tr>
+            <tr><td>Security</td><td>Centralized, easier to secure</td><td>Difficult to secure</td></tr>
+            <tr><td>Best for</td><td>Large organizations</td><td>Small networks (&lt;12 nodes), file sharing</td></tr>
+            <tr><td>Examples</td><td>Web browsing, email</td><td>BitTorrent, Skype, Blockchain</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q21: IEEE 802 Project Features -->
+  <div class="q-card priority-med" data-priority="med" data-module="m2">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">21</span>
+      <div class="q-meta">
+        <span class="q-marks marks-7">7 MARKS</span>
+        <div class="q-title">Describe the IEEE 802 Project and its Features</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text">The <span class="hl">IEEE 802 Project</span> is a family of standards defined by the Institute of Electrical and Electronics Engineers (IEEE) for Local Area Networks (LAN) and Metropolitan Area Networks (MAN). It defines protocols for the <span class="hl">Physical</span> and <span class="hl">Data Link</span> layers of the OSI model.</p>
+
+        <p class="ans-text"><strong>Key Feature — Sublayer Division:</strong> IEEE 802 splits the OSI Data Link Layer into two sublayers:</p>
+        <div class="diagram-wrap">
+          <div class="diagram-label">IEEE 802 — OSI Data Link Sublayers</div>
+          <div style="padding:20px;display:flex;flex-direction:column;align-items:center;gap:4px;">
+            <div style="width:260px;padding:10px 16px;text-align:center;border-radius:6px;background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#c084fc;">OSI — Application / Network / Transport</div>
+            <div style="font-size:18px;color:var(--muted);">↕</div>
+            <div style="width:260px;padding:10px 16px;text-align:center;border-radius:6px;background:rgba(0,212,255,0.15);border:1px solid rgba(0,212,255,0.4);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#00d4ff;">LLC — Logical Link Control (IEEE 802.2)<br><span style="font-size:10px;font-weight:400;opacity:0.8;">Flow control, error control, framing</span></div>
+            <div style="font-size:18px;color:var(--muted);">↕</div>
+            <div style="width:260px;padding:10px 16px;text-align:center;border-radius:6px;background:rgba(255,209,102,0.15);border:1px solid rgba(255,209,102,0.4);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#ffd166;">MAC — Medium Access Control<br><span style="font-size:10px;font-weight:400;opacity:0.8;">Addressing, channel access method</span></div>
+            <div style="font-size:18px;color:var(--muted);">↕</div>
+            <div style="width:260px;padding:10px 16px;text-align:center;border-radius:6px;background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.4);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;color:#ff6b35;">Physical Layer (IEEE 802.x specific)</div>
+          </div>
+        </div>
+
+        <p class="ans-text"><strong>Major IEEE 802 Standards:</strong></p>
+        <table class="ans-table">
+          <thead><tr><th>Standard</th><th>Name</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>IEEE 802.1</td><td>Bridging &amp; Management</td><td>Spanning Tree Protocol (STP), VLANs, network management.</td></tr>
+            <tr><td>IEEE 802.2</td><td>Logical Link Control (LLC)</td><td>Common LLC sublayer shared by all 802 standards. Provides framing and error control.</td></tr>
+            <tr><td>IEEE 802.3</td><td>CSMA/CD (Ethernet)</td><td>Wired LAN standard. Uses CSMA/CD for channel access. Speeds: 10 Mbps to 100 Gbps.</td></tr>
+            <tr><td>IEEE 802.4</td><td>Token Bus</td><td>Token-passing access method over a bus topology (now obsolete).</td></tr>
+            <tr><td>IEEE 802.5</td><td>Token Ring</td><td>Token-passing access in a ring topology. Station holds token to transmit.</td></tr>
+            <tr><td>IEEE 802.11</td><td>Wireless LAN (Wi-Fi)</td><td>CSMA/CA for wireless. Variants: 802.11a/b/g/n/ac/ax (Wi-Fi 6).</td></tr>
+            <tr><td>IEEE 802.15</td><td>WPAN (Bluetooth)</td><td>Wireless Personal Area Networks. Short-range, low-power communication.</td></tr>
+            <tr><td>IEEE 802.16</td><td>WiMAX</td><td>Broadband Wireless Access for MAN. Long-range wireless (up to 50 km).</td></tr>
+          </tbody>
+        </table>
+
+        <p class="ans-text"><strong>Key Features of IEEE 802:</strong></p>
+        <ul class="ans-list">
+          <li><strong>Standardization:</strong> Provides universal interoperability between devices from different vendors.</li>
+          <li><strong>MAC Address:</strong> All 802 standards use a 48-bit (6-byte) hardware address for device identification.</li>
+          <li><strong>Modular Design:</strong> LLC sublayer is common; MAC and Physical layers vary per standard.</li>
+          <li><strong>Scalability:</strong> Covers technologies from 1 Mbps (legacy) to 100 Gbps (modern Ethernet).</li>
+          <li><strong>Access Methods:</strong> Defines CSMA/CD (wired), CSMA/CA (wireless), and Token Passing.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q22: Link State Routing -->
+  <div class="q-card priority-med" data-priority="med" data-module="m3">
+    <div class="q-header" onclick="toggleCard(this)">
+      <span class="q-number">22</span>
+      <div class="q-meta">
+        <span class="q-marks marks-3">3 MARKS</span>
+        <div class="q-title">Describe Link State Routing and Compare with Distance Vector Routing</div>
+      </div>
+      <span class="q-chevron">▾</span>
+    </div>
+    <div class="q-body">
+      <div class="answer-section">
+        <div class="ans-label">Answer</div>
+        <p class="ans-text"><span class="hl">Link State Routing</span> is a dynamic routing algorithm where every router builds a complete map of the entire network topology and independently computes the shortest path to each destination using <span class="hl">Dijkstra's Algorithm</span>. It is used in OSPF (Open Shortest Path First).</p>
+
+        <p class="ans-text"><strong>Steps in Link State Routing:</strong></p>
+        <ol class="ans-list">
+          <li><strong>Neighbor Discovery:</strong> Each router discovers its directly connected neighbors using HELLO packets.</li>
+          <li><strong>Cost Measurement:</strong> Each router measures the cost (delay/bandwidth) to each neighbor.</li>
+          <li><strong>LSP Flooding:</strong> Each router creates a <span class="hl">Link State Packet (LSP)</span> containing its ID, neighbors, and costs, then floods it to all routers in the network.</li>
+          <li><strong>Topology Map:</strong> Each router uses received LSPs to build an identical, complete topology map.</li>
+          <li><strong>Shortest Path:</strong> Each router runs Dijkstra's algorithm on the map to compute the shortest path tree to all destinations.</li>
+        </ol>
+
+        <div class="formula-box">
+          <div class="formula-label">DIJKSTRA'S ALGORITHM (CORE IDEA)</div>
+          D(v) = min { D(v), D(u) + C(u,v) } — relax edge (u→v) at each step
+        </div>
+
+        <p class="ans-text"><strong>Comparison — Link State vs Distance Vector:</strong></p>
+        <table class="ans-table">
+          <thead><tr><th>Feature</th><th>Link State Routing</th><th>Distance Vector Routing</th></tr></thead>
+          <tbody>
+            <tr><td>Algorithm</td><td>Dijkstra's Shortest Path</td><td>Bellman-Ford</td></tr>
+            <tr><td>Knowledge</td><td>Complete network topology map</td><td>Only neighbor distances</td></tr>
+            <tr><td>Information Shared</td><td>LSP flooded to ALL routers</td><td>Full table shared with neighbors only</td></tr>
+            <tr><td>Convergence Speed</td><td>Fast</td><td>Slow</td></tr>
+            <tr><td>Count-to-Infinity</td><td>Does not occur</td><td>Major problem</td></tr>
+            <tr><td>Memory Usage</td><td>High (stores full topology)</td><td>Low</td></tr>
+            <tr><td>CPU Overhead</td><td>High (runs Dijkstra)</td><td>Low</td></tr>
+            <tr><td>Scalability</td><td>Better for large networks</td><td>Better for small networks</td></tr>
+            <tr><td>Protocol Example</td><td>OSPF, IS-IS</td><td>RIP (Routing Information Protocol)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOW PRIORITY SECTION -->
+  <div class="section-header">
+    <span class="section-badge badge-low">🟢 LOW PRIORITY</span>
+    <span class="section-title">1-Mark Quick Facts — Part A</span>
+    <div class="section-line"></div>
+  </div>
+
+  <div class="facts-grid" id="factsGrid" data-priority="low" data-module="all">
+    <div class="fact-card" data-priority="low" data-module="m1"><div class="fact-q">OSI stands for?</div><div class="fact-a">Open Systems Interconnection</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">SMTP stands for?</div><div class="fact-a">Simple Mail Transfer Protocol</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">FTP data port number?</div><div class="fact-a">Port 20</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">FTP control port number?</div><div class="fact-a">Port 21</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">HTTP port number?</div><div class="fact-a">Port 80</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">DNS port number?</div><div class="fact-a">Port 53</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">SSH port number?</div><div class="fact-a">Port 22</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">TELNET port number?</div><div class="fact-a">Port 23</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">IPv4 address size?</div><div class="fact-a">32 bits (4 bytes)</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">IPv6 address size?</div><div class="fact-a">128 bits (16 bytes)</div></div>
+    <div class="fact-card" data-priority="low" data-module="m1"><div class="fact-q">Number of links in mesh topology for n nodes?</div><div class="fact-a">n(n-1)/2 duplex links</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">UDP packets are called?</div><div class="fact-a">Datagrams</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">TCP packets are called?</div><div class="fact-a">Segments</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">SSH stands for?</div><div class="fact-a">Secure Shell</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Pure ALOHA max throughput?</div><div class="fact-a">18.4% at G = 0.5</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Slotted ALOHA max throughput?</div><div class="fact-a">37% at G = 1</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">IPv4 address space?</div><div class="fact-a">2³² ≈ 4.3 billion</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">IPv6 address space?</div><div class="fact-a">2¹²⁸ ≈ 3.4 × 10³⁸</div></div>
+    <div class="fact-card" data-priority="low" data-module="m1"><div class="fact-q">Define protocol.</div><div class="fact-a">Set of rules governing data communication between entities.</div></div>
+    <div class="fact-card" data-priority="low" data-module="m1"><div class="fact-q">What is a multipoint connection?</div><div class="fact-a">More than two devices share a single link simultaneously.</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Two unguided transmission media?</div><div class="fact-a">Radio waves, Microwaves (also Infrared)</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Two random access MAC protocols?</div><div class="fact-a">ALOHA, CSMA (also CSMA/CD, CSMA/CA)</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">Application layer program mapping name to address?</div><div class="fact-a">DNS (Domain Name System)</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">Two remote login protocols?</div><div class="fact-a">TELNET, SSH</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Define attenuation.</div><div class="fact-a">Loss of signal strength over distance due to medium resistance.</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Define distortion.</div><div class="fact-a">Change in signal shape due to different propagation speeds of frequencies.</div></div>
+    <div class="fact-card" data-priority="low" data-module="m3"><div class="fact-q">What is the address space of IPv4?</div><div class="fact-a">2³² = 4,294,967,296 addresses</div></div>
+    <div class="fact-card" data-priority="low" data-module="m2"><div class="fact-q">Digital data refers to?</div><div class="fact-a">Information that has discrete states (0 or 1).</div></div>
+    <div class="fact-card" data-priority="low" data-module="m1"><div class="fact-q">Five components of data communication?</div><div class="fact-a">Message, Sender, Receiver, Transmission Medium, Protocol</div></div>
+    <div class="fact-card" data-priority="low" data-module="m4"><div class="fact-q">URL components?</div><div class="fact-a">Protocol, Host (domain), Port, Path (resource)</div></div>
+  </div>
+
+</div><!-- end .main -->
+
+<button class="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Toggle card open/close
+function toggleCard(header) {
+  const card = header.closest('.q-card');
+  card.classList.toggle('open');
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const filter = this.dataset.filter;
+    filterCards(filter, activeModule);
+  });
+});
+
+let activeModule = 'all';
+let activeFilter = 'all';
+
+// Module tabs
+document.querySelectorAll('.module-tab').forEach(tab => {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.module-tab').forEach(t => t.classList.remove('active'));
+    this.classList.add('active');
+    activeModule = this.dataset.module;
+    filterCards(activeFilter, activeModule);
+  });
+});
+
+// Filter and module combined
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    activeFilter = this.dataset.filter;
+    filterCards(activeFilter, activeModule);
+  });
+});
+
+function filterCards(filter, module) {
+  // Handle q-cards
+  document.querySelectorAll('.q-card').forEach(card => {
+    const priorityMatch = filter === 'all' || card.dataset.priority === filter;
+    const moduleMatch = module === 'all' || card.dataset.module === module;
+    card.classList.toggle('hidden', !(priorityMatch && moduleMatch));
+  });
+
+  // Handle facts-grid and individual fact-cards
+  const factsGrid = document.getElementById('factsGrid');
+  if (factsGrid) {
+    const showFacts = filter === 'all' || filter === 'low';
+    factsGrid.classList.toggle('hidden', !showFacts);
+    if (showFacts && module !== 'all') {
+      document.querySelectorAll('.fact-card').forEach(fc => {
+        const moduleMatch = fc.dataset.module === module || module === 'all';
+        fc.classList.toggle('hidden', !moduleMatch);
+      });
+    } else {
+      document.querySelectorAll('.fact-card').forEach(fc => fc.classList.remove('hidden'));
+    }
+  }
+
+  // Handle section headers - hide if all cards in section are hidden
+  document.querySelectorAll('.section-header').forEach(header => {
+    // Section headers always shown unless facts only mode
+  });
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  if (!q) {
+    filterCards(activeFilter, activeModule);
+    return;
+  }
+  document.querySelectorAll('.q-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.classList.toggle('hidden', !text.includes(q));
+  });
+  document.querySelectorAll('.fact-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    card.classList.toggle('hidden', !text.includes(q));
+  });
+});
+
+// Open first card by default
+const firstCard = document.querySelector('.q-card');
+if (firstCard) firstCard.classList.add('open');
+
+// Add stagger animation delay to cards
+document.querySelectorAll('.q-card').forEach((card, i) => {
+  card.style.animationDelay = `${i * 0.04}s`;
+});
+</script>
+</body>
+</html>
