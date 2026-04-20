@@ -1,0 +1,2018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Structures — Complete Exam Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Sora:wght@300;400;600;700;800&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --card: #13161e;
+    --card2: #1a1e2a;
+    --border: #2a2f3f;
+    --accent: #f5a623;
+    --accent2: #4fc3f7;
+    --accent3: #69f0ae;
+    --accent4: #f06292;
+    --accent5: #ce93d8;
+    --text: #e8eaf6;
+    --muted: #8892a4;
+    --code-bg: #0a0c12;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sora', sans-serif;
+    font-size: 14px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1a0533 0%, #0d1a3a 50%, #0a1f1a 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 20px 16px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .badge {
+    background: var(--accent);
+    color: #000;
+    font-weight: 800;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+  }
+
+  h1 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* NAV TABS */
+  nav {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+  }
+  nav::-webkit-scrollbar { display: none; }
+
+  .tab {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Sora', sans-serif;
+    white-space: nowrap;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+
+  .tab:hover { border-color: var(--accent); color: var(--text); }
+  .tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+  /* MAIN */
+  main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+
+  .module { display: none; }
+  .module.active { display: block; }
+
+  /* SECTIONS */
+  .section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 16px;
+    background: var(--card2);
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .section-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    flex: 1;
+  }
+
+  .marks-badge {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .marks-high { background: #f5a62330; color: var(--accent); border: 1px solid #f5a62350; }
+  .marks-med { background: #4fc3f730; color: var(--accent2); border: 1px solid #4fc3f750; }
+  .marks-low { background: #69f0ae30; color: var(--accent3); border: 1px solid #69f0ae50; }
+
+  .chevron {
+    font-size: 12px;
+    color: var(--muted);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+  }
+  .section.open .chevron { transform: rotate(180deg); }
+
+  .section-body {
+    padding: 16px;
+    display: none;
+  }
+  .section.open .section-body { display: block; }
+
+  /* CONTENT ELEMENTS */
+  h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent2);
+    margin: 16px 0 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  h3:first-child { margin-top: 0; }
+
+  h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    margin: 12px 0 6px;
+  }
+
+  p { margin-bottom: 8px; color: var(--text); font-size: 13px; }
+
+  .def-box {
+    background: linear-gradient(135deg, #f5a62312, #f5a62306);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  .info-box {
+    background: linear-gradient(135deg, #4fc3f712, #4fc3f706);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  .tip-box {
+    background: linear-gradient(135deg, #69f0ae12, #69f0ae06);
+    border-left: 3px solid var(--accent3);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  .warn-box {
+    background: linear-gradient(135deg, #f0629212, #f0629206);
+    border-left: 3px solid var(--accent4);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: var(--code-bg);
+    color: #a5d6a7;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 11px;
+  }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #a5d6a7;
+    overflow-x: auto;
+    margin: 10px 0;
+    line-height: 1.6;
+  }
+
+  pre .kw { color: #ce93d8; }
+  pre .cm { color: #546e7a; font-style: italic; }
+  pre .nm { color: #f5a623; }
+  pre .st { color: #80cbc4; }
+
+  ul, ol {
+    padding-left: 18px;
+    margin: 8px 0;
+    font-size: 13px;
+  }
+  li { margin-bottom: 4px; }
+  li strong { color: var(--accent); }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin: 10px 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 300px;
+  }
+  th {
+    background: var(--card2);
+    color: var(--accent2);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+  }
+  tr:hover td { background: #ffffff05; }
+
+  /* STACK VIZ */
+  .stack-viz {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin: 10px 0;
+  }
+  .stack-cell {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    width: 80px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .stack-cell.top-cell {
+    background: #f5a62320;
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .stack-label {
+    position: absolute;
+    right: -45px;
+    font-size: 10px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .stack-bottom {
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* QUEUE VIZ */
+  .queue-viz {
+    display: flex;
+    gap: 2px;
+    margin: 10px 0;
+    overflow-x: auto;
+    align-items: center;
+  }
+  .queue-cell {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    min-width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 13px;
+    border-radius: 4px;
+    flex-direction: column;
+    flex-shrink: 0;
+  }
+  .queue-cell.front-cell { border-color: var(--accent3); background: #69f0ae15; }
+  .queue-cell.rear-cell { border-color: var(--accent4); background: #f0629215; }
+  .queue-label { font-size: 9px; font-weight: 700; margin-top: 2px; }
+  .ql-f { color: var(--accent3); }
+  .ql-r { color: var(--accent4); }
+
+  /* TREE VIZ */
+  .tree-node {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 2px solid var(--accent2);
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent2);
+    background: #4fc3f715;
+    flex-shrink: 0;
+  }
+  .tree-node.root { border-color: var(--accent); color: var(--accent); background: #f5a62315; }
+  .tree-node.leaf { border-color: var(--accent3); color: var(--accent3); background: #69f0ae15; }
+
+  /* ALGO BOX */
+  .algo-box {
+    background: #0a0c12;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    margin: 10px 0;
+    counter-reset: step;
+  }
+  .algo-step {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-size: 12px;
+    align-items: flex-start;
+  }
+  .step-num {
+    background: var(--accent);
+    color: #000;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* EXAM QUESTION */
+  .exam-q {
+    background: #ce93d815;
+    border: 1px solid #ce93d840;
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 10px 0;
+    font-size: 12px;
+  }
+  .exam-q-label {
+    font-size: 10px;
+    color: var(--accent5);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .exam-q p { color: var(--accent5); margin: 0; }
+
+  /* DIVIDER */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 14px 0;
+  }
+
+  /* MODULE INTRO */
+  .mod-intro {
+    background: linear-gradient(135deg, #1a1040, #0d1a30);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  .mod-icon { font-size: 32px; flex-shrink: 0; }
+  .mod-name { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+  .mod-meta { font-size: 11px; color: var(--muted); }
+  .mod-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+  .pill {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .example-trace {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    overflow-x: auto;
+  }
+  .trace-row {
+    display: flex;
+    gap: 0;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+  .trace-row:last-child { border-bottom: none; }
+  .trace-char { width: 60px; color: var(--accent); flex-shrink: 0; }
+  .trace-stack { flex: 1; color: var(--accent2); }
+  .trace-post { flex: 1; color: var(--accent3); }
+  .trace-hdr { color: var(--muted); font-size: 10px; font-weight: 700; }
+
+  strong { color: var(--accent); }
+  em { color: var(--accent3); font-style: normal; font-weight: 600; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+  }
+  @media(max-width: 480px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .mini-card {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .mini-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .graph-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 10px 0;
+  }
+  @media(max-width: 400px) { .graph-grid { grid-template-columns: 1fr; } }
+
+  .type-card {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .type-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .type-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 11px;
+    border-top: 1px solid var(--border);
+    margin-top: 10px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-top">
+    <span class="badge">4133</span>
+    <div>
+      <h1>Data Structures — Exam Guide</h1>
+      <div class="subtitle">All 4 Modules · Exam-Priority Order · April 2025 Pattern</div>
+    </div>
+  </div>
+  <nav id="mainNav">
+    <button class="tab active" onclick="showModule('m1',this)">📚 M1: Stack & Queue</button>
+    <button class="tab" onclick="showModule('m2',this)">🔗 M2: Linked List</button>
+    <button class="tab" onclick="showModule('m3',this)">🌳 M3: Trees</button>
+    <button class="tab" onclick="showModule('m4',this)">🕸️ M4: Graphs</button>
+    <button class="tab" onclick="showModule('mq',this)">📝 Quick Answers</button>
+  </nav>
+</header>
+
+<main>
+
+<!-- ======================== MODULE 1 ======================== -->
+<div class="module active" id="m1">
+
+  <div class="mod-intro">
+    <div class="mod-icon">📚</div>
+    <div>
+      <div class="mod-name">Module 1: Stacks & Queues</div>
+      <div class="mod-meta">18 Hours · CO1 · Highest Weight in Exam</div>
+      <div class="mod-pills">
+        <span class="pill">Stack</span>
+        <span class="pill">Push/Pop</span>
+        <span class="pill">Infix→Postfix</span>
+        <span class="pill">Postfix Eval</span>
+        <span class="pill">Circular Queue</span>
+        <span class="pill">Dequeue</span>
+        <span class="pill">Priority Queue</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA STRUCTURES INTRO -->
+  <div class="section open" id="s-ds">
+    <div class="section-header" onclick="toggleSection('s-ds')">
+      <span class="section-icon">🧩</span>
+      <span class="section-title">Data Structures — Basics (Part A, 1 mark)</span>
+      <span class="marks-badge marks-low">1–3 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Data Structure</strong> is a way of organizing all data items that considers not only the elements stored but also their relationships to each other.
+      </div>
+
+      <h3>Classification</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Type</th><th>Description</th><th>Examples</th></tr>
+          <tr><td><strong>Linear</strong></td><td>Elements in sequential order</td><td>Array, Stack, Queue, Linked List</td></tr>
+          <tr><td><strong>Non-Linear</strong></td><td>Elements in hierarchical/network form</td><td>Tree, Graph</td></tr>
+        </table>
+      </div>
+
+      <h3>Basic Operations</h3>
+      <ul>
+        <li><strong>Traversal</strong> — Access each element once</li>
+        <li><strong>Insertion</strong> — Add a new element</li>
+        <li><strong>Deletion</strong> — Remove an element</li>
+        <li><strong>Searching</strong> — Find an element</li>
+        <li><strong>Sorting</strong> — Arrange in order</li>
+      </ul>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Exam Q (Part A)</div>
+        <p>Q: Data structures that use LIFO → <strong>Stack</strong> | FIFO → <strong>Queue</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STACK -->
+  <div class="section open" id="s-stack">
+    <div class="section-header" onclick="toggleSection('s-stack')">
+      <span class="section-icon">📦</span>
+      <span class="section-title">Stack — Operations (Push, Pop, Traversal)</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Stack</strong> is a linear data structure where insertion and deletion are done at only ONE end called the <strong>TOP</strong>. It follows <strong>LIFO</strong> (Last In First Out) principle.
+      </div>
+
+      <h3>Key Terms</h3>
+      <ul>
+        <li><strong>TOP</strong> = pointer to topmost element. Initially top = −1 (empty stack)</li>
+        <li><strong>MAXSIZE</strong> = maximum capacity of stack</li>
+        <li><strong>Stack Overflow</strong> = trying to push when stack is full (top == MAXSIZE−1)</li>
+        <li><strong>Stack Underflow</strong> = trying to pop from empty stack (top == −1)</li>
+        <li><strong>Push</strong> = Insertion | <strong>Pop</strong> = Deletion</li>
+      </ul>
+
+      <h3>Push Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If top == MAXSIZE−1 → print "Stack Overflow", stop</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Increment: top = top + 1</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>S[top] = value (insert element)</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Stop</span></div>
+      </div>
+
+      <h3>Pop Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If top == −1 → print "Stack Underflow", stop</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>val = S[top] (save top element)</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Decrement: top = top − 1</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Return/print val, Stop</span></div>
+      </div>
+
+      <h3>Visual: Stack with A,B,C,D pushed</h3>
+      <div style="display:flex;gap:20px;align-items:flex-end;flex-wrap:wrap;">
+        <div class="stack-viz">
+          <div class="stack-cell top-cell">D<span class="stack-label">← TOP</span></div>
+          <div class="stack-cell">C</div>
+          <div class="stack-cell">B</div>
+          <div class="stack-cell">A</div>
+          <div class="stack-bottom">▔▔▔▔▔▔▔ Bottom</div>
+        </div>
+        <div style="font-size:12px;color:var(--muted);max-width:200px;">
+          D was inserted last → D will be deleted first (LIFO)<br><br>
+          After Pop → D removed, C becomes top
+        </div>
+      </div>
+
+      <h3>Applications of Stack</h3>
+      <ul>
+        <li>Infix to Postfix conversion</li>
+        <li>Evaluation of Postfix expressions</li>
+        <li>Recursion implementation</li>
+        <li>Parenthesis checker</li>
+        <li>Reversing a string/list</li>
+      </ul>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 Exam Q (7 marks)</div>
+        <p>Explain implementation of POP and PUSH operations of stack using array.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INFIX TO POSTFIX -->
+  <div class="section open" id="s-postfix">
+    <div class="section-header" onclick="toggleSection('s-postfix')">
+      <span class="section-icon">🔄</span>
+      <span class="section-title">Infix → Postfix Conversion (Most Important!)</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Infix:</strong> Operator between operands → A+B<br>
+        <strong>Postfix:</strong> Operator after operands → AB+<br>
+        <strong>Prefix:</strong> Operator before operands → +AB
+      </div>
+
+      <h3>Operator Priority (for conversion)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Operator</th><th>Priority</th></tr>
+          <tr><td>( )</td><td>1 (lowest, never pop for this)</td></tr>
+          <tr><td>+ −</td><td>2</td></tr>
+          <tr><td>* /</td><td>3 (highest)</td></tr>
+        </table>
+      </div>
+
+      <h3>Algorithm: Infix to Postfix</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Add closing bracket <code>)</code> at end of infix expression</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Push open bracket <code>(</code> onto stack</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Scan each character left to right:</span></div>
+        <div class="algo-step"><span class="step-num">a</span><span>If <code>(</code> → push onto stack</span></div>
+        <div class="algo-step"><span class="step-num">b</span><span>If operand (A–Z, 0–9) → add to postfix output</span></div>
+        <div class="algo-step"><span class="step-num">c</span><span>If <code>)</code> → pop and output until <code>(</code> found, then discard <code>(</code></span></div>
+        <div class="algo-step"><span class="step-num">d</span><span>If operator → pop operators with <em>higher or equal priority</em> from stack to output, then push this operator</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Stack must be empty at end. If not → invalid expression</span></div>
+      </div>
+
+      <h3>Example: A B + D E / − (from exam)</h3>
+      <div class="warn-box">
+        <strong>Given:</strong> A B + D E / −  where A=6, B=2, D=8, E=4<br>
+        This is already in POSTFIX. Evaluate: (6+2) − (8/4) = 8 − 2 = <strong>6</strong>
+      </div>
+
+      <h3>Example: Convert A+B*(C/D+E/F)−(G+H)</h3>
+      <p>After adding ), scanning each symbol:</p>
+      <div class="example-trace">
+        <div class="trace-row">
+          <div class="trace-char trace-hdr">Symbol</div>
+          <div class="trace-stack trace-hdr">Stack</div>
+          <div class="trace-post trace-hdr">Postfix Output</div>
+        </div>
+        <div class="trace-row"><div class="trace-char">A</div><div class="trace-stack">( +</div><div class="trace-post">A</div></div>
+        <div class="trace-row"><div class="trace-char">+</div><div class="trace-stack">( +</div><div class="trace-post">A</div></div>
+        <div class="trace-row"><div class="trace-char">B</div><div class="trace-stack">( + *</div><div class="trace-post">AB</div></div>
+        <div class="trace-row"><div class="trace-char">*</div><div class="trace-stack">( + *(</div><div class="trace-post">AB</div></div>
+        <div class="trace-row"><div class="trace-char">C,/,D</div><div class="trace-stack">( + *(+ </div><div class="trace-post">ABCD/</div></div>
+        <div class="trace-row"><div class="trace-char">+E/F</div><div class="trace-stack">( + *</div><div class="trace-post">ABCD/EF/+</div></div>
+        <div class="trace-row"><div class="trace-char">−(G+H)</div><div class="trace-stack">( −</div><div class="trace-post">ABCD/EF/+*+GH+</div></div>
+        <div class="trace-row"><div class="trace-char">)</div><div class="trace-stack">empty</div><div class="trace-post"><strong>ABCD/EF/+*+GH+−</strong></div></div>
+      </div>
+
+      <h3>Quick Conversions (memorize)</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Infix</th><th>Postfix</th><th>Prefix</th></tr>
+          <tr><td>A+B</td><td>AB+</td><td>+AB</td></tr>
+          <tr><td>A+B*C</td><td>ABC*+</td><td>+A*BC</td></tr>
+          <tr><td>(A+B)*C</td><td>AB+C*</td><td>*+ABC</td></tr>
+          <tr><td>A*(B+C)/D</td><td>ABC+*D/</td><td>/A*+BCD... wait see below</td></tr>
+          <tr><td>(A+B)−(C+D)</td><td>AB+CD+−</td><td>−+AB+CD</td></tr>
+          <tr><td>(A−B)*(C+D)</td><td>AB−CD+*</td><td>*−AB+CD</td></tr>
+        </table>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 Exam (7 marks)</div>
+        <p>Evaluate postfix: (a) A B + D E / − where A=6,B=2,D=8,E=4 → Answer: <strong>6</strong><br>
+        (b) A B C D − + * where A=4,B=2,C=3,D=5 → Answer: <strong>0</strong></p>
+      </div>
+
+      <h3>Postfix Evaluation: A B C D − + * (A=4,B=2,C=3,D=5)</h3>
+      <div class="example-trace">
+        <div class="trace-row"><div class="trace-char trace-hdr">Symbol</div><div class="trace-stack trace-hdr">Stack</div></div>
+        <div class="trace-row"><div class="trace-char">A=4</div><div class="trace-stack">4</div></div>
+        <div class="trace-row"><div class="trace-char">B=2</div><div class="trace-stack">4 2</div></div>
+        <div class="trace-row"><div class="trace-char">C=3</div><div class="trace-stack">4 2 3</div></div>
+        <div class="trace-row"><div class="trace-char">D=5</div><div class="trace-stack">4 2 3 5</div></div>
+        <div class="trace-row"><div class="trace-char">−</div><div class="trace-stack">4 2 (3−5)= <strong>−2</strong></div></div>
+        <div class="trace-row"><div class="trace-char">+</div><div class="trace-stack">4 (2+(−2))= <strong>0</strong></div></div>
+        <div class="trace-row"><div class="trace-char">*</div><div class="trace-stack">(4*0)= <strong>0</strong></div></div>
+      </div>
+      <div class="tip-box">⚠️ In postfix eval: pop op2 first (top), then pop op1. Calculate: <strong>op1 OP op2</strong></div>
+
+      <h3>Postfix Evaluation Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Scan postfix expression left to right</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>If operand (letter) → push its value onto stack</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If operator → pop op2 (top), pop op1, calculate (op1 OP op2), push result</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>After scanning → result is top of stack</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUEUE -->
+  <div class="section" id="s-queue">
+    <div class="section-header" onclick="toggleSection('s-queue')">
+      <span class="section-icon">🚶</span>
+      <span class="section-title">Queue — Operations (Insertion, Deletion)</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Queue</strong> is a linear data structure where insertion is at <strong>REAR</strong> and deletion is at <strong>FRONT</strong>. It follows <strong>FIFO</strong> (First In First Out) principle.<br>
+        Initially: front = rear = −1 (empty queue)
+      </div>
+
+      <h3>Key Terms</h3>
+      <ul>
+        <li><strong>Enqueue</strong> = Insertion at rear</li>
+        <li><strong>Dequeue</strong> = Deletion from front</li>
+        <li><strong>Queue Overflow</strong> = Insert when rear == MAXSIZE−1</li>
+        <li><strong>Queue Underflow</strong> = Delete when front == −1</li>
+      </ul>
+
+      <h3>Visual: Queue [10, 20, 30]</h3>
+      <div class="queue-viz">
+        <div class="queue-cell front-cell">10<div class="queue-label ql-f">FRONT</div></div>
+        <div class="queue-cell">20</div>
+        <div class="queue-cell rear-cell">30<div class="queue-label ql-r">REAR</div></div>
+      </div>
+
+      <h3>Insertion Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If rear == MAXSIZE−1 → "Queue Overflow", stop</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>rear = rear + 1; Q[rear] = value</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If front == −1 → front = front + 1 (first element)</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Stop</span></div>
+      </div>
+
+      <h3>Deletion Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If front == −1 → "Queue empty", stop</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>val = Q[front]; print val</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If front == rear → front = rear = −1 (last element deleted)</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Else front = front + 1</span></div>
+        <div class="algo-step"><span class="step-num">5</span><span>Stop</span></div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Exam: In a queue, deletion is done from the _____ end</div>
+        <p>Answer: <strong>FRONT</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CIRCULAR QUEUE -->
+  <div class="section" id="s-cirq">
+    <div class="section-header" onclick="toggleSection('s-cirq')">
+      <span class="section-icon">🔁</span>
+      <span class="section-title">Circular Queue (Very Important!)</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="warn-box">
+        <strong>Problem with Simple Queue:</strong> Even if positions at the front are empty, if rear == MAXSIZE−1, no insertion is allowed. This wastes memory!
+      </div>
+
+      <div class="def-box">
+        <strong>Circular Queue:</strong> After rear reaches MAXSIZE−1, it wraps around to 0. The queue is full only when <code>(rear+1) % MAXSIZE == front</code>
+      </div>
+
+      <h3>Formula — Key Equations</h3>
+      <div class="two-col">
+        <div class="mini-card">
+          <div class="mini-card-title">Increment Rear</div>
+          <code>rear = (rear + 1) % MAXSIZE</code>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Increment Front</div>
+          <code>front = (front + 1) % MAXSIZE</code>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Queue Full Check</div>
+          <code>(rear+1) % MAXSIZE == front</code>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Queue Empty</div>
+          <code>front == −1</code>
+        </div>
+      </div>
+
+      <h3>Circular Queue Insertion</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If (rear+1)%MAXSIZE == front → "Queue Overflow", stop</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>rear = (rear+1) % MAXSIZE; Q[rear] = value</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If front == −1 → front = 0</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Stop</span></div>
+      </div>
+
+      <h3>Circular Queue Deletion</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If front == −1 → "Queue empty", stop</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Print Q[front]</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If front == rear → front = rear = −1 (reset, queue now empty)</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Else front = (front+1) % MAXSIZE</span></div>
+        <div class="algo-step"><span class="step-num">5</span><span>Stop</span></div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Exam Q: How is circular queue better than linear queue?</div>
+        <p>Answer: In linear queue, rear=MAXSIZE−1 means full even if front positions are empty (wasted space). Circular queue reuses freed front positions by wrapping rear to index 0. Queue only full when (rear+1)%N == front.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEQUEUE -->
+  <div class="section" id="s-deq">
+    <div class="section-header" onclick="toggleSection('s-deq')">
+      <span class="section-icon">↔️</span>
+      <span class="section-title">Dequeue (Double Ended Queue)</span>
+      <span class="marks-badge marks-med">3 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Dequeue (Double Ended Queue)</strong> — Insertion and deletion can be done from <strong>BOTH ends</strong> (front and rear).
+      </div>
+
+      <h3>5 Operations</h3>
+      <ol>
+        <li>Insertion at <strong>rear</strong> end (same as normal queue)</li>
+        <li>Insertion at <strong>front</strong> end (decrement front by 1)</li>
+        <li>Deletion from <strong>front</strong> end (same as normal queue)</li>
+        <li>Deletion from <strong>rear</strong> end (decrement rear by 1)</li>
+        <li>Traversal</li>
+      </ol>
+
+      <div class="info-box">
+        <strong>Insertion at Front:</strong> If front == 0 → overflow (can't go left). Else front−−; Q[front] = val<br><br>
+        <strong>Deletion from Rear:</strong> If single element → reset. Else rear−−
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (Part B, 3 marks)</div>
+        <p>Explain about Dequeue → Write the above definition + 5 operations</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRIORITY QUEUE -->
+  <div class="section" id="s-priq">
+    <div class="section-header" onclick="toggleSection('s-priq')">
+      <span class="section-icon">⭐</span>
+      <span class="section-title">Priority Queue</span>
+      <span class="marks-badge marks-med">3–7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Priority Queue:</strong> Each element has a priority value. Element with <strong>highest priority</strong> is deleted first. Elements are stored in order of priority so highest priority is always at front.
+      </div>
+
+      <h3>How Insertion Works</h3>
+      <p>Find the correct position based on priority and insert there, shifting other elements right.</p>
+
+      <h3>Example</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><td><strong>Value</strong></td><td>10</td><td>20</td><td>50</td><td>30</td><td>40</td></tr>
+          <tr><td><strong>Priority</strong></td><td>1</td><td>5</td><td>6</td><td>7</td><td>8</td></tr>
+        </table>
+      </div>
+      <p>Element with priority 1 is at front → deleted first. Deletion same as normal queue (remove from front).</p>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 Exam</div>
+        <p>Explain circular Queue and priority queue (7 marks) — Write both definitions + algorithms</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== MODULE 2 ======================== -->
+<div class="module" id="m2">
+
+  <div class="mod-intro">
+    <div class="mod-icon">🔗</div>
+    <div>
+      <div class="mod-name">Module 2: Linked Lists</div>
+      <div class="mod-meta">12 Hours · CO2</div>
+      <div class="mod-pills">
+        <span class="pill">Singly LL</span>
+        <span class="pill">Insert/Delete</span>
+        <span class="pill">Circular LL</span>
+        <span class="pill">Doubly LL</span>
+        <span class="pill">Linked Stack</span>
+        <span class="pill">Linked Queue</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section open" id="s-ll">
+    <div class="section-header" onclick="toggleSection('s-ll')">
+      <span class="section-icon">📋</span>
+      <span class="section-title">Linked List — Basics & Definition</span>
+      <span class="marks-badge marks-low">1–3 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Linked List</strong> is a <strong>dynamic data structure</strong> where elements (called nodes) are stored at any memory location and connected via pointers. Elements can only be accessed sequentially.
+      </div>
+
+      <h3>Node Structure</h3>
+      <pre><span class="kw">struct</span> <span class="nm">node</span> {
+    <span class="kw">int</span> data;           <span class="cm">// stores the value</span>
+    <span class="kw">struct</span> node *next;  <span class="cm">// pointer to next node</span>
+};</pre>
+
+      <h3>Array vs Linked List</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Array</th><th>Linked List</th></tr>
+          <tr><td>Fixed size (static)</td><td>Dynamic size</td></tr>
+          <tr><td>Consecutive memory</td><td>Random memory locations</td></tr>
+          <tr><td>Random access (index)</td><td>Sequential access only</td></tr>
+          <tr><td>No pointer needed</td><td>Extra pointer per node</td></tr>
+          <tr><td>Insertion/deletion slow</td><td>Insertion/deletion fast</td></tr>
+        </table>
+      </div>
+
+      <h3>Types of Linked List</h3>
+      <ul>
+        <li><strong>Singly Linked List</strong> — Each node has one pointer (to next)</li>
+        <li><strong>Circular Linked List</strong> — Last node points back to first</li>
+        <li><strong>Doubly Linked List</strong> — Each node has two pointers (prev and next)</li>
+      </ul>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Part A (1 mark)</div>
+        <p>Define Linked List. Define node structure of singly linked list. Draw Doubly Linked List node structure.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-sll">
+    <div class="section-header" onclick="toggleSection('s-sll')">
+      <span class="section-icon">➡️</span>
+      <span class="section-title">Singly Linked List — All Operations</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <p>START (or HEAD) pointer stores address of first node. Last node's next = NULL.</p>
+      <pre>START→[1|•]→[2|•]→[3|•]→[4|•]→[5|NULL]</pre>
+
+      <h3>1. Insertion at Beginning</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Allocate new node: <code>ptr = malloc(sizeof(struct node))</code></span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>ptr→data = value</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>ptr→next = start (point to old first node)</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>start = ptr (new node is now first)</span></div>
+      </div>
+
+      <h3>2. Insertion at End</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Allocate new node; ptr→data = value; ptr→next = NULL</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Traverse to last node (where temp→next == NULL)</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>temp→next = ptr</span></div>
+      </div>
+
+      <h3>3. Insertion After Given Node</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Allocate new node</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Traverse to find the given node (pretemp)</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>ptr→next = pretemp→next</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>pretemp→next = ptr</span></div>
+      </div>
+
+      <h3>4. Deletion of First Node</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If start == NULL → empty list</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>ptr = start</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>start = start→next</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>free(ptr)</span></div>
+      </div>
+
+      <h3>5. Deletion of Last Node</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If start == NULL → empty list</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>If start→next == NULL → only 1 node, free it, start = NULL</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Traverse with pretemp and temp until temp→next == NULL</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>pretemp→next = NULL; free(temp)</span></div>
+      </div>
+
+      <h3>6. Deletion of Specific Node</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If empty → error. If first node matches → delete first</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Traverse with pretemp and temp until temp→data == val or temp == NULL</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If temp == NULL → not found</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>pretemp→next = temp→next; free(temp)</span></div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Explain Insertion operation in Linked List (draw diagrams showing before/after)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-dll">
+    <div class="section-header" onclick="toggleSection('s-dll')">
+      <span class="section-icon">↔️</span>
+      <span class="section-title">Doubly Linked List & Circular LL</span>
+      <span class="marks-badge marks-med">3 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <h3>Doubly Linked List Node</h3>
+      <pre><span class="kw">struct</span> <span class="nm">node</span> {
+    <span class="kw">struct</span> node *prev;  <span class="cm">// pointer to previous node</span>
+    <span class="kw">int</span> data;
+    <span class="kw">struct</span> node *next;  <span class="cm">// pointer to next node</span>
+};</pre>
+      <pre>NULL←[•|1|•]↔[•|2|•]↔[•|3|NULL]</pre>
+
+      <div class="two-col">
+        <div class="mini-card">
+          <div class="mini-card-title">✅ Advantage</div>
+          <p style="font-size:12px;">Can traverse in both directions (forward & backward)</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">❌ Disadvantage</div>
+          <p style="font-size:12px;">More memory per node (extra pointer)</p>
+        </div>
+      </div>
+
+      <h3>Circular Linked List</h3>
+      <div class="def-box">Last node's next pointer points to the FIRST node (not NULL). No NULL in the list.
+      </div>
+      <pre>START→[1|•]→[2|•]→[3|•]→[4|•]→(back to START)</pre>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Part A (1 mark)</div>
+        <p>Draw node structure of Doubly Linked List → Answer: Three fields: prev | data | next</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-lstk">
+    <div class="section-header" onclick="toggleSection('s-lstk')">
+      <span class="section-icon">📦</span>
+      <span class="section-title">Linked Stack & Linked Queue</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <h3>Linked Stack</h3>
+      <div class="def-box">Stack implemented using linked list. The START pointer acts as TOP. All insertions and deletions happen at the node pointed by top.
+      </div>
+
+      <h4>Push (Insert at beginning of list)</h4>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Allocate node: ptr→data = val; ptr→next = top</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>top = ptr</span></div>
+      </div>
+
+      <h4>Pop (Delete from beginning)</h4>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If top == NULL → "Stack Underflow"</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>ptr = top; top = top→next; free(ptr)</span></div>
+      </div>
+
+      <div class="tip-box">
+        <strong>No overflow in Linked Stack</strong> — memory is dynamic! Only underflow is possible (when top == NULL).
+      </div>
+
+      <h3>Linked Queue</h3>
+      <div class="def-box">Queue using linked list. START = FRONT, last node = REAR. Insert at rear, delete from front.</div>
+
+      <h4>Enqueue (Insert at rear)</h4>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Allocate node: ptr→data = val; ptr→next = NULL</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>If front == NULL → front = rear = ptr</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Else: rear→next = ptr; rear = ptr</span></div>
+      </div>
+
+      <h4>Dequeue (Delete from front)</h4>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>If front == NULL → "Queue empty"</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>ptr = front; print ptr→data</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If front == rear → front = rear = NULL</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Else front = front→next; free(ptr)</span></div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Explain implementation of Stack using Linked List (write push, pop, traversal)</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== MODULE 3 ======================== -->
+<div class="module" id="m3">
+
+  <div class="mod-intro">
+    <div class="mod-icon">🌳</div>
+    <div>
+      <div class="mod-name">Module 3: Trees & BST</div>
+      <div class="mod-meta">16 Hours · CO3</div>
+      <div class="mod-pills">
+        <span class="pill">Terminology</span>
+        <span class="pill">Tree Types</span>
+        <span class="pill">BST Creation</span>
+        <span class="pill">Traversals</span>
+        <span class="pill">Expression Tree</span>
+        <span class="pill">Threaded BT</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section open" id="s-tree-terms">
+    <div class="section-header" onclick="toggleSection('s-tree-terms')">
+      <span class="section-icon">📖</span>
+      <span class="section-title">Tree Terminologies (Part A & B)</span>
+      <span class="marks-badge marks-med">1–3 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Term</th><th>Definition</th></tr>
+          <tr><td><strong>Node</strong></td><td>Each element/data item in the tree</td></tr>
+          <tr><td><strong>Root</strong></td><td>Topmost node (no parent). Unique</td></tr>
+          <tr><td><strong>Leaf</strong></td><td>Node with no children (terminal node)</td></tr>
+          <tr><td><strong>Parent</strong></td><td>Immediate predecessor of a node</td></tr>
+          <tr><td><strong>Child</strong></td><td>Immediate successors of a node</td></tr>
+          <tr><td><strong>Siblings</strong></td><td>Nodes with same parent</td></tr>
+          <tr><td><strong>Degree of node</strong></td><td>Number of children of that node</td></tr>
+          <tr><td><strong>Degree of tree</strong></td><td>Maximum degree among all nodes</td></tr>
+          <tr><td><strong>Level</strong></td><td>Root is at level 0, its children at level 1, etc.</td></tr>
+          <tr><td><strong>Height of tree</strong></td><td>Max number of nodes from root to deepest leaf</td></tr>
+          <tr><td><strong>Height of node</strong></td><td>Number of nodes in path from root to that node</td></tr>
+          <tr><td><strong>Path</strong></td><td>Sequence of nodes from one node to another</td></tr>
+          <tr><td><strong>Ancestor</strong></td><td>Node connected to all nodes in subtree below it</td></tr>
+          <tr><td><strong>Subtree</strong></td><td>Portion of tree that can be viewed as a tree itself</td></tr>
+        </table>
+      </div>
+
+      <h3>Binary Tree</h3>
+      <div class="def-box">
+        A binary tree is a non-linear data structure where each node has at most <strong>2 children</strong> (left and right). Root is the topmost node. Leaf nodes have 0 children.
+      </div>
+
+      <h3>Types of Binary Trees</h3>
+      <div class="graph-grid">
+        <div class="type-card">
+          <div class="type-name">Full / Strict Binary Tree</div>
+          <div class="type-desc">Every node has either 0 or 2 children (never 1)</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Complete Binary Tree</div>
+          <div class="type-desc">All levels filled except possibly last, and last level filled left to right</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Perfect Binary Tree</div>
+          <div class="type-desc">All leaf nodes at same depth, all non-leaf nodes have 2 children</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Skewed Binary Tree</div>
+          <div class="type-desc">All nodes have only left or only right child (like a linked list)</div>
+        </div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Draw a complete Binary Tree and explain: (i) Degree of a node (ii) Level of a node (iii) Leaf node (iv) Sibling of a node</p>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Part A Fill-in</div>
+        <p>A ________ is a tree in which every node other than the leaves has two children → <strong>Full/Strict Binary Tree</strong></p>
+        <p>The total number of edges from leaf to a particular node in the longest path is called _______ → <strong>height (depth)</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-traversal">
+    <div class="section-header" onclick="toggleSection('s-traversal')">
+      <span class="section-icon">🚶‍♂️</span>
+      <span class="section-title">Tree Traversals — Preorder, Inorder, Postorder</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="two-col">
+        <div class="mini-card">
+          <div class="mini-card-title">Preorder (NLR)</div>
+          <p style="font-size:12px;">1. Visit <strong>N</strong>ode (root)<br>2. Traverse <strong>L</strong>eft subtree<br>3. Traverse <strong>R</strong>ight subtree</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Inorder (LNR)</div>
+          <p style="font-size:12px;">1. Traverse <strong>L</strong>eft subtree<br>2. Visit <strong>N</strong>ode (root)<br>3. Traverse <strong>R</strong>ight subtree</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Postorder (LRN)</div>
+          <p style="font-size:12px;">1. Traverse <strong>L</strong>eft subtree<br>2. Traverse <strong>R</strong>ight subtree<br>3. Visit <strong>N</strong>ode (root)</p>
+        </div>
+        <div class="mini-card">
+          <div class="mini-card-title">Inorder of BST</div>
+          <p style="font-size:12px;">Always gives elements in <strong>ascending (sorted) order</strong></p>
+        </div>
+      </div>
+
+      <h3>Example: BST from April 2025 Exam (Question XIV)</h3>
+      <p>BST with nodes: 30, 20, 40, 15, 25, 35, 50, 5, 18, 45, 60</p>
+      <pre>              30
+           /      \
+         20         40
+        /  \       /  \
+      15    25   35    50
+     /  \           \    \
+    5   18          45   60</pre>
+
+      <div class="info-box">
+        <strong>Preorder (NLR):</strong> 30, 20, 15, 5, 18, 25, 40, 35, 50, 45, 60<br>
+        <strong>Inorder (LNR):</strong> 5, 15, 18, 20, 25, 30, 35, 40, 45, 50, 60<br>
+        <strong>Postorder (LRN):</strong> 5, 18, 15, 25, 20, 35, 45, 60, 50, 40, 30
+      </div>
+
+      <h3>Example: Tree from Model Paper (Question IX)</h3>
+      <pre>              30
+           /      \
+         15         60
+        /  \       /  \
+       7   22    45    75
+          /  \
+        17   27</pre>
+      <div class="info-box">
+        <strong>Preorder:</strong> 30, 15, 7, 22, 17, 27, 60, 45, 75<br>
+        <strong>Inorder:</strong> 7, 15, 17, 22, 27, 30, 45, 60, 75<br>
+        <strong>Postorder:</strong> 7, 17, 27, 22, 15, 45, 75, 60, 30
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Explain Preorder and Inorder Tree traversal methods. Show traversals on given BST.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-bst">
+    <div class="section-header" onclick="toggleSection('s-bst')">
+      <span class="section-icon">🔍</span>
+      <span class="section-title">Binary Search Tree (BST) — Creation & Operations</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>BST Rule:</strong> For each node,<br>
+        • Left subtree has nodes with values <strong>&lt; parent</strong><br>
+        • Right subtree has nodes with values <strong>&gt;= parent</strong>
+      </div>
+
+      <h3>BST Creation Example: 50, 20, 100, 30, 200, 10, 150</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>50 → root</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>20 &lt; 50 → left of 50</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>100 &gt; 50 → right of 50</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>30 &lt; 50 → go left (20); 30 &gt; 20 → right of 20</span></div>
+        <div class="algo-step"><span class="step-num">5</span><span>200 &gt; 50 → go right (100); 200 &gt; 100 → right of 100</span></div>
+        <div class="algo-step"><span class="step-num">6</span><span>10 &lt; 50 → go left (20); 10 &lt; 20 → left of 20</span></div>
+        <div class="algo-step"><span class="step-num">7</span><span>150 &gt; 50 → go right (100); 150 &gt; 100 → go right (200); 150 &lt; 200 → left of 200</span></div>
+      </div>
+
+      <pre>          50
+        /    \
+      20      100
+     /  \        \
+   10   30       200
+                 /
+               150</pre>
+
+      <h3>BST Search Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Start at root</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>If value == root → FOUND</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>If value &lt; root → search left subtree</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>If value &gt; root → search right subtree</span></div>
+        <div class="algo-step"><span class="step-num">5</span><span>If NULL reached → NOT FOUND</span></div>
+      </div>
+
+      <h3>BST Deletion — 3 Cases</h3>
+      <div class="graph-grid">
+        <div class="type-card">
+          <div class="type-name">Case 1: Leaf Node</div>
+          <div class="type-desc">Simply remove the node. Set parent's pointer to NULL.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Case 2: One Child</div>
+          <div class="type-desc">Replace node with its only child. Parent points to that child.</div>
+        </div>
+        <div class="type-card" style="grid-column: 1 / -1;">
+          <div class="type-name">Case 3: Two Children</div>
+          <div class="type-desc">Replace node's value with its inorder successor (smallest node in right subtree) or inorder predecessor (largest in left subtree). Then delete that successor/predecessor node.</div>
+        </div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Part B (3 marks)</div>
+        <p>Draw BST for: 50, 20, 100, 30, 200, 10, 150 → draw the tree as above</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-expr">
+    <div class="section-header" onclick="toggleSection('s-expr')">
+      <span class="section-icon">🧮</span>
+      <span class="section-title">Expression Tree & Threaded Binary Tree</span>
+      <span class="marks-badge marks-med">3–7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <h3>Expression Tree</h3>
+      <div class="def-box">
+        Binary tree used to store algebraic expressions. <strong>Operands</strong> are at leaf nodes. <strong>Operators</strong> are at internal nodes.
+      </div>
+
+      <ul>
+        <li>Inorder traversal → <strong>Infix</strong> expression</li>
+        <li>Preorder traversal → <strong>Prefix</strong> expression</li>
+        <li>Postorder traversal → <strong>Postfix</strong> expression</li>
+      </ul>
+
+      <h3>Example: (a−b)+(c*d)</h3>
+      <pre>        +
+       / \
+      −   *
+     / \ / \
+    a  b c  d</pre>
+      <div class="info-box">
+        Inorder: a−b+c*d (infix)<br>
+        Preorder: +−ab*cd (prefix)<br>
+        Postorder: ab−cd*+ (postfix)
+      </div>
+
+      <h3>Expression Tree for (A+B*C)−((D*E+F)/G)</h3>
+      <pre>               −
+             /     \
+           +          /
+          / \        / \
+         A   *      +   G
+            / \    / \
+           B   C  *   F
+                 / \
+                D   E</pre>
+
+      <h3>Threaded Binary Tree</h3>
+      <div class="def-box">
+        TBT reuses NULL pointers: <br>
+        • If left child is NULL → point to <strong>inorder predecessor</strong><br>
+        • If right child is NULL → point to <strong>inorder successor</strong><br>
+        These special pointers are called <strong>threads</strong> (shown as dotted lines).
+      </div>
+      <div class="tip-box">In a binary tree with n nodes, there are n+1 NULL pointers. TBT uses these efficiently.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== MODULE 4 ======================== -->
+<div class="module" id="m4">
+
+  <div class="mod-intro">
+    <div class="mod-icon">🕸️</div>
+    <div>
+      <div class="mod-name">Module 4: Graphs</div>
+      <div class="mod-meta">12 Hours · CO4</div>
+      <div class="mod-pills">
+        <span class="pill">Terminology</span>
+        <span class="pill">Types</span>
+        <span class="pill">Matrix/List Rep</span>
+        <span class="pill">BFS</span>
+        <span class="pill">DFS</span>
+        <span class="pill">Warshall's</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section open" id="s-graph-def">
+    <div class="section-header" onclick="toggleSection('s-graph-def')">
+      <span class="section-icon">📖</span>
+      <span class="section-title">Graph Definition & Terminologies</span>
+      <span class="marks-badge marks-med">1–3 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Graph G = (V, E)</strong> — a collection of vertices V and edges E. <br>
+        V(G) = set of vertices, E(G) = set of edges connecting vertices.
+      </div>
+
+      <h3>Key Terminologies</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Term</th><th>Meaning</th></tr>
+          <tr><td><strong>Vertex / Node</strong></td><td>Individual data element</td></tr>
+          <tr><td><strong>Edge / Arc</strong></td><td>Connection between two vertices</td></tr>
+          <tr><td><strong>Adjacent vertices</strong></td><td>Vertices connected by an edge</td></tr>
+          <tr><td><strong>Degree of vertex</strong></td><td>Number of edges connecting the vertex</td></tr>
+          <tr><td><strong>Isolated vertex</strong></td><td>Vertex with degree 0 (no edges)</td></tr>
+          <tr><td><strong>Pendant vertex</strong></td><td>Vertex with degree 1</td></tr>
+          <tr><td><strong>Parallel edges</strong></td><td>Multiple edges between same pair of vertices</td></tr>
+          <tr><td><strong>Self-loop</strong></td><td>Edge that starts and ends at the same vertex</td></tr>
+          <tr><td><strong>Path</strong></td><td>Sequence of vertices v0, v1, ..., vn</td></tr>
+          <tr><td><strong>Cycle / Closed path</strong></td><td>Path that starts and ends at same vertex</td></tr>
+          <tr><td><strong>Subgraph</strong></td><td>A portion of graph that is itself a graph</td></tr>
+        </table>
+      </div>
+
+      <h3>Directed Graph Terminologies</h3>
+      <ul>
+        <li><strong>In-degree</strong> — Number of edges entering a node</li>
+        <li><strong>Out-degree</strong> — Number of edges leaving a node</li>
+        <li><strong>Degree</strong> = In-degree + Out-degree</li>
+      </ul>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 Part A</div>
+        <p>Define Graph → "Graph G=(V,E) is an ordered set where V is set of vertices and E is set of edges"<br>
+        Define Acyclic Graph → "A graph which does not contain any cycle is called acyclic graph"</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-graph-types">
+    <div class="section-header" onclick="toggleSection('s-graph-types')">
+      <span class="section-icon">🗂️</span>
+      <span class="section-title">Types of Graphs</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="graph-grid">
+        <div class="type-card">
+          <div class="type-name">Directed (Digraph)</div>
+          <div class="type-desc">Edges have direction (arrows). Edge A→B means path from A to B only, not B to A.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Undirected</div>
+          <div class="type-desc">Edges have no direction. Can traverse both ways between any connected vertices.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Simple Graph</div>
+          <div class="type-desc">Undirected graph with NO parallel edges and NO self-loops.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Complete Graph</div>
+          <div class="type-desc">Every pair of vertices is connected by exactly one edge. n vertices → nC2 edges. Denoted Kn.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Cyclic Graph</div>
+          <div class="type-desc">Contains at least one cycle. In a cycle graph, degree of each vertex = 2.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Acyclic Graph</div>
+          <div class="type-desc">Contains NO cycle at all.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Connected Graph</div>
+          <div class="type-desc">There exists at least one path between every pair of vertices.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Disconnected Graph</div>
+          <div class="type-desc">Some vertices have no path between them. Graph has isolated components.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Bipartite Graph</div>
+          <div class="type-desc">Vertices split into 2 sets. Edges only go BETWEEN sets, never within a set.</div>
+        </div>
+        <div class="type-card">
+          <div class="type-name">Regular Graph</div>
+          <div class="type-desc">All vertices have the same degree. If degree = k → k-regular graph.</div>
+        </div>
+        <div class="type-card" style="grid-column: 1 / -1;">
+          <div class="type-name">Weighted / Labelled Graph</div>
+          <div class="type-desc">Every edge is assigned a weight (cost, distance, etc.).</div>
+        </div>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Draw the following graphs with 4 vertices: (i) Complete Graph (ii) Undirected Graph<br>
+        → Complete graph K4: All 4 nodes connected to each other (6 edges = 4C2)<br>
+        → Undirected: Any graph where edges have no direction arrows</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-graph-rep">
+    <div class="section-header" onclick="toggleSection('s-graph-rep')">
+      <span class="section-icon">📊</span>
+      <span class="section-title">Graph Representations (Matrix & List)</span>
+      <span class="marks-badge marks-med">3–7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <h3>Adjacency Matrix</h3>
+      <div class="def-box">
+        Square matrix of size n×n. Entry A[i][j] = 1 if edge exists between vertex i and j, else 0.
+        Also called <strong>bit matrix</strong> or <strong>boolean matrix</strong>.
+      </div>
+
+      <h4>For undirected graph with edges: A-B, B-C, A-D, B-D, C-E, D-E</h4>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th></th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th></tr>
+          <tr><td><strong>A</strong></td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr>
+          <tr><td><strong>B</strong></td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+          <tr><td><strong>C</strong></td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td><strong>D</strong></td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr>
+          <tr><td><strong>E</strong></td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr>
+        </table>
+      </div>
+
+      <div class="tip-box">
+        <strong>Properties:</strong> Undirected graph → matrix is symmetric. No loops → diagonal is all 0s.
+      </div>
+
+      <h3>Adjacency List</h3>
+      <div class="def-box">Each vertex is linked to a list of its adjacent vertices (linked list representation).</div>
+      <pre>A → [B] → [D] → NULL
+B → [A] → [C] → [D] → NULL
+C → [B] → [E] → NULL
+D → [A] → [B] → [E] → NULL
+E → [C] → [D] → NULL</pre>
+
+      <h3>Adjacency Set</h3>
+      <p>Similar to adjacency list but uses a <em>set</em> instead of linked list for adjacent vertices. Used for sparse graphs.</p>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ Part B (3 marks)</div>
+        <p>List two methods for representing Graphs → Adjacency Matrix + Adjacency List (with examples)</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-dfs">
+    <div class="section-header" onclick="toggleSection('s-dfs')">
+      <span class="section-icon">🔎</span>
+      <span class="section-title">DFS — Depth First Search (Very Important!)</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>DFS</strong> uses a <strong>STACK</strong>. Goes as deep as possible along each branch before backtracking.
+      </div>
+
+      <h3>DFS Algorithm</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Define a stack of size = number of vertices</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Select any starting vertex, visit it and push onto stack</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Visit any ONE non-visited adjacent vertex of top of stack, push it</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Repeat step 3 until no unvisited adjacent vertex found</span></div>
+        <div class="algo-step"><span class="step-num">5</span><span>Pop one vertex from stack</span></div>
+        <div class="algo-step"><span class="step-num">6</span><span>Repeat steps 3,4,5 until stack empty</span></div>
+      </div>
+
+      <h3>BFS — Breadth First Search</h3>
+      <div class="def-box">
+        <strong>BFS</strong> uses a <strong>QUEUE</strong>. Visits all neighbors at current depth before going deeper.
+      </div>
+
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Define a queue. Select start vertex, visit it, insert into queue</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>Visit ALL non-visited adjacent vertices of front element, insert them</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Delete the front element from queue</span></div>
+        <div class="algo-step"><span class="step-num">4</span><span>Repeat steps 2,3 until queue is empty</span></div>
+      </div>
+
+      <h3>DFS vs BFS Comparison</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>DFS</th><th>BFS</th></tr>
+          <tr><td>Uses Stack</td><td>Uses Queue</td></div></tr>
+          <tr><td>Goes deep first</td><td>Explores neighbors first</td></tr>
+          <tr><td>May not find shortest path</td><td>Finds shortest path (unweighted)</td></tr>
+          <tr><td>Less memory (recursion)</td><td>More memory (all neighbors stored)</td></tr>
+        </table>
+      </div>
+
+      <h3>Example: BFS on graph A-B-C-D-E-F-G</h3>
+      <div class="info-box">
+        Graph: A connected to B,D,E; B connected to C; E connected to F; C connected to G<br><br>
+        <strong>BFS from A:</strong><br>
+        Visit A → queue:[A]<br>
+        Visit B,D,E (neighbors of A) → queue:[B,D,E], dequeue A<br>
+        Visit C (neighbor of B) → queue:[D,E,C], dequeue B<br>
+        Visit F (neighbor of E) → queue:[C,F], dequeue D,E<br>
+        Visit G (neighbor of C) → queue:[F,G], dequeue C<br>
+        Dequeue F,G<br>
+        <strong>BFS order: A B D E C F G</strong>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Explain Depth First Search Graph Traversal Algorithm with example.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-warshall">
+    <div class="section-header" onclick="toggleSection('s-warshall')">
+      <span class="section-icon">🗺️</span>
+      <span class="section-title">Warshall's Shortest Path Algorithm</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="def-box">
+        <strong>Floyd-Warshall Algorithm</strong> finds the shortest paths between ALL pairs of vertices in a weighted graph.
+        <br><br>Adjacency matrix entry: A[i][j] = weight if edge exists, else = ∞ (infinity)
+      </div>
+
+      <h3>Key Formula</h3>
+      <div class="warn-box" style="font-family: 'JetBrains Mono', monospace; font-size: 13px;">
+        A[i][j] = <strong>min(A[i][j], A[i][k] + A[k][j])</strong>
+      </div>
+      <p>For each intermediate vertex k, check if going through k gives a shorter path from i to j.</p>
+
+      <h3>Algorithm Steps</h3>
+      <div class="algo-box">
+        <div class="algo-step"><span class="step-num">1</span><span>Initialize matrix A0 = cost adjacency matrix (∞ where no edge)</span></div>
+        <div class="algo-step"><span class="step-num">2</span><span>For k = 1 to n:<br>&nbsp;&nbsp;For i = 1 to n:<br>&nbsp;&nbsp;&nbsp;&nbsp;For j = 1 to n:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[i][j] = min(A[i][j], A[i][k] + A[k][j])</span></div>
+        <div class="algo-step"><span class="step-num">3</span><span>Final matrix An = shortest path matrix</span></div>
+      </div>
+
+      <h3>Example: 4-vertex directed weighted graph</h3>
+      <p>Edges: 1→2(5), 1→1(7/self), 2→1(7), 2→4(2), 3→2(3), 4→1(4), 4→3(1)</p>
+
+      <h4>A0 (Initial cost matrix)</h4>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>A0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><td><strong>1</strong></td><td>7</td><td>5</td><td>∞</td><td>∞</td></tr>
+          <tr><td><strong>2</strong></td><td>7</td><td>∞</td><td>∞</td><td>2</td></tr>
+          <tr><td><strong>3</strong></td><td>∞</td><td>3</td><td>∞</td><td>∞</td></tr>
+          <tr><td><strong>4</strong></td><td>4</td><td>∞</td><td>1</td><td>∞</td></tr>
+        </table>
+      </div>
+
+      <h4>A4 (Final shortest path matrix)</h4>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>A4</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+          <tr><td><strong>1</strong></td><td>7</td><td>5</td><td>8</td><td>7</td></tr>
+          <tr><td><strong>2</strong></td><td>6</td><td>6</td><td>3</td><td>2</td></tr>
+          <tr><td><strong>3</strong></td><td>9</td><td>3</td><td>6</td><td>5</td></tr>
+          <tr><td><strong>4</strong></td><td>4</td><td>4</td><td>1</td><td>6</td></tr>
+        </table>
+      </div>
+
+      <div class="tip-box">
+        <strong>Updating A1:</strong> Row 2 changed: A[2][2] = min(∞, A[2][1]+A[1][2]) = min(∞, 7+5) = <strong>12</strong>; A[4][2] = min(∞, 4+5) = <strong>9</strong>
+      </div>
+
+      <div class="exam-q">
+        <div class="exam-q-label">⭐ April 2025 (7 marks)</div>
+        <p>Explain Warshall's Shortest Path Algorithm. Find shortest path for graph with given adjacency matrix.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ======================== QUICK ANSWERS ======================== -->
+<div class="module" id="mq">
+
+  <div class="mod-intro">
+    <div class="mod-icon">📝</div>
+    <div>
+      <div class="mod-name">Quick Answers — Exam Ready</div>
+      <div class="mod-meta">Part A (1 mark) + Part B (3 marks) answers</div>
+      <div class="mod-pills">
+        <span class="pill">Part A</span>
+        <span class="pill">Part B</span>
+        <span class="pill">Postfix Eval</span>
+        <span class="pill">Formulas</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section open" id="s-parta">
+    <div class="section-header" onclick="toggleSection('s-parta')">
+      <span class="section-icon">1️⃣</span>
+      <span class="section-title">Part A — All 1-Mark Answers</span>
+      <span class="marks-badge marks-low">1 mark each</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Question</th><th>Answer</th></tr>
+          <tr><td>Define Data Structures</td><td>Way of organizing data items considering elements and their relationships</td></tr>
+          <tr><td>Data structure using LIFO principle</td><td><strong>Stack</strong></td></tr>
+          <tr><td>Data structure using FIFO principle</td><td><strong>Queue</strong></td></tr>
+          <tr><td>Define Linked List</td><td>Dynamic data structure where elements (nodes) connected via pointers, stored at any memory location</td></tr>
+          <tr><td>In a queue, deletion is done from the _____ end</td><td><strong>FRONT</strong> end</td></tr>
+          <tr><td>Define Graph</td><td>G=(V,E) — ordered set of vertices V and edges E connecting them</td></tr>
+          <tr><td>Define Acyclic Graph</td><td>A graph which does not contain any cycle</td></tr>
+          <tr><td>A tree in which every non-leaf node has two children</td><td><strong>Full/Strict Binary Tree</strong></td></tr>
+          <tr><td>Total edges from leaf to node in longest path = ?</td><td><strong>Height</strong> of that node</td></tr>
+          <tr><td>Draw node structure of Doubly Linked List</td><td>Three fields: [PREV | DATA | NEXT]</td></tr>
+          <tr><td>Define Acyclic Graph</td><td>Graph with no cycles</td></tr>
+          <tr><td>In-degree of a node (directed graph)</td><td>Number of edges terminating at that node</td></tr>
+          <tr><td>Out-degree of a node</td><td>Number of edges originating from that node</td></tr>
+          <tr><td>Stack overflow condition</td><td>top == MAXSIZE − 1</td></tr>
+          <tr><td>Stack underflow condition</td><td>top == −1</td></tr>
+          <tr><td>Circular queue full condition</td><td>(rear+1) % MAXSIZE == front</td></tr>
+          <tr><td>Operation removes item from top of stack</td><td><strong>POP</strong></td></tr>
+          <tr><td>Postfix of (A*(B+C)/D)</td><td>ABC+*D/</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" id="s-partb">
+    <div class="section-header" onclick="toggleSection('s-partb')">
+      <span class="section-icon">3️⃣</span>
+      <span class="section-title">Part B — 3-Mark Answers</span>
+      <span class="marks-badge marks-med">3 marks each</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+      <h4>Q: Explain Dequeue (3 marks)</h4>
+      <div class="info-box">
+        Dequeue = Double Ended Queue. Insertion and deletion possible at BOTH ends (front and rear).<br>
+        5 Operations: (1) Insert at rear (2) Insert at front (3) Delete from front (4) Delete from rear (5) Traversal.<br>
+        Insert at front: decrement front by 1, Q[front]=val. Delete from rear: decrement rear by 1.
+      </div>
+
+      <h4>Q: Infix, Prefix, Postfix with examples (3 marks)</h4>
+      <div class="info-box">
+        <strong>Infix:</strong> Operator between operands. Example: A+B. Human readable.<br>
+        <strong>Prefix:</strong> Operator before operands. Example: +AB. Also called Polish notation.<br>
+        <strong>Postfix:</strong> Operator after operands. Example: AB+. Also called Reverse Polish. Parenthesis-free. Used by computers.<br>
+        More example: (A+B)*C → AB+C* (postfix), *+ABC (prefix)
+      </div>
+
+      <h4>Q: Applications of Stack (3 marks)</h4>
+      <div class="info-box">
+        1. <strong>Infix to Postfix conversion</strong> — uses stack to handle operator precedence<br>
+        2. <strong>Evaluation of postfix expressions</strong> — stack stores operands<br>
+        3. <strong>Recursion</strong> — function call stack<br>
+        4. <strong>Parenthesis checker</strong> — check balanced brackets<br>
+        5. <strong>Reversing a list/string</strong>
+      </div>
+
+      <h4>Q: Types of Linked List (3 marks)</h4>
+      <div class="info-box">
+        1. <strong>Singly Linked List:</strong> Each node has one pointer (to next node). Traversal in one direction only.<br>
+        2. <strong>Circular Linked List:</strong> Last node points to first node. No NULL at end.<br>
+        3. <strong>Doubly Linked List:</strong> Each node has two pointers (prev and next). Can traverse both ways. More memory used.
+      </div>
+
+      <h4>Q: Write a note about perfect binary tree (3 marks)</h4>
+      <div class="info-box">
+        Perfect Binary Tree: All leaf nodes are at the SAME depth/level. All non-leaf (internal) nodes have exactly two children.<br>
+        Number of nodes at level h = 2^h. Total nodes = 2^(h+1) − 1 for tree of height h.<br>
+        Example: Tree with root and 2 children, each having 2 children = 7 nodes total.
+      </div>
+
+      <h4>Q: Weighted Graph and Directed Graph (3 marks)</h4>
+      <div class="info-box">
+        <strong>Weighted Graph:</strong> Every edge has a numerical weight (cost, distance). Adjacency matrix called cost adjacency matrix. A[i][j] = weight if edge exists, ∞ if no edge.<br><br>
+        <strong>Directed Graph (Digraph):</strong> Edges have direction shown by arrows. Edge (A,B) means path from A→B only. Has in-degree and out-degree for each vertex.
+      </div>
+
+      <h4>Q: Deletion from beginning of singly linked list (3 marks)</h4>
+      <div class="info-box">
+        1. If start == NULL → list is empty, deletion not possible<br>
+        2. ptr = start<br>
+        3. start = start→next (start now points to second node)<br>
+        4. free(ptr) (deallocate memory of deleted node)<br>
+        After deletion, start points to what was the second node.
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section" id="s-posteval">
+    <div class="section-header" onclick="toggleSection('s-posteval')">
+      <span class="section-icon">🧮</span>
+      <span class="section-title">Postfix Evaluation — Exam Questions Solved</span>
+      <span class="marks-badge marks-high">7 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+
+      <h3>Q (a): A B + D E / − where A=6, B=2, D=8, E=4</h3>
+      <div class="example-trace">
+        <div class="trace-row"><div class="trace-char trace-hdr">Symbol</div><div class="trace-stack trace-hdr">Stack (top→)</div></div>
+        <div class="trace-row"><div class="trace-char">A=6</div><div class="trace-stack">6</div></div>
+        <div class="trace-row"><div class="trace-char">B=2</div><div class="trace-stack">6, 2</div></div>
+        <div class="trace-row"><div class="trace-char">+</div><div class="trace-stack">6+2 = <strong>8</strong></div></div>
+        <div class="trace-row"><div class="trace-char">D=8</div><div class="trace-stack">8, 8</div></div>
+        <div class="trace-row"><div class="trace-char">E=4</div><div class="trace-stack">8, 8, 4</div></div>
+        <div class="trace-row"><div class="trace-char">/</div><div class="trace-stack">8, 8/4 = <strong>2</strong></div></div>
+        <div class="trace-row"><div class="trace-char">−</div><div class="trace-stack">8−2 = <strong>6</strong> ✅</div></div>
+      </div>
+
+      <h3>Q (b): A B C D − + * where A=4, B=2, C=3, D=5</h3>
+      <div class="example-trace">
+        <div class="trace-row"><div class="trace-char trace-hdr">Symbol</div><div class="trace-stack trace-hdr">Stack</div></div>
+        <div class="trace-row"><div class="trace-char">A=4</div><div class="trace-stack">4</div></div>
+        <div class="trace-row"><div class="trace-char">B=2</div><div class="trace-stack">4, 2</div></div>
+        <div class="trace-row"><div class="trace-char">C=3</div><div class="trace-stack">4, 2, 3</div></div>
+        <div class="trace-row"><div class="trace-char">D=5</div><div class="trace-stack">4, 2, 3, 5</div></div>
+        <div class="trace-row"><div class="trace-char">−</div><div class="trace-stack">4, 2, 3−5 = <strong>−2</strong></div></div>
+        <div class="trace-row"><div class="trace-char">+</div><div class="trace-stack">4, 2+(−2) = <strong>0</strong></div></div>
+        <div class="trace-row"><div class="trace-char">*</div><div class="trace-stack">4*0 = <strong>0</strong> ✅</div></div>
+      </div>
+
+      <h3>Formula Summary</h3>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Topic</th><th>Formula / Rule</th></tr>
+          <tr><td>Postfix eval: op order</td><td>pop op2 first, then op1. Calc: op1 OP op2</td></tr>
+          <tr><td>Circular Q: rear increment</td><td>rear = (rear+1) % MAXSIZE</td></tr>
+          <tr><td>Circular Q: front increment</td><td>front = (front+1) % MAXSIZE</td></tr>
+          <tr><td>Circular Q full</td><td>(rear+1) % MAXSIZE == front</td></tr>
+          <tr><td>Complete graph edges</td><td>n vertices → nC2 = n(n-1)/2 edges</td></tr>
+          <tr><td>Warshall update</td><td>A[i][j] = min(A[i][j], A[i][k]+A[k][j])</td></tr>
+          <tr><td>Inorder BST</td><td>Always gives sorted (ascending) order</td></tr>
+          <tr><td>BST left subtree</td><td>Values less than parent</td></tr>
+          <tr><td>BST right subtree</td><td>Values greater than or equal to parent</td></tr>
+          <tr><td>Height = Level + 1</td><td>Root level=0, Root height=1</td></tr>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="section" id="s-marks">
+    <div class="section-header" onclick="toggleSection('s-marks')">
+      <span class="section-icon">🎯</span>
+      <span class="section-title">Exam Strategy — How to Score S Grade</span>
+      <span class="marks-badge marks-high">75 marks</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-body">
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Part</th><th>Questions</th><th>Strategy</th></tr>
+          <tr><td><strong>Part A</strong><br>9×1=9 marks</td><td>All 9, mandatory</td><td>Answer in one line. Learn definitions exactly. Never skip.</td></tr>
+          <tr><td><strong>Part B</strong><br>8×3=24 marks</td><td>Any 8 out of 10</td><td>Write definition + 3-4 points + one example. Skip the hardest 2.</td></tr>
+          <tr><td><strong>Part C</strong><br>6×7=42 marks</td><td>All 6 (OR choice)</td><td>Draw diagrams. Write step-by-step. Show trace tables.</td></tr>
+        </table>
+      </div>
+
+      <h3>🔥 Highest Priority Topics (Practice First)</h3>
+      <ol>
+        <li><strong>Infix→Postfix conversion</strong> + Postfix Evaluation — appears every year in Part C</li>
+        <li><strong>Stack Push/Pop</strong> with diagrams — Part C or Part B</li>
+        <li><strong>BST creation + Traversals</strong> (preorder, inorder, postorder) — 7 marks</li>
+        <li><strong>Circular Queue</strong> algorithm — 7 marks</li>
+        <li><strong>Linked List Insertion/Deletion</strong> — 7 marks</li>
+        <li><strong>DFS/BFS with trace</strong> — 7 marks</li>
+        <li><strong>Warshall's algorithm</strong> — 7 marks, do at least one full example</li>
+        <li><strong>Graph types + representations</strong> — 7 marks</li>
+      </ol>
+
+      <h3>💡 Exam Writing Tips</h3>
+      <ul>
+        <li>Always write <strong>definition first</strong>, then algorithm, then example</li>
+        <li>Draw neat diagrams — examiners love box diagrams for stacks/queues</li>
+        <li>Show each step in trace tables for postfix evaluation</li>
+        <li>For traversals, write the order clearly: "Preorder: 30, 20, 15..."</li>
+        <li>In BST creation, draw each insertion step separately</li>
+        <li>For algorithms, number each step clearly</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+</main>
+
+<footer>
+  Data Structures (4133) · Diploma Engineering · April 2025 Exam Pattern · All 4 Modules Covered
+</footer>
+
+<script>
+  function showModule(id, btn) {
+    document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function toggleSection(id) {
+    const sec = document.getElementById(id);
+    sec.classList.toggle('open');
+  }
+
+  // Open all sections in active module by default
+  document.querySelectorAll('.section').forEach(s => {
+    s.querySelector('.section-header').addEventListener('click', function() {
+      const id = s.id;
+      toggleSection(id);
+    });
+  });
+</script>
+
+</body>
+</html>
