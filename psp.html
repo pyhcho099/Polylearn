@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>C Programming Exam Prep | Important Questions with Answers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f1f5f9;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+            color: #0f172a;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            padding: 2rem 1.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2b4c7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border-left: 5px solid #2563eb;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .subhead {
+            color: #334155;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .marks-badge {
+            display: inline-block;
+            background: #1e293b;
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            margin: 1.5rem 0 1rem 0;
+            letter-spacing: 0.5px;
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            color: #0f3b5f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-card {
+            background: #ffffff;
+            border-radius: 1rem;
+            margin-bottom: 2.5rem;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        th {
+            background-color: #eef2ff;
+            color: #1e40af;
+            font-weight: 600;
+            padding: 12px 12px;
+            border: 1px solid #cbd5e1;
+            text-align: left;
+        }
+
+        td {
+            border: 1px solid #e2e8f0;
+            padding: 12px;
+            vertical-align: top;
+            background-color: #fff;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #fafcff;
+        }
+
+        code {
+            background: #f1f5f9;
+            padding: 0.2rem 0.4rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: #b91c1c;
+        }
+
+        pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 1rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin: 0.75rem 0;
+            line-height: 1.4;
+        }
+
+        pre code {
+            background: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+
+        .answer-text {
+            white-space: normal;
+        }
+
+        .note {
+            background: #fef9e3;
+            border-left: 4px solid #eab308;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #cbd5e1;
+            font-size: 0.8rem;
+            color: #475569;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1rem;
+            }
+            td, th {
+                padding: 8px;
+                font-size: 0.85rem;
+            }
+            pre {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>📘 C Programming Exam Prep</h1>
+    <div class="subhead">🎯 Most Important Questions from Diploma Papers (1, 3 &amp; 7 marks) with Concise Answers</div>
+
+    <!-- ============= 1 MARK QUESTIONS ============= -->
+    <div class="marks-badge">🔹 1 MARK QUESTIONS (One word / one sentence)</div>
+    <div class="section-card">
+        <table>
+            <thead>
+                <tr><th style="width: 8%">#</th><th style="width: 52%">Question</th><th style="width: 40%">Answer</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>What is the conditional operator in C?</td><td><code>? :</code></td></tr>
+                <tr><td>2</td><td>Which return type indicates that a function does not return a value?</td><td><code>void</code></td></tr>
+                <tr><td>3</td><td>Name the storage class that has global visibility in C.</td><td><code>extern</code></td></tr>
+                <tr><td>4</td><td>Write the initialization statement for the matrix:<br>1 2<br>2 3<br>3 4</td><td><code>int mat[3][2] = {{1,2},{2,3},{3,4}};</code></td></tr>
+                <tr><td>5</td><td>List any two built‑in string manipulation functions.</td><td><code>strcpy()</code>, <code>strcmp()</code> (or <code>strlen()</code>, <code>strcat()</code>)</td></tr>
+                <tr><td>6</td><td>What is a variable that can hold the memory address of another variable called?</td><td>Pointer</td></tr>
+                <tr><td>7</td><td>Write the syntax of <code>malloc()</code>.</td><td><code>void *malloc(size_t size);</code></td></tr>
+                <tr><td>8</td><td>Which operator is used to access structure members?</td><td>Dot <code>.</code> operator</td></tr>
+                <tr><td>9</td><td>Name the function used to read a set of characters from a file.</td><td><code>fgets()</code> (or <code>fread()</code>)</td></tr>
+                <tr><td>10</td><td>State whether <code>reg no</code> is a valid identifier in C.</td><td>False (space not allowed)</td></tr>
+                <tr><td>11</td><td>Write a C statement to read a value into an integer variable <code>num</code>.</td><td><code>scanf("%d", &num);</code></td></tr>
+                <tr><td>12</td><td>Is an exit‑controlled loop executed at least once? (True/False)</td><td>True</td></tr>
+                <tr><td>13</td><td>Which statement terminates the execution of a loop?</td><td><code>break</code></td></tr>
+                <tr><td>14</td><td>Which statement transfers control to a specified label?</td><td><code>goto</code></td></tr>
+                <tr><td>15</td><td>What is the default return type of a C function if not specified?</td><td><code>int</code></td></tr>
+                <tr><td>16</td><td>Define an array.</td><td>A collection of elements of the same data type stored in contiguous memory locations.</td></tr>
+                <tr><td>17</td><td>What is the output of <code>int x, y=10; x = y++;</code> ?</td><td><code>x = 10</code></td></tr>
+                <tr><td>18</td><td>Write the syntax of a <code>do-while</code> loop.</td><td><code>do { } while (condition);</code></td></tr>
+                <tr><td>19</td><td>What type of operator is <code>&&</code> ?</td><td>Logical AND operator</td></tr>
+                <tr><td>20</td><td>For <code>double score[5]</code>, what is the range of index values?</td><td>0 to 4</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============= 3 MARK QUESTIONS ============= -->
+    <div class="marks-badge">🔸 3 MARKS QUESTIONS (Short answers / small programs)</div>
+    <div class="section-card">
+        <table>
+            <thead><tr><th style="width: 6%">#</th><th style="width: 44%">Question</th><th style="width: 50%">Answer / Explanation</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Write the output and explain: <br> <code>int a[5] = {5,1,15,20,25};</code><br> <code>int i, j, m; i = ++a[1]; j = a[1]++; m = a[i++];</code><br> <code>printf("%d, %d, %d", i, j, m);</code>
+                    </td>
+                    <td><strong>Output: 3, 2, 15</strong><br><strong>Explanation:</strong><br> - <code>a[1]</code> is 1. <code>++a[1]</code> → pre‑increment → a[1]=2, i=2.<br> - <code>j = a[1]++</code> → post‑increment → j=2, then a[1]=3.<br> - <code>i++</code> uses i=2 → m = a[2] = 15, then i becomes 3.<br> - Print i=3, j=2, m=15.</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>How to find whether two strings are equal using built‑in function? Give example.</td>
+                    <td>Use <code>strcmp(str1, str2)</code>. Returns 0 if equal.<br> Example: <code>if(strcmp(s1, s2) == 0) printf("Equal");</code></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>What is Call by Reference? Give an example.</td>
+                    <td>In Call by Reference, address of actual arguments is passed, so changes affect original variables.<br> Example: 
+                        <pre><code>void swap(int *a, int *b) { int t=*a; *a=*b; *b=t; }</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>List advantages of dynamic memory allocation.</td>
+                    <td>1. Memory allocated at runtime.<br>2. Efficient memory usage.<br>3. Can create variable‑sized data structures (e.g., linked lists).<br>4. Memory can be freed when not needed.</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>How to access array elements using pointers?</td>
+                    <td><code>int arr[5], *p = arr;</code> Then <code>*(p+i)</code> accesses <code>arr[i]</code>.</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Differentiate between formal and actual parameters.</td>
+                    <td><strong>Actual parameters:</strong> arguments passed in function call.<br><strong>Formal parameters:</strong> variables declared in function definition that receive values.</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Write a program to read two integers and check if first is perfectly divisible by second.</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int a, b;
+    scanf("%d %d", &a, &b);
+    if(b != 0 && a % b == 0)
+        printf("Divisible");
+    else
+        printf("Not divisible");
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Write a user‑defined function to calculate area of a rectangle (I/O in main).</td>
+                    <td>
+                        <pre><code>int area(int l, int b) { return l * b; }
+int main() {
+    int l, b;
+    scanf("%d %d", &l, &b);
+    printf("Area = %d", area(l, b));
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Explain the <code>continue</code> statement with a short note.</td>
+                    <td><code>continue</code> skips the remaining statements in the current loop iteration and jumps to the next iteration.<br> Example: <code>for(i=0;i&lt;10;i++) { if(i==5) continue; printf("%d",i); }</code> // prints 0‑4,6‑9</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Write the syntax of <code>if-else</code> ladder with an example.</td>
+                    <td>
+                        <strong>Syntax:</strong>
+                        <pre><code>if(condition1)
+    statement1;
+else if(condition2)
+    statement2;
+else
+    statement3;</code></pre>
+                        Example: grading system (if marks >=90 → A, else if >=75 → B ...).
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============= 7 MARK QUESTIONS ============= -->
+    <div class="marks-badge">🔹 7 MARKS QUESTIONS (Detailed programs / explanations)</div>
+    <div class="section-card">
+        <table>
+            <thead><tr><th style="width: 6%">#</th><th style="width: 44%">Question</th><th style="width: 50%">Answer / Program</th></tr></thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Write a C program to find sum of first n numbers using recursion.</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int sum(int n) {
+    if(n == 0) return 0;
+    return n + sum(n-1);
+}
+int main() {
+    int n;
+    printf("Enter n: ");
+    scanf("%d", &n);
+    printf("Sum = %d", sum(n));
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Explain parameter passing method in a given program (area of rectangle).</td>
+                    <td>The program uses <strong>Call by Value</strong>. The values of <code>a</code> and <code>b</code> from <code>main()</code> are copied into the formal parameters <code>l</code> and <code>b</code> of <code>area()</code>. Changes inside <code>area()</code> do not affect original variables. The result is returned.</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Write a program to convert given seconds into hours, minutes, seconds.</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int total, h, m, s;
+    printf("Enter seconds: ");
+    scanf("%d", &total);
+    h = total / 3600;
+    m = (total % 3600) / 60;
+    s = total % 60;
+    printf("Hours = %d, Minutes = %d, Seconds = %d", h, m, s);
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Explain different looping statements with examples.</td>
+                    <td>
+                        <strong>1. `for` loop:</strong> <code>for(init; condition; inc) { }</code> – known iterations.<br>
+                        Example: <code>for(i=0;i&lt;5;i++) printf("%d",i);</code><br><br>
+                        <strong>2. `while` loop:</strong> entry‑controlled.<br>
+                        Example: <code>while(i&lt;5) { printf("%d",i); i++; }</code><br><br>
+                        <strong>3. `do‑while` loop:</strong> exit‑controlled, executes at least once.<br>
+                        Example: <code>do { scanf("%d",&n); } while(n&gt;0);</code>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Write a program to calculate electricity bill based on given slab rates.</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int units;
+    float bill;
+    scanf("%d", &units);
+    if(units <= 150)
+        bill = units * 3;
+    else if(units <= 350)
+        bill = 450 + (units-150)*3.75;
+    else if(units <= 450)
+        bill = 1200 + (units-350)*4;
+    else
+        bill = 1600 + (units-450)*5;
+    printf("Bill = Rs. %.2f", bill);
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Write a program to sort an integer array in ascending order (bubble sort).</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int n, arr[100], i, j, temp;
+    scanf("%d", &n);
+    for(i=0;i&lt;n;i++) scanf("%d", &arr[i]);
+    for(i=0;i&lt;n-1;i++)
+        for(j=0;j&lt;n-i-1;j++)
+            if(arr[j] > arr[j+1]) {
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
+            }
+    for(i=0;i&lt;n;i++) printf("%d ", arr[i]);
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>Write a program to find the largest number in a given matrix.</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int r, c, mat[10][10], i, j, max;
+    scanf("%d %d", &r, &c);
+    for(i=0;i&lt;r;i++)
+        for(j=0;j&lt;c;j++)
+            scanf("%d", &mat[i][j]);
+    max = mat[0][0];
+    for(i=0;i&lt;r;i++)
+        for(j=0;j&lt;c;j++)
+            if(mat[i][j] > max) max = mat[i][j];
+    printf("Largest = %d", max);
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>Describe the steps in compiling and executing a C program.</td>
+                    <td>
+                        1. <strong>Editing:</strong> Writing source code (.c file). <br>
+                        2. <strong>Preprocessing:</strong> Handles <code>#include</code>, <code>#define</code>. <br>
+                        3. <strong>Compilation:</strong> Translates to assembly code. <br>
+                        4. <strong>Assembly:</strong> Converts to machine code (object file .obj/.o). <br>
+                        5. <strong>Linking:</strong> Combines object files with libraries to create executable (.exe). <br>
+                        6. <strong>Loading:</strong> Loads executable into memory. <br>
+                        7. <strong>Execution:</strong> CPU runs the program.
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>Write a program to count even and odd numbers in a 1D array.</td>
+                    <td>
+                        <pre><code>#include &lt;stdio.h&gt;
+int main() {
+    int n, arr[100], even=0, odd=0, i;
+    scanf("%d", &n);
+    for(i=0;i&lt;n;i++) {
+        scanf("%d", &arr[i]);
+        if(arr[i] % 2 == 0) even++;
+        else odd++;
+    }
+    printf("Even = %d, Odd = %d", even, odd);
+    return 0;
+}</code></pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>Explain function declaration, function call, and function definition with examples.</td>
+                    <td>
+                        <strong>Declaration (prototype):</strong> <code>int add(int, int);</code> – tells compiler about function.<br>
+                        <strong>Definition:</strong> <code>int add(int a, int b) { return a+b; }</code> – actual body.<br>
+                        <strong>Call:</strong> <code>c = add(5,3);</code> – invokes function.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="note">
+        💡 <strong>Revision tip:</strong> Focus on pointer arithmetic, static variables, recursion, file handling basics, and 2D arrays — frequently tested in 7‑mark problems.
+    </div>
+    <footer>
+        📚 Based on official diploma question papers (Programming in C / Problem Solving and Programming) <br>
+        ✅ Concise answers as expected in examination. Use this list for last‑minute revision.
+    </footer>
+</div>
+</body>
+</html>
