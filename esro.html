@@ -1,0 +1,2308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Embedded Systems &amp; RTOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F3F5F2;--sf:#fff;--ink:#16212A;--mu:#5B6B76;--ln:#D8DFDA;--br:#0B5D56;--c1:#E1EAF2;--t1:#27506E;--c3:#D9EEE6;--t3:#0B5D56;--c7:#F7E6CC;--t7:#7F4504;--cd:#0E1A20;--ct:#D7F2EC;--nt:#EEF3F0}
+@media(prefers-color-scheme:dark){:root{--bg:#10181D;--sf:#172229;--ink:#E6EDF0;--mu:#93A4AD;--ln:#26353D;--br:#54C2B4;--c1:#1F3445;--t1:#9CC6E8;--c3:#14332F;--t3:#7ED8CB;--c7:#3A2A12;--t7:#F0C27A;--cd:#0A1318;--nt:#1C2A31}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 'IBM Plex Sans',system-ui,sans-serif}
+.w{max-width:860px;margin:0 auto;padding:0 14px}
+header{padding:18px 0 10px}
+.back{color:var(--mu);font-size:14px;text-decoration:none}
+.back:hover{color:var(--br)}
+h1{margin:6px 0 0;font-size:clamp(24px,5vw,34px);line-height:1.15;font-weight:600;letter-spacing:-.01em}
+h1 small{font:500 14px 'IBM Plex Mono',monospace;color:var(--br);margin-left:8px;letter-spacing:0}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--ln);padding:8px 0}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tab{font:inherit;background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:8px;padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.25}
+.tab b{font-size:14px;font-weight:600}.tab small{font-size:11px;color:var(--mu);text-align:center}
+.tab[aria-selected=true]{background:var(--br);border-color:var(--br);color:#fff}.tab[aria-selected=true] small{color:#d6efeb}
+.tools{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+input{flex:1 1 180px;font:inherit;font-size:15px;padding:7px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--ink)}
+.chips{display:flex;gap:6px}
+.chip{font:inherit;font-size:13px;padding:5px 10px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#cnt{font-size:13px;color:var(--mu);margin:10px 0 0}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--br);outline-offset:2px}
+main{padding:12px 0 60px}
+.gr{background:var(--sf);border:1px solid var(--ln);border-radius:10px;margin:0 0 18px;overflow:hidden}
+.gr h3{margin:0;padding:12px 14px;font-size:17px;font-weight:600;border-bottom:1px solid var(--ln)}
+.gi{padding:8px 14px;border-bottom:1px solid var(--ln);color:var(--mu);font-size:15px}
+.gi p{margin:4px 0}
+.q{border-bottom:1px solid var(--ln)}.q:last-child{border-bottom:0}
+.intro{background:var(--sf);border:1px solid var(--ln);border-radius:10px;margin-bottom:18px}
+summary{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;padding:12px 14px;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'+';font:500 16px 'IBM Plex Mono',monospace;color:var(--br);width:12px;flex:none}
+details[open]>summary::before{content:'\2212'}
+summary:hover .tt{color:var(--br)}
+.no{font:500 13px 'IBM Plex Mono',monospace;color:var(--mu);min-width:20px}
+.tt{flex:1 1 55%;font-weight:500}
+.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-left:auto;padding-left:34px}
+.st{color:#C98A12;font-size:12px;letter-spacing:1px}
+.dgb{font-size:12px;color:var(--mu)}
+.mk{font-size:12px;font-weight:500;padding:1px 8px;border-radius:99px}
+.m1{background:var(--c1);color:var(--t1)}.m3{background:var(--c3);color:var(--t3)}.m7{background:var(--c7);color:var(--t7)}
+.a{padding:2px 14px 18px 36px;max-width:72ch}
+.a p{margin:.5em 0}
+.a h4{margin:1.1em 0 .2em;font-size:16px;font-weight:600}
+.a h4 i{font:500 12px 'IBM Plex Mono',monospace;font-style:normal;background:var(--nt);color:var(--br);border-radius:5px;padding:1px 6px;margin-right:8px}
+.a h4.sub{font-size:15px}.a h4.tier{font-size:15px;margin-top:1.4em}
+.li{display:flex;gap:8px;margin:.45em 0}.li b{font:500 12px 'IBM Plex Mono',monospace;color:var(--br);padding-top:4px;min-width:16px}
+.a ul{margin:.4em 0;padding-left:1.2em}
+.lbl{font-size:13px;font-weight:600;color:var(--br);margin:1.1em 0 .1em!important}
+.qq{font-weight:500}.qq b{color:var(--br);margin-right:8px}
+.note{margin:.8em 0;padding:8px 12px;border-radius:8px;background:var(--nt);border-left:3px solid var(--br);font-size:15px}
+.note.dg{border-color:#C98A12}.note.wn{border-color:#C2410C}
+blockquote{margin:.6em 0;padding:2px 12px;border-left:3px solid var(--ln);color:var(--mu)}
+code{font:400 .9em 'IBM Plex Mono',monospace;background:var(--nt);padding:0 4px;border-radius:4px}
+pre{margin:.7em 0;padding:12px 14px;border-radius:8px;overflow-x:auto;font:400 13.5px/1.55 'IBM Plex Mono',monospace}
+.code{background:var(--cd);color:var(--ct)}.code code{background:none;padding:0;font-size:inherit}
+.dia{background:var(--nt);border:1px solid var(--ln)}
+.tw{overflow-x:auto;margin:.7em 0}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border:1px solid var(--ln)}
+th{background:var(--nt)}
+hr{border:0;border-top:1px dashed var(--ln);margin:1.2em 0}
+@media(max-width:560px){.a{padding-left:14px}.meta{padding-left:0;margin-left:0}.tab small{display:none}}
+</style>
+</head>
+<body>
+<div class="w">
+<header><a class="back" href="index.html">&lsaquo; Study Portal</a><h1>Embedded Systems &amp; RTOS<small>5131</small></h1></header>
+</div>
+<div class="bar"><div class="w">
+<div class="tabs" role="tablist"><button class="tab" data-k="1"><b>Module 1</b><small>Basics and AVR</small></button><button class="tab" data-k="2"><b>Module 2</b><small>AVR C, timers, interrupts</small></button><button class="tab" data-k="3"><b>Module 3</b><small>Interfacing</small></button><button class="tab" data-k="4"><b>Module 4</b><small>RTOS</small></button></div>
+<div class="tools"><input id="s" type="search" placeholder="Search this module" aria-label="Search this module">
+<div class="chips"><button class="chip" data-mk="all" aria-pressed="true">All</button><button class="chip" data-mk="1" aria-pressed="false">1 mark</button><button class="chip" data-mk="3" aria-pressed="false">3 marks</button><button class="chip" data-mk="7" aria-pressed="false">7 marks</button></div></div>
+</div></div>
+<main class="w"><p id="cnt" aria-live="polite"></p><section class="mod" id="mod1" hidden><details class="q intro" open><summary><span class="tt">How the answers are written</span></summary><div class="a"><h4 class="sub">How I&#x27;m writing the answers now</h4>
+<p>1 mark → exact definition / fact. Don&#x27;t over-write.</p>
+<p>3 marks → definition + 3–4 proper explained points.</p>
+<p>4/5 marks → enough points to comfortably fill the required answer.</p>
+<p>7 marks → introduction + proper point-by-point explanation, not just keywords.</p>
+<h4 class="sub">If a diagram is expected → 🖊 LEARN DIAGRAM</h4>
+<p>If the question can be asked as both 3 and 7 marks, I&#x27;ll give the full 7-mark version and tell you what to cut for 3 marks.</p>
+<p>Everything below is based on your Module 1 PDF, including its terminology and explanations.</p></div></details><div class="gr"><h3>1 mark questions</h3><div class="gi"><p>These should be short. Do not write a paragraph for a 1-mark question.</p></div><details class="q" data-m="1"><summary><span class="no">1</span><span class="tt">Define Embedded System.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>An embedded system is a microprocessor or microcontroller based system designed to perform a specific task.</p></div></details><details class="q" data-m="1"><summary><span class="no">2</span><span class="tt">Give two applications of Embedded Systems.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4><i>1</i>Automotive systems</h4>
+<h4><i>2</i>Medical systems</h4>
+<p>Other examples: consumer electronics, industrial systems, home appliances, telecommunication, aerospace and military systems.</p></div></details><details class="q" data-m="1"><summary><span class="no">3</span><span class="tt">What is the purpose of an Embedded System?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>The main purpose of an embedded system is to perform a specific or dedicated function.</p></div></details><details class="q" data-m="1"><summary><span class="no">4</span><span class="tt">What is a microcontroller?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>A microcontroller is a compact integrated circuit designed to perform a specific operation in an embedded system.</p></div></details><details class="q" data-m="1"><summary><span class="no">5</span><span class="tt">How many General Purpose Registers are there in ATmega32?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>ATmega32 has 32 General Purpose Registers, R0 to R31.</p></div></details><details class="q" data-m="1"><summary><span class="no">6</span><span class="tt">How many I/O ports are present in ATmega32?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>ATmega32 has four I/O ports: <code>PORTA</code>, <code>PORTB</code>, <code>PORTC</code> and <code>PORTD</code>.</p></div></details><details class="q" data-m="1"><summary><span class="no">7</span><span class="tt">How many pins are present in each port of ATmega32?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Each port has 8 pins.</p></div></details><details class="q" data-m="1"><summary><span class="no">8</span><span class="tt">Name the three I/O registers associated with an AVR port.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4><i>1</i><code>DDRx</code></h4>
+<h4><i>2</i><code>PORTx</code></h4>
+<h4><i>3</i><code>PINx</code></h4></div></details><details class="q" data-m="1"><summary><span class="no">9</span><span class="tt">What is the function of <code>DDRx</code>?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p><code>DDRx</code> is the Data Direction Register used to configure port pins as input or output.</p></div></details><details class="q" data-m="1"><summary><span class="no">10</span><span class="tt">What is the function of <code>PORTx</code>?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p><code>PORTx</code> is used to write data to the port pins.</p></div></details><details class="q" data-m="1"><summary><span class="no">11</span><span class="tt">What is the function of <code>PINx</code>?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p><code>PINx</code> is used to read data from the port pins.</p></div></details><details class="q" data-m="1"><summary><span class="no">12</span><span class="tt">What is <code>SREG</code>?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p><code>SREG</code> is the 8-bit AVR Status Register, also called the flag register.</p></div></details><details class="q" data-m="1"><summary><span class="no">13</span><span class="tt">What is the Program Counter?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>The Program Counter, or PC, contains the address of the next instruction to be executed.</p></div></details><details class="q" data-m="1"><summary><span class="no">14</span><span class="tt">What are GPRs?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>GPRs are General Purpose Registers used to temporarily store data and information during program execution.</p></div></details><details class="q" data-m="1"><summary><span class="no">15</span><span class="tt">What is ADC?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>ADC stands for Analog to Digital Converter. It converts an analog signal into digital form.</p></div></details><details class="q" data-m="1"><summary><span class="no">16</span><span class="tt">What is DAC?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>DAC stands for Digital to Analog Converter. It converts a digital signal into analog form.</p></div></details><details class="q" data-m="1"><summary><span class="no">17</span><span class="tt">What is a sensor?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>A sensor is an input device that detects changes in the environment and provides data to the embedded system.</p></div></details><details class="q" data-m="1"><summary><span class="no">18</span><span class="tt">What is an actuator?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>An actuator is an output device that converts electrical signals into corresponding physical action.</p></div></details><details class="q" data-m="1"><summary><span class="no">19</span><span class="tt">Name two volatile memories.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4><i>1</i>RAM</h4>
+<h4><i>2</i>SRAM</h4></div></details><details class="q" data-m="1"><summary><span class="no">20</span><span class="tt">Name two non-volatile memories.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4><i>1</i>EEPROM</h4>
+<h4><i>2</i>Flash memory</h4></div></details><details class="q" data-m="1"><summary><span class="no">21</span><span class="tt">Name the two types of real-time embedded systems.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4><i>1</i>Hard real-time embedded system</h4>
+<h4><i>2</i>Soft real-time embedded system</h4></div></details></div><div class="gr"><h3>3 mark questions</h3><div class="gi"><p>Here we need actual points, not one-line definitions.</p></div><details class="q" data-m="3"><summary><span class="no">22</span><span class="tt">Explain the characteristics of an Embedded System.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4 class="sub">The important characteristics of an embedded system are:</h4>
+<h4><i>1</i>Single Functioned</h4>
+<p>An embedded system is normally designed to perform a specific function or a specific set of functions.</p>
+<h4><i>2</i>Tightly Constrained</h4>
+<p class="lbl">It works under restrictions such as</p>
+<ul><li>Size</li><li>Cost</li><li>Power consumption</li><li>Memory</li><li>Processing capability</li></ul>
+<h4><i>3</i>Reactive and Real-Time</h4>
+<p>The system continuously interacts with its environment and must respond to events within the required time.</p>
+<h4><i>4</i>Microprocessor Based</h4>
+<p>An embedded system contains a microprocessor or microcontroller as its processing unit.</p>
+<h4><i>5</i>Memory</h4>
+<p>Memory is required to store the program and data used by the system.</p>
+<h4><i>6</i>Distributed</h4>
+<p>An embedded system may be a part of a larger system and may communicate with other systems.</p>
+<h4><i>7</i>Hardware-Software System</h4>
+<p>An embedded system is a combination of hardware and software. Hardware provides the required performance and software provides flexibility.</p>
+<hr>
+<div class="note tp">⭐ For 3 marks:</div>
+<p>Write any 3–4 properly explained characteristics.</p>
+<div class="note tp">⭐ For 7 marks:</div>
+<p>Write the introduction + all 7 points.</p></div></details><details class="q" data-m="3"><summary><span class="no">23</span><span class="tt">Explain Hard Real-Time and Soft Real-Time Embedded Systems.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Real-time embedded systems are classified into two types.</p>
+<h4><i>1</i>Hard Real-Time Embedded System</h4>
+<p>In a hard real-time system, the task must be completed within the specified deadline.</p>
+<p>If the deadline is missed, the result may become unacceptable or the system may fail to perform its required operation.</p>
+<h4><i>2</i>Soft Real-Time Embedded System</h4>
+<p>In a soft real-time system, the deadline is important, but occasional delay is acceptable.</p>
+<p>Even if the deadline is missed, the result may still be useful.</p>
+<p class="lbl">Difference</p>
+<div class="tw"><table><thead><tr><th>Hard Real-Time</th><th>Soft Real-Time</th></tr></thead><tbody><tr><td>Deadline must be strictly satisfied</td><td>Deadline is less strict</td></tr><tr><td>Missing deadline can cause system failure</td><td>Missing deadline may still allow useful output</td></tr><tr><td>Used where timing is critical</td><td>Used where occasional delay is acceptable</td></tr></tbody></table></div></div></details><details class="q" data-m="3"><summary><span class="no">24</span><span class="tt">Explain the role of Sensors and Actuators in Embedded Systems.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Sensors and actuators are important components of an embedded system.</p>
+<h4 class="sub">Sensor</h4>
+<div class="li"><b>1</b><span>A sensor detects changes in the environment or physical variables.</span></div>
+<div class="li"><b>2</b><span>It is connected to the input side of the embedded system.</span></div>
+<div class="li"><b>3</b><span>Therefore, it acts as an input device.</span></div>
+<div class="li"><b>4</b><span>It provides real-time information to the embedded system.</span></div>
+<div class="li"><b>5</b><span>The embedded system processes the sensor data and makes a decision.</span></div>
+<p class="lbl">Examples</p>
+<ul><li>IR sensor</li><li>Ultrasonic sensor</li><li>Proximity sensor</li><li>Pressure sensor</li><li>Temperature sensor</li><li>Actuator</li></ul>
+<div class="li"><b>1</b><span>An actuator is a mechanical or electrical transducer.</span></div>
+<div class="li"><b>2</b><span>It converts electrical signals into physical action.</span></div>
+<div class="li"><b>3</b><span>It acts as an output device.</span></div>
+<div class="li"><b>4</b><span>It can produce motion, rotation or pressure.</span></div>
+<div class="li"><b>5</b><span>It is connected to the output side of the embedded system.</span></div>
+<p class="lbl">Examples</p>
+<ul><li>Electric motor</li><li>Solenoid</li><li>Stepper motor</li><li>Servo motor</li></ul></div></details><details class="q" data-m="3"><summary><span class="no">25</span><span class="tt">Explain the three I/O registers associated with an AVR port.</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m3">3 marks</span></span></summary><div class="a"><div class="note dg">🖊 LEARN DIAGRAM — AVR I/O Port Registers</div>
+<p class="lbl">Answer</p>
+<p class="lbl">Each AVR port has three registers</p>
+<h4><i>1</i><code>DDRx</code> — Data Direction Register</h4>
+<p><code>DDRx</code> determines whether the corresponding port pin works as an input or output.</p>
+<ul><li>1 → Output</li><li>0 → Input</li></ul>
+<p class="lbl">For example</p>
+<pre class="code"><code>DDRB = 0xFF;</code></pre>
+<p>configures all <code>PORTB</code> pins as output.</p>
+<h4><i>2</i><code>PORTx</code></h4>
+<p><code>PORTx</code> is used to write data to the port pins.</p>
+<p class="lbl">For example</p>
+<pre class="code"><code>PORTB = 0x55;</code></pre>
+<p>sends 55H to <code>PORTB</code>.</p>
+<h4><i>3</i><code>PINx</code></h4>
+<p><code>PINx</code> is used to read the current data from the port pins.</p>
+<p class="lbl">For example</p>
+<pre class="code"><code>value = PINB;</code></pre>
+<p>reads the input from <code>PORTB</code>.</p>
+<p>The Module 1 notes explicitly define <code>DDRx</code>, <code>PORTx</code> and <code>PINx</code> this way.</p></div></details><details class="q" data-m="3"><summary><span class="no">26</span><span class="tt">Explain General Purpose Registers in ATmega32.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<div class="li"><b>1</b><span>ATmega32 has 32 General Purpose Registers.</span></div>
+<div class="li"><b>2</b><span>They are named R0 to R31.</span></div>
+<div class="li"><b>3</b><span>Each register is 8-bit.</span></div>
+<div class="li"><b>4</b><span>They are used to temporarily store data and information.</span></div>
+<div class="li"><b>5</b><span>They can also store addresses pointing to data.</span></div>
+<div class="li"><b>6</b><span>They are used by arithmetic and logic instructions.</span></div>
+<div class="li"><b>7</b><span>They occupy the lowest data-memory locations.</span></div>
+<div class="li"><b>8</b><span>Their address range is 0000H to 001FH.</span></div></div></details><details class="q" data-m="3"><summary><span class="no">27</span><span class="tt">Explain Program Memory and Data Memory in AVR.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p class="lbl">AVR has two main memory spaces</p>
+<h4><i>1</i>Code / Program Memory</h4>
+<p>Used to store program instructions.</p>
+<p>The program instructions are stored in code memory.</p>
+<p>It is separate from data memory.</p>
+<h4><i>2</i>Data Memory</h4>
+<p>Data memory is used to store data during program execution.</p>
+<p class="lbl">It consists of</p>
+<h4><i>1</i>General Purpose Registers</h4>
+<h4><i>2</i>I/O Memory</h4>
+<h4><i>3</i>Internal SRAM</h4>
+<p class="lbl">Therefore</p>
+<ul><li>Code memory → Program</li><li>Data memory → Data + registers + I/O</li></ul></div></details><details class="q" data-m="3"><summary><span class="no">28</span><span class="tt">Explain the role of Program Counter.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p class="lbl">The Program Counter (PC)</p>
+<div class="li"><b>1</b><span>Keeps track of the address of the instruction to be executed.</span></div>
+<div class="li"><b>2</b><span>Points to the next instruction in the program.</span></div>
+<div class="li"><b>3</b><span>Changes as instructions are fetched and executed.</span></div>
+<div class="li"><b>4</b><span>Helps the CPU execute instructions in the correct sequence.</span></div></div></details><details class="q" data-m="3"><summary><span class="no">29</span><span class="tt">Explain the memory selection factors in Embedded Systems.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p class="lbl">The important factors for selecting memory are</p>
+<h4><i>1</i>Speed</h4>
+<p>The read/write access time should be fast.</p>
+<h4><i>2</i>Latency</h4>
+<p>Lower latency provides faster operation.</p>
+<h4><i>3</i>Memory Capacity</h4>
+<p>The memory capacity must be sufficient for the application.</p>
+<h4><i>4</i>Size</h4>
+<p>The physical size of the memory should be suitable for the embedded system.</p>
+<h4><i>5</i>Power Consumption</h4>
+<p>Memory consumes power during read/write operations. The designer should select memory with suitable power consumption.</p>
+<h4><i>6</i>Cost</h4>
+<p>The cost of memory is an important factor when designing the overall product.</p></div></details><details class="q" data-m="3"><summary><span class="no">30</span><span class="tt">Explain the difference between Volatile and Non-Volatile Memory.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4 class="sub">Volatile Memory</h4>
+<div class="li"><b>1</b><span>Requires power to retain stored information.</span></div>
+<div class="li"><b>2</b><span>Data is lost when power is removed.</span></div>
+<h4><i>3</i>Examples:</h4>
+<ul><li>RAM</li><li>SRAM</li><li>DRAM</li><li>Non-Volatile Memory</li></ul>
+<div class="li"><b>1</b><span>Retains stored information even when power is removed.</span></div>
+<div class="li"><b>2</b><span>Used for storing information that must be preserved.</span></div>
+<h4><i>3</i>Examples:</h4>
+<ul><li>EEPROM</li><li>Flash memory</li><li>SD card</li></ul></div></details><details class="q" data-m="3"><summary><span class="no">31</span><span class="tt">Explain the main components of a Microcontroller.</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4 class="sub">A microcontroller contains several components on a single chip:</h4>
+<div class="li"><b>1</b><span>CPU — performs processing.</span></div>
+<div class="li"><b>2</b><span>RAM — stores temporary data.</span></div>
+<div class="li"><b>3</b><span>ROM/Program memory — stores program instructions.</span></div>
+<div class="li"><b>4</b><span>I/O ports — communicate with external devices.</span></div>
+<div class="li"><b>5</b><span>Timer — performs timing operations.</span></div>
+<div class="li"><b>6</b><span>Other peripherals — such as ADC and serial communication interfaces.</span></div>
+<p>The advantage is that the required hardware is integrated into a single chip, reducing space and external components.</p></div></details></div><div class="gr"><h3>7 mark questions</h3><div class="gi"><p>Now this is the important section.</p>
+<p>For these, don&#x27;t memorize only the headings. You need to know the explanation under each heading.</p></div><details class="q" data-m="7"><summary><span class="no">32</span><span class="tt">Explain the Building Blocks of an Embedded System.</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note dg">🖊 LEARN DIAGRAM — Building Blocks of Embedded System</div>
+<p class="lbl">Answer</p>
+<p>An embedded system consists of different hardware and software components working together to perform a specific function.</p>
+<p class="lbl">The major building blocks are</p>
+<h4><i>1</i>CPU</h4>
+<p>The CPU is the brain of the microcontroller.</p>
+<p class="lbl">Its primary functions are</p>
+<ul><li>Fetching instructions</li><li>Decoding instructions</li><li>Executing instructions</li><li>Controlling the operation of the system</li></ul>
+<h4><i>2</i>Memory</h4>
+<p>Memory is used to store programs and data.</p>
+<p class="lbl">Memory can be classified into</p>
+<p class="lbl">Volatile memory</p>
+<ul><li>RAM</li><li>SRAM</li><li>DRAM</li></ul>
+<p class="lbl">Non-volatile memory</p>
+<ul><li>EEPROM</li><li>Flash memory</li><li>SD card</li></ul>
+<h4><i>3</i>Parallel I/O Ports</h4>
+<p>Parallel input/output ports are used to interface external devices with the microcontroller.</p>
+<p class="lbl">They can be used with</p>
+<ul><li>LCD</li><li>LED</li><li>Printer</li><li>Memory</li><li>Other peripheral devices</li></ul>
+<h4><i>4</i>Serial Ports</h4>
+<p>Serial ports provide communication between the microcontroller and serial communication peripherals.</p>
+<h4><i>5</i>Timers/Counters</h4>
+<p>Timers and counters are used for timing and counting operations.</p>
+<p class="lbl">They can be used for</p>
+<ul><li>Clock functions</li><li>Pulse generation</li><li>Frequency measurement</li><li>Modulation</li></ul>
+<h4><i>6</i>ADC</h4>
+<p>ADC stands for Analog to Digital Converter.</p>
+<p>It converts an analog signal into digital form so that the microcontroller can process it.</p>
+<h4><i>7</i>DAC</h4>
+<p>DAC stands for Digital to Analog Converter.</p>
+<p>It performs the reverse operation of ADC by converting digital signals into analog form.</p>
+<p>It can be used to control analog devices such as motors and drives.</p>
+<h4><i>8</i>Sensors</h4>
+<p>Sensors detect changes in the physical environment and provide input to the embedded system.</p>
+<h4><i>9</i>Actuators</h4>
+<p>Actuators convert electrical signals from the system into physical action.</p>
+<p>Examples include motors and solenoids.</p>
+<h4 class="sub">Conclusion</h4>
+<p>All these components work together with embedded software to perform the required application-specific function.</p>
+<p>The exact building-block structure and component descriptions are given in your Module 1 notes.</p>
+<h4 class="sub">🧠 Exam strategy</h4>
+<p class="lbl">For 7 marks</p>
+<p>Definition/introduction → diagram → CPU → Memory → I/O → Serial → Timer → ADC/DAC → Sensor/Actuator → conclusion</p>
+<p>That&#x27;s a proper 7-mark answer.</p></div></details><details class="q" data-m="7"><summary><span class="no">33</span><span class="tt">Compare Embedded System with General Purpose Computer.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>An embedded system is designed for a specific application, whereas a general purpose computer is designed to perform many different applications.</p>
+<div class="tw"><table><thead><tr><th>Criteria</th><th>General Purpose Computer</th><th>Embedded System</th></tr></thead><tbody><tr><td>Purpose</td><td>Multipurpose</td><td>Single function</td></tr><tr><td>Resource constraints</td><td>Low or no resource constraints</td><td>Size, power, cost and memory constrained</td></tr><tr><td>Performance</td><td>Faster and better</td><td>Fixed runtime requirement</td></tr><tr><td>User Interface</td><td>Keyboard, display, mouse, touchscreen etc.</td><td>Buttons, sensors, LEDs, LCDs etc.</td></tr><tr><td>Access Time</td><td>Higher accessing time</td><td>Low accessing time</td></tr><tr><td>Size</td><td>Generally bulkier and expensive</td><td>Simple, compact and economical</td></tr><tr><td>Application</td><td>Used for many applications</td><td>Designed for a specific application</td></tr><tr><td>Example</td><td>Intel 8086, 8085</td><td>Intel 8051, PIC, AVR</td></tr></tbody></table></div>
+<h4 class="sub">Conclusion</h4>
+<p>Therefore, a general purpose computer provides flexibility for multiple applications, while an embedded system is optimized for a particular task with constraints on size, cost, power and memory.</p>
+<p>This table follows the comparison given in your module.</p></div></details><details class="q" data-m="7"><summary><span class="no">34</span><span class="tt">Explain the Classification of Embedded Systems.</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Embedded systems can be classified using different criteria.</p>
+<h4 class="sub">A. Classification Based on Generation</h4>
+<h4><i>1</i>First Generation</h4>
+<p>Built around 8-bit microprocessors.</p>
+<p>Had a simple hardware structure.</p>
+<p>Firmware was generally developed using assembly language.</p>
+<h4><i>2</i>Second Generation</h4>
+<p>Built around 16-bit microprocessors.</p>
+<p>Had more complex and powerful instruction sets.</p>
+<h4><i>3</i>Third Generation</h4>
+<p>Built around 16-bit and 32-bit microprocessors.</p>
+<p>Application-specific processors and DSPs were introduced.</p>
+<h4><i>4</i>Fourth Generation</h4>
+<p>Uses high-performance and reconfigurable processors.</p>
+<hr>
+<h4 class="sub">B. Classification Based on Performance and Functional Requirements</h4>
+<h4><i>1</i>Real-Time Embedded Systems</h4>
+<p>These systems must respond to events within the required time.</p>
+<h4><i>2</i>Stand-Alone Embedded Systems</h4>
+<p>These systems operate independently and accept input and produce output.</p>
+<p class="lbl">Examples</p>
+<ul><li>MP3 player</li><li>Microwave oven</li><li>Calculator</li></ul>
+<h4><i>3</i>Networked Embedded Systems</h4>
+<p>These systems are connected to a wired or wireless network.</p>
+<p class="lbl">Examples</p>
+<ul><li>Home security system</li><li>ATM</li><li>Card swipe machine</li></ul>
+<h4><i>4</i>Mobile Embedded Systems</h4>
+<p>These are small and portable systems requiring fewer resources.</p>
+<hr>
+<h4 class="sub">C. Classification Based on Performance and Complexity</h4>
+<h4><i>1</i>Small-Scale Embedded Systems</h4>
+<p>Use 8-bit or 16-bit microcontrollers.</p>
+<p>Have limited memory and processing speed.</p>
+<p>Can be battery powered.</p>
+<h4><i>2</i>Medium-Scale Embedded Systems</h4>
+<p>Use 16-bit or 32-bit microcontrollers.</p>
+<p>Faster than small-scale systems.</p>
+<p>C, C++ and Java can be used.</p>
+<h4><i>3</i>Sophisticated / Complex Embedded Systems</h4>
+<p>Use multiple 32-bit or 64-bit microcontrollers.</p>
+<p>Perform large-scale and complex functions.</p>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p>If your notes have the classification tree, learn that diagram. It can make this answer much easier to present.</p></div></details><details class="q" data-m="7"><summary><span class="no">35</span><span class="tt">Explain the Quality Attributes of an Embedded System.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4 class="sub">Quality attributes of an embedded system are divided into two types:</h4>
+<h4><i>1</i>Operational Quality Attributes</h4>
+<h4><i>2</i>Non-Operational Quality Attributes</h4>
+<hr>
+<h4 class="sub">A. Operational Quality Attributes</h4>
+<p>These attributes are related to the operation or functioning of the embedded system.</p>
+<h4><i>1</i>Response</h4>
+<p>Response is a measure of the quickness of the system.</p>
+<p>It indicates how quickly the system responds to an input or event.</p>
+<h4><i>2</i>Throughput</h4>
+<p>Throughput deals with the efficiency of the system.</p>
+<p>It indicates how much work the system can perform.</p>
+<h4><i>3</i>Reliability</h4>
+<p>Reliability indicates how much we can depend on the proper functioning of the system.</p>
+<p>A reliable embedded system should perform its required operation correctly.</p>
+<h4><i>4</i>Maintainability</h4>
+<p>Maintainability deals with support and maintenance to the end user.</p>
+<p>The system should be possible to maintain and repair when required.</p>
+<h4><i>5</i>Security</h4>
+<p>Security ensures that the embedded system conforms to the required security measures.</p>
+<p>It is especially important when the system handles sensitive information or controls important operations.</p>
+<h4><i>6</i>Safety</h4>
+<p class="lbl">Safety deals with possible damage to</p>
+<ul><li>Operating personnel</li><li>Environment</li><li>Equipment</li></ul>
+<p>This can occur due to system breakdown or hazardous emissions.</p>
+<hr>
+<h4 class="sub">B. Non-Operational Quality Attributes</h4>
+<p>These are attributes that are not directly related to the operation or functioning of the embedded system.</p>
+<p class="lbl">They include</p>
+<h4><i>1</i>Testability and Debuggability</h4>
+<p>The system should be easy to test and debug.</p>
+<h4><i>2</i>Evolvability</h4>
+<p>The system should allow future modifications or improvements.</p>
+<h4><i>3</i>Portability</h4>
+<p>The system/software should be capable of being moved to another environment when required.</p>
+<h4><i>4</i>Time to Prototype and Market</h4>
+<p>The time required to develop the prototype and bring the product to market should be considered.</p>
+<div class="note tp">🔥 Important</div>
+<p class="lbl">Don&#x27;t write only</p>
+<blockquote>Response, throughput, reliability...</blockquote>
+<p>That gets you very few marks.</p>
+<p class="lbl">Write</p>
+<blockquote>Response: Response is a measure of the quickness of the system.</blockquote>
+<p>That is the level of explanation required.</p></div></details><details class="q" data-m="7"><summary><span class="no">36</span><span class="tt">Explain the AVR Microcontroller Architecture.</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note dg">🖊 LEARN DIAGRAM — AVR Architecture</div>
+<p class="lbl">Answer</p>
+<p>AVR is a family of microcontrollers used in embedded systems.</p>
+<p>The AVR architecture contains a CPU, registers, memory, I/O ports and various peripherals.</p>
+<h4><i>1</i>CPU</h4>
+<p>The CPU performs the processing operations of the microcontroller.</p>
+<p>It fetches and executes instructions stored in program memory.</p>
+<h4><i>2</i>General Purpose Registers</h4>
+<p>ATmega32 has 32 GPRs, named R0 to R31.</p>
+<p>Each register is 8-bit and is used to temporarily store data and information.</p>
+<h4><i>3</i>Program Memory</h4>
+<p>Program memory stores the instructions of the program.</p>
+<h4><i>4</i>Data Memory</h4>
+<p class="lbl">Data memory is divided into</p>
+<ul><li>GPRs</li><li>I/O memory</li><li>Internal SRAM</li></ul>
+<h4><i>5</i>I/O Ports</h4>
+<p class="lbl">ATmega32 has</p>
+<ul><li><code>PORTA</code></li><li><code>PORTB</code></li><li><code>PORTC</code></li><li><code>PORTD</code></li></ul>
+<p>There are 32 I/O pins, with 8 pins in each port.</p>
+<h4><i>6</i>Timers</h4>
+<p>Timers are used to maintain timing of operations with respect to the system clock or external clock.</p>
+<h4><i>7</i>ADC</h4>
+<p>The ADC converts analog input into digital data.</p>
+<p>The notes specify that AVR ADC is 10-bit.</p>
+<h4><i>8</i>USART</h4>
+<p>USART provides serial communication capability and allows an AVR-based system to connect to serial devices.</p>
+<h4><i>9</i>Status Register</h4>
+<p>The AVR has an 8-bit <code>SREG</code> used to indicate arithmetic conditions and control global interrupts.</p>
+<h4 class="sub">Conclusion</h4>
+<p>Thus, the AVR architecture combines processing, memory, I/O and peripheral functions required for embedded applications.</p>
+<div class="note dg">🖊 Diagram</div>
+<p>Definitely learn the AVR architecture diagram from your PDF.</p>
+<p>For a 7-mark architecture question, the diagram + explanation of blocks is much safer than writing only the block names.</p></div></details><details class="q" data-m="7"><summary><span class="no">37</span><span class="tt">Explain the Data Memory Organization of AVR / ATmega32.</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note dg">🖊 LEARN DIAGRAM — AVR Data Memory</div>
+<p class="lbl">Answer</p>
+<p class="lbl">AVR has two main types of memory space</p>
+<h4><i>1</i>Code Memory Space</h4>
+<h4><i>2</i>Data Memory Space</h4>
+<p>Program instructions are stored in code memory, while data used during execution is stored in data memory.</p>
+<p class="lbl">The data memory consists of three main sections</p>
+<hr>
+<h4><i>1</i>General Purpose Registers</h4>
+<p>ATmega32 has 32 GPRs.</p>
+<p class="lbl">They are</p>
+<h4 class="sub">R0 to R31</h4>
+<p>Each register is 8-bit.</p>
+<p class="lbl">They are used to</p>
+<ul><li>Store data temporarily</li><li>Store information</li><li>Store addresses</li><li>Perform arithmetic operations</li><li>Perform logic operations</li></ul>
+<p class="lbl">The GPRs occupy</p>
+<h4 class="sub">0000H – 001FH</h4>
+<hr>
+<h4><i>2</i>I/O Memory</h4>
+<p>I/O memory is also called Special Function Register (SFR) memory.</p>
+<p>It is dedicated to specific functions of the microcontroller.</p>
+<p class="lbl">Examples include registers associated with</p>
+<ul><li>Status register</li><li>Timers</li><li>Serial communication</li><li>I/O ports</li><li>ADC</li></ul>
+<p>The function of each I/O memory location is fixed according to the microcontroller design.</p>
+<hr>
+<h4><i>3</i>Internal SRAM</h4>
+<p class="lbl">Internal data SRAM is used for storing</p>
+<ul><li>Data</li><li>Parameters</li><li>Temporary information</li></ul>
+<p>used by AVR programs and C compilers.</p>
+<p>Each SRAM location can be accessed through its address.</p>
+<hr>
+<ul><li>Important ATmega32 memory details</li><li>32 GPRs</li><li>GPR address: 0000H – 001FH</li><li>Internal SRAM</li><li>I/O memory</li><li>Data memory used for runtime data</li></ul>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p>Yes. Absolutely learn the memory organization diagram.</p></div></details><details class="q" data-m="7"><summary><span class="no">38</span><span class="tt">Explain AVR Status Register (<code>SREG</code>).</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note dg">🖊 LEARN DIAGRAM — <code>SREG</code></div>
+<p class="lbl">Answer</p>
+<p>The AVR Status Register, or <code>SREG</code>, is an 8-bit flag register.</p>
+<p>It indicates the conditions produced by arithmetic and logic operations.</p>
+<p class="lbl">The bits of <code>SREG</code> are</p>
+<h4 class="sub">I  T  H  S  V  N  Z  C</h4>
+<hr>
+<h4><i>1</i>C — Carry Flag</h4>
+<p>The Carry flag is set when a carry occurs from the D7 bit.</p>
+<p>It is affected by 8-bit addition and subtraction operations.</p>
+<hr>
+<h4><i>2</i>Z — Zero Flag</h4>
+<p>The Zero flag indicates whether the result of an arithmetic or logic operation is zero.</p>
+<ul><li>Result = 0 → Z = 1</li><li>Result ≠ 0 → Z = 0</li></ul>
+<hr>
+<h4><i>3</i>N — Negative Flag</h4>
+<p>The Negative flag indicates the sign of an arithmetic result.</p>
+<p class="lbl">If the D7 bit of the result is</p>
+<ul><li>0 → positive</li><li>1 → negative</li></ul>
+<hr>
+<h4><i>4</i>V — Overflow Flag</h4>
+<p>The Overflow flag is set when the result of a signed operation is too large and causes overflow into the sign bit.</p>
+<hr>
+<h4><i>5</i>S — Sign Flag</h4>
+<p>The Sign flag indicates the sign condition of the result.</p>
+<hr>
+<h4><i>6</i>H — Half Carry Flag</h4>
+<p>The Half Carry flag indicates a carry condition associated with the lower part of an arithmetic operation.</p>
+<hr>
+<h4><i>7</i>T — Bit Copy Flag</h4>
+<p>The T bit is used for bit-copy operations.</p>
+<hr>
+<h4><i>8</i>I — Global Interrupt Flag</h4>
+<p>The I bit controls global interrupt operation.</p>
+<p>It is used to enable or disable global interrupts.</p>
+<hr>
+<h4 class="sub">Conclusion</h4>
+<p><code>SREG</code> is important because it stores the status of arithmetic/logic operations and also contains the global interrupt control bit.</p>
+<div class="note tp">🔥 Exam tip</div>
+<p class="lbl">For a 7-mark <code>SREG</code> question</p>
+<p>Draw the 8-bit <code>SREG</code> → write all 8 bits → explain each one.</p>
+<p>Don&#x27;t just write the names.</p></div></details><details class="q" data-m="7"><summary><span class="no">39</span><span class="tt">Explain <code>DDRx</code>, <code>PORTx</code> and <code>PINx</code> registers of ATmega32.</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note dg">🖊 LEARN DIAGRAM — I/O PORT REGISTERS</div>
+<p class="lbl">Answer</p>
+<p class="lbl">ATmega32 has four I/O ports</p>
+<ul><li><code>PORTA</code></li><li><code>PORTB</code></li><li><code>PORTC</code></li><li><code>PORTD</code></li></ul>
+<p>Each port has 8 pins.</p>
+<p class="lbl">Each port is associated with three registers</p>
+<h4><i>1</i><code>DDRx</code></h4>
+<h4><i>2</i><code>PORTx</code></h4>
+<h4><i>3</i><code>PINx</code></h4>
+<hr>
+<h4><i>1</i><code>DDRx</code> — Data Direction Register</h4>
+<p><code>DDRx</code> is used to configure the direction of each port pin.</p>
+<p class="lbl">If a bit in <code>DDRx</code> is</p>
+<ul><li>1 → corresponding pin becomes output</li><li>0 → corresponding pin becomes input</li></ul>
+<p class="lbl">Example</p>
+<pre class="code"><code>DDRB = 0xFF;</code></pre>
+<p>All <code>PORTB</code> pins become outputs.</p>
+<pre class="code"><code>DDRB = 0x00;</code></pre>
+<p>All <code>PORTB</code> pins become inputs.</p>
+<hr>
+<h4><i>2</i><code>PORTx</code> — Port Data Register</h4>
+<p><code>PORTx</code> is used to write data to the output pins.</p>
+<p class="lbl">Example</p>
+<pre class="code"><code>PORTB = 0x55;</code></pre>
+<p>The value 55H is sent to <code>PORTB</code>.</p>
+<hr>
+<h4><i>3</i><code>PINx</code> — Port Input Pins Register</h4>
+<p><code>PINx</code> is used to read data from the port pins.</p>
+<p class="lbl">Example</p>
+<pre class="code"><code>data = PINB;</code></pre>
+<p>The current input value of <code>PORTB</code> is read into data.</p>
+<hr>
+<p class="lbl">Example</p>
+<p class="lbl">For <code>PORTB</code></p>
+<p><code>DDRB</code>  → Configure direction<br><code>PORTB</code> → Write output<br><code>PINB</code>  → Read input</p>
+<p class="lbl">The same arrangement applies to</p>
+<p><code>PORTA</code> → <code>DDRA</code>, <code>PORTA</code>, <code>PINA</code><br><code>PORTB</code> → <code>DDRB</code>, <code>PORTB</code>, <code>PINB</code><br><code>PORTC</code> → <code>DDRC</code>, <code>PORTC</code>, <code>PINC</code><br><code>PORTD</code> → <code>DDRD</code>, <code>PORTD</code>, <code>PIND</code></p></div></details><details class="q" data-m="7"><summary><span class="no">40</span><span class="tt">Explain the factors considered for selecting a Microcontroller.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>The selection of a suitable microcontroller is important because different applications require different processing power, memory, interfaces and power consumption.</p>
+<p class="lbl">The major factors are</p>
+<h4><i>1</i>Power Efficiency</h4>
+<p>There is a trade-off between processing performance and power consumption.</p>
+<p>Higher processing power generally requires more energy.</p>
+<h4><i>2</i>Temperature Tolerance</h4>
+<p>The microcontroller should be able to operate within the required temperature range of the application.</p>
+<p>Temperature tolerance can affect cost.</p>
+<h4><i>3</i>Security</h4>
+<p>Security is important especially in applications such as IoT and automobiles.</p>
+<p>Security mechanisms such as cryptography and physical security may be required.</p>
+<h4><i>4</i>Hardware Architecture</h4>
+<p>The architecture and packaging of the microcontroller affect its size and performance.</p>
+<h4><i>5</i>Processing Power</h4>
+<p>The required processing capability must be considered according to the application.</p>
+<h4><i>6</i>Memory</h4>
+<p>The required amount of RAM and ROM depends on the program and data used by the application.</p>
+<h4><i>7</i>Hardware Interface</h4>
+<p>The required interfaces must be available.</p>
+<p class="lbl">Examples</p>
+<ul><li>USB</li><li>Wi-Fi</li><li>Bluetooth</li><li>Audio</li><li>Video</li><li>Camera interfaces</li></ul>
+<h4><i>8</i>Software Architecture</h4>
+<p>The software environment and operating-system compatibility should be considered, especially if the system needs to be scaled.</p>
+<h4><i>9</i>Cost</h4>
+<p>The overall cost of the microcontroller should be suitable for the application.</p></div></details><details class="q" data-m="7"><summary><span class="no">41</span><span class="tt">Explain the factors for selecting Memory in an Embedded System.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Selecting suitable memory is important because the performance of the embedded system depends on the memory selected.</p>
+<p class="lbl">The major factors are</p>
+<h4><i>1</i>Speed</h4>
+<p>The memory should have a suitable and preferably fast read/write access time.</p>
+<h4><i>2</i>Latency</h4>
+<p>Lower latency gives faster operation.</p>
+<h4><i>3</i>Memory Capacity</h4>
+<p>The memory capacity should be sufficient for the application and its program/data requirements.</p>
+<h4><i>4</i>Size</h4>
+<p>The physical size of the memory should be compatible with the embedded system.</p>
+<h4><i>5</i>Power Consumption</h4>
+<p>Memory consumes power during read/write operations.</p>
+<p>A suitable balance between speed and power consumption should be selected.</p>
+<h4><i>6</i>Cost</h4>
+<p>The cost of memory is an important factor in the overall product design.</p></div></details><details class="q" data-m="7"><summary><span class="no">42</span><span class="tt">Explain the Applications and Purpose of Embedded Systems.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Embedded systems are designed to perform specific functions in larger systems.</p>
+<h4 class="sub">Applications</h4>
+<p class="lbl">They are widely used in</p>
+<h4><i>1</i>Consumer Electronics</h4>
+<ul><li>MP3 players</li><li>Television</li><li>Mobile phones</li><li>Video game consoles</li><li>Digital cameras</li><li>GPS receivers</li><li>Printers</li></ul>
+<h4><i>2</i>Industrial Applications</h4>
+<p>Used for monitoring and controlling industrial processes.</p>
+<h4><i>3</i>Automotive Applications</h4>
+<p>Used in vehicle control and monitoring systems.</p>
+<h4><i>4</i>Home Appliances</h4>
+<p>Used in appliances for automatic control.</p>
+<h4><i>5</i>Medical Applications</h4>
+<p>Used in medical equipment and monitoring systems.</p>
+<h4><i>6</i>Telecommunication</h4>
+<p>Used in communication equipment.</p>
+<h4><i>7</i>Commercial Applications</h4>
+<p>Used in various commercial systems such as ATMs and card systems.</p>
+<h4><i>8</i>Aerospace Applications</h4>
+<p>Used in aircraft and aerospace control systems.</p>
+<h4><i>9</i>Military Applications</h4>
+<p>Used where dedicated and reliable control is required.</p>
+<h4 class="sub">Purpose</h4>
+<p>The main purpose is to perform a specific dedicated operation, often while satisfying constraints such as size, cost, power and timing.</p></div></details><details class="q" data-m="7"><summary><span class="no">43</span><span class="tt">Explain Parallel I/O Ports, Serial Ports, Timers, ADC and DAC.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<h4><i>1</i>Parallel I/O Ports</h4>
+<ul><li>Parallel I/O ports are used to interface devices such as:</li><li>LCDs</li><li>LEDs</li><li>Printers</li><li>Memories</li></ul>
+<p>with the microcontroller.</p>
+<h4><i>2</i>Serial Ports</h4>
+<p>Serial ports provide communication between the microcontroller and serial communication peripherals.</p>
+<h4><i>3</i>Timers/Counters</h4>
+<ul><li>Timers and counters perform timing and counting functions such as:</li><li>Clock functions</li><li>Pulse generation</li><li>Frequency measurement</li><li>Modulation</li></ul>
+<h4><i>4</i>ADC</h4>
+<p>ADC converts an analog signal into digital form.</p>
+<h4><i>5</i>DAC</h4>
+<p>DAC converts a digital signal into analog form.</p>
+<p>It can be used for controlling analog devices such as motors and drives.</p></div></details><details class="q" data-m="7"><summary><span class="no">44</span><span class="tt">Explain the properties/classification of AVR Microcontrollers.</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>AVR microcontrollers have different families with different properties.</p>
+<h4 class="sub">Properties</h4>
+<div class="li"><b>1</b><span>Most AVR microcontrollers are 8-bit microcontrollers.</span></div>
+<div class="li"><b>2</b><span>The CPU can process 8 bits of data at a time.</span></div>
+<div class="li"><b>3</b><span>Data larger than 8 bits has to be divided into 8-bit pieces.</span></div>
+<div class="li"><b>4</b><span>Different AVR families may not be directly software compatible.</span></div>
+<div class="li"><b>5</b><span>A program written for one AVR family may need recompilation or changes when used with another family.</span></div>
+<h4 class="sub">AVR Classification</h4>
+<p class="lbl">AVRs are generally classified into four groups</p>
+<h4><i>1</i>Mega</h4>
+<h4><i>2</i>Tiny</h4>
+<h4><i>3</i>Special Purpose</h4>
+<h4><i>4</i>Classic</h4>
+<p>The Mega family is widely used.</p></div></details></div><div class="gr"><h3>Study order</h3><details class="q" data-m=""><summary><span class="no"></span><span class="tt">What you actually need to master</span><span class="meta"></span></summary><div class="a"><h4 class="sub">If your exam is close, this is the order I&#x27;d study Module 1:</h4>
+<h4 class="tier">🔴 Tier 1 — MUST KNOW PROPERLY</h4>
+<h4><i>1</i>Building Blocks of Embedded System</h4>
+<h4 class="sub">7 marks + diagram</h4>
+<h4><i>2</i>Embedded System vs General Purpose Computer</h4>
+<h4 class="sub">3/7 marks</h4>
+<h4><i>3</i>Classification of Embedded Systems</h4>
+<h4 class="sub">3/7 marks</h4>
+<h4><i>4</i>Quality Attributes</h4>
+<p class="lbl">7 marks</p>
+<h4><i>5</i>AVR Architecture</h4>
+<h4 class="sub">7 marks + diagram</h4>
+<h4><i>6</i>AVR Data Memory</h4>
+<h4 class="sub">7 marks + diagram</h4>
+<h4><i>7</i><code>SREG</code></h4>
+<h4 class="sub">3/7 marks + diagram</h4>
+<h4><i>8</i><code>DDRx</code>, <code>PORTx</code>, <code>PINx</code></h4>
+<h4 class="sub">1/3/7 marks + diagram</h4>
+<h4><i>9</i>GPR</h4>
+<h4 class="sub">1/3 marks</h4>
+<h4><i>10</i>Applications of Embedded Systems</h4>
+<h4 class="sub">3/7 marks</h4>
+<hr>
+<h4 class="tier">🟠 Tier 2 — VERY IMPORTANT</h4>
+<h4><i>11</i>Characteristics of Embedded System</h4>
+<h4><i>12</i>Hard vs Soft Real-Time</h4>
+<h4><i>13</i>Sensors and Actuators</h4>
+<h4><i>14</i>Memory selection factors</h4>
+<h4><i>15</i>Microcontroller selection factors</h4>
+<h4><i>16</i>Program ROM</h4>
+<h4><i>17</i>Program Counter</h4>
+<h4><i>18</i>Volatile vs Non-volatile memory</h4>
+<h4><i>19</i>Parallel I/O, Serial ports, Timers, ADC, DAC</h4></div></details><details class="q" data-m=""><summary><span class="no"></span><span class="tt">Diagram checklist</span><span class="meta"></span></summary><div class="a"><h4 class="sub">These are the ones I&#x27;d actually spend time learning to draw:</h4>
+<div class="note tp">🔥 MUST DRAW</div>
+<div class="note dg">🖊 Building Blocks of Embedded System</div>
+<div class="note dg">🖊 AVR Architecture</div>
+<div class="note dg">🖊 AVR Data Memory Organization</div>
+<div class="note dg">🖊 <code>SREG</code></div>
+<div class="note dg">🖊 ATmega32 I/O Port / <code>DDRx</code>–<code>PORTx</code>–<code>PINx</code></div></div></details></div></section><section class="mod" id="mod2" hidden><details class="q intro" open><summary><span class="tt">Priority order</span></summary><div class="a"><div class="note tp">🔥 PRIORITY ORDER</div>
+<h4 class="tier">🔴 Tier 1 — DO NOT SKIP</h4>
+<h4><i>1</i>AVR C data types</h4>
+<h4><i>2</i><code>DDRx</code>, <code>PORTx</code>, <code>PINx</code></h4>
+<h4><i>3</i>Bitwise operators</h4>
+<h4><i>4</i>00H–FFH program</h4>
+<h4><i>5</i>PORT-to-PORT program</h4>
+<h4><i>6</i>Toggle programs</h4>
+<h4><i>7</i>LED rotation using shift operators</h4>
+<h4><i>8</i>Packed BCD → ASCII</h4>
+<h4><i>9</i>ASCII → Packed BCD</h4>
+<h4><i>10</i>Data serialization — LSB first</h4>
+<h4><i>11</i>Time-delay methods</h4>
+<h4><i>12</i>Timer registers</h4>
+<h4><i>13</i>Normal mode</h4>
+<h4><i>14</i>CTC mode</h4>
+<h4><i>15</i>Timer0 programming</h4>
+<h4><i>16</i>Interrupt vs polling</h4>
+<h4><i>17</i>ISR</h4>
+<h4><i>18</i>Steps of interrupt execution</h4>
+<h4><i>19</i>Sources of AVR interrupts</h4>
+<h4><i>20</i>Enable/disable interrupts</h4>
+<p>These aren&#x27;t just random topics: the PYQs repeatedly ask programs on I/O, bitwise operations, BCD/ASCII, timers and interrupts.</p></div></details><div class="gr"><details class="q" data-m=""><summary><span class="no">1</span><span class="tt">C data types for AVR</span><span class="meta"></span></summary><div class="a"><p>The module specifically discusses AVR C data types because choosing suitable data types helps reduce memory usage and program size.</p>
+<p class="lbl">1 Mark</p>
+<p class="qq"><b>Q</b>Name any two data types used in AVR C.</p>
+<p class="lbl">Answer</p>
+<ul><li>unsigned char</li><li>unsigned int</li></ul>
+<p>Other types include signed char, signed int, long, float and double.</p>
+<hr>
+<p class="lbl">3 Marks</p>
+<p class="qq"><b>Q</b>Explain the important C data types used in AVR.</p>
+<h4><i>1</i>unsigned char</h4>
+<p>It is an 8-bit data type.</p>
+<p>Range is 00H–FFH or 0–255.</p>
+<p>It is widely used in AVR programming.</p>
+<p>It is also useful for storing ASCII characters.</p>
+<h4><i>2</i>signed char</h4>
+<p>It is an 8-bit data type.</p>
+<p>One bit represents the sign.</p>
+<p>Range is −128 to +127.</p>
+<h4><i>3</i>unsigned int</h4>
+<p>It is a 16-bit data type.</p>
+<p>Range is 0000H–FFFFH or 0–65,535.</p>
+<p>It can be used for memory addresses and counter values greater than 256.</p>
+<p>It occupies 2 bytes of RAM.</p>
+<h4><i>4</i>signed int</h4>
+<p>It is a 16-bit data type.</p>
+<p>Range is −32,768 to +32,767.</p>
+<h4><i>5</i>long</h4>
+<p>Used when values greater than 16 bits are required.</p>
+<h4><i>6</i>float and double</h4>
+<p>Used for storing fractional numbers. The module notes that AVR C uses 32-bit size for these, with double providing higher precision.</p></div></details><details class="q" data-m=""><summary><span class="no">2</span><span class="tt">AVR I/O port programming</span><span class="meta"></span></summary><div class="a"><p>This is VERY IMPORTANT.</p>
+<p>The AVR I/O ports can be accessed both at byte level and bit level.</p>
+<ul><li>Three registers</li><li><code>DDRx</code> — Data Direction Register</li></ul>
+<p>Determines whether the pins are input or output.</p>
+<ul><li>1 → Output</li><li>0 → Input</li></ul>
+<p class="lbl">Example</p>
+<pre class="code"><code>DDRB = 0xFF;</code></pre>
+<p>Makes all <code>PORTB</code> pins output.</p>
+<pre class="code"><code>DDRB = 0x00;</code></pre>
+<p>Makes all <code>PORTB</code> pins input.</p>
+<h4 class="sub"><code>PORTx</code> — Data Register</h4>
+<p>Used to send/output data through a port.</p>
+<pre class="code"><code>PORTB = 0x55;</code></pre>
+<h4 class="sub"><code>PINx</code> — Pin Input Register</h4>
+<p>Used to read the actual input value present at the pins.</p>
+<pre class="code"><code>x = PINB;</code></pre></div></details><details class="q" data-m="1"><summary><span class="no">3</span><span class="tt">Important 1-MARK I/O programs</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="qq"><b>Q</b>Set <code>PORTB</code> as input.</p>
+<pre class="code"><code>DDRB = 0x00;</code></pre>
+<p class="qq"><b>Q</b>Set <code>PORTD</code> as input.</p>
+<pre class="code"><code>DDRD = 0x00;</code></pre>
+<p>This exact type of question appeared in the 2025 paper.</p>
+<p class="qq"><b>Q</b>Set <code>PORTC</code> as input.</p>
+<pre class="code"><code>DDRC = 0x00;</code></pre>
+<p class="qq"><b>Q</b>Set <code>PORTB</code> as output.</p>
+<pre class="code"><code>DDRB = 0xFF;</code></pre>
+<p class="qq"><b>Q</b>Set PB2 as output and remaining pins as input.</p>
+<pre class="code"><code>DDRB = 0x04;</code></pre>
+<p class="lbl">Because</p>
+<pre class="dia">0000 0100
+      ↑
+     PB2</pre>
+<p>This was directly asked in the November 2023 paper.</p></div></details><details class="q" data-m=""><summary><span class="no">4</span><span class="tt">Program — send 00H to ffh to portb</span><span class="meta"></span></summary><div class="a"><p>This is directly from the module and was also asked in the PYQs.</p>
+<p class="lbl">Question</p>
+<p>Write an AVR C program to send values 00H to FFH to <code>PORTB</code>.</p>
+<p class="lbl">Full program</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    unsigned char z;
+
+    DDRB = 0xFF;
+
+    for(z = 0; z &lt;= 255; z++)
+    {
+        PORTB = z;
+    }
+
+    return 0;
+}</code></pre>
+<p class="lbl">Explanation</p>
+<p><code>DDRB</code> = <code>0xFF</code> makes <code>PORTB</code> an output.</p>
+<p>z is an unsigned char, so it can represent 0–255.</p>
+<p>The for loop generates values from 00H to FFH.</p>
+<p>Each value is sent to <code>PORTB</code>.</p>
+<div class="note tp">🔥 Learn this program.</div></div></details><details class="q" data-m=""><summary><span class="no">5</span><span class="tt">Program — portb to portc</span><span class="meta"></span></summary><div class="a"><p>This appeared as a 3-mark programming question in the 2025 paper and a similar question appeared in April 2025.</p>
+<p class="lbl">Question</p>
+<p>Write an AVR C program to get a byte of data from <code>PORTB</code> and send it to <code>PORTC</code> continuously.</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    DDRB = 0x00;     // PORTB as input
+    DDRC = 0xFF;     // PORTC as output
+
+    while(1)
+    {
+        PORTC = PINB;
+    }
+
+    return 0;
+}</code></pre>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span><code>PORTB</code> is configured as input.</span></div>
+<div class="li"><b>2</b><span><code>PORTC</code> is configured as output.</span></div>
+<div class="li"><b>3</b><span><code>PINB</code> reads the input byte.</span></div>
+<div class="li"><b>4</b><span>The value is copied to <code>PORTC</code>.</span></div>
+<div class="li"><b>5</b><span>while(1) makes the operation continuous.</span></div></div></details><details class="q" data-m=""><summary><span class="no">6</span><span class="tt">Bitwise operators</span><span class="meta"></span></summary><div class="a"><p>Extremely important.</p>
+<p>The module gives six bitwise operators.</p>
+<div class="tw"><table><thead><tr><th>Operator</th><th>Name</th></tr></thead><tbody><tr><td>&amp;</td><td>Bitwise AND</td></tr><tr><td>`</td><td>`</td></tr><tr><td>^</td><td>Bitwise EX-OR</td></tr><tr><td>~</td><td>Bitwise NOT / Inverter</td></tr><tr><td>&gt;&gt;</td><td>Shift right</td></tr><tr><td>&lt;&lt;</td><td>Shift left</td></tr></tbody></table></div>
+<hr>
+<h4><i>1</i>Bitwise AND &amp;</h4>
+<p>Performs AND operation bit-by-bit.</p>
+<p class="lbl">Example</p>
+<h4 class="sub">35H &amp; 0FH = 05H</h4>
+<p>Used for masking bits.</p>
+<hr>
+<h4><i>2</i>Bitwise OR |</h4>
+<p>Performs OR operation bit-by-bit.</p>
+<h4 class="sub">35H | 0FH = 3FH</h4>
+<p>Used for setting bits.</p>
+<hr>
+<h4><i>3</i>Bitwise EX-OR ^</h4>
+<p>Performs XOR operation.</p>
+<h4 class="sub">35H ^ 0FH = 3AH</h4>
+<p>Useful for toggling bits.</p>
+<hr>
+<h4><i>4</i>Bitwise NOT ~</h4>
+<p>Inverts every bit.</p>
+<h4 class="sub">~55H = AAH</h4>
+<p class="lbl">Because</p>
+<p>55H = 0101 0101<br>~55H = 1010 1010 = AAH</p>
+<hr>
+<h4><i>5</i>Shift right &gt;&gt;</h4>
+<p>Moves bits towards the right.</p>
+<p class="lbl">Example</p>
+<h4 class="sub"><code>0xF0</code> &gt;&gt; 4 = <code>0x0F</code></h4>
+<hr>
+<h4><i>6</i>Shift left &lt;&lt;</h4>
+<p>Moves bits towards the left.</p>
+<p class="lbl">Example</p>
+<h4 class="sub"><code>0x0F</code> &lt;&lt; 4 = <code>0xF0</code></h4>
+<p>The module specifically gives these examples.</p></div></details><details class="q" data-m=""><summary><span class="no">7</span><span class="tt">PYQ — calculate port values</span><span class="meta"></span></summary><div class="a"><p class="lbl">Question</p>
+<pre class="code"><code>PORTB = 0x35 &amp; 0x0F;
+PORTC = 0x04 | 0x68;
+PORTD = 0x54 ^ 0x78;</code></pre>
+<p>This exact style appeared in November 2025.</p>
+<h4 class="sub"><code>PORTB</code></h4>
+<pre class="dia">35H = 0011 0101
+0FH = 0000 1111
+----------------
+      0000 0101
+      = 05H</pre>
+<p class="lbl">Therefore</p>
+<ul><li><code>PORTB</code> = 05H</li><li><code>PORTC</code></li></ul>
+<pre class="dia">04H = 0000 0100
+68H = 0110 1000
+----------------
+      0110 1100
+      = 6CH</pre>
+<p class="lbl">Therefore</p>
+<ul><li><code>PORTC</code> = 6CH</li><li><code>PORTD</code></li></ul>
+<pre class="dia">54H = 0101 0100
+78H = 0111 1000
+----------------
+      0010 1100
+      = 2CH</pre>
+<p class="lbl">Therefore</p>
+<ul><li><code>PORTD</code> = 2CH</li><li>Final answer</li></ul>
+<p><code>PORTB</code> = 05H<br><code>PORTC</code> = 6CH<br><code>PORTD</code> = 2CH</p></div></details><details class="q" data-m=""><summary><span class="no">8</span><span class="tt">Toggle all port b bits</span><span class="meta"></span></summary><div class="a"><p>This is a very important programming pattern.</p>
+<h4 class="sub">Using inverter operator</h4>
+<p>The November 2023 paper directly asks this type of question.</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    DDRB = 0xFF;
+
+    while(1)
+    {
+        PORTB = ~PORTB;
+    }
+
+    return 0;
+}</code></pre>
+<p class="lbl">Working</p>
+<p class="lbl">If</p>
+<h4 class="sub"><code>PORTB</code> = 55H</h4>
+<p class="lbl">then</p>
+<h4 class="sub">~<code>PORTB</code> = AAH</h4>
+<p>and vice versa.</p></div></details><details class="q" data-m=""><summary><span class="no">9</span><span class="tt">Toggle all portb bits using ex-or</span><span class="meta"></span></summary><div class="a"><pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    DDRB = 0xFF;
+
+    while(1)
+    {
+        PORTB = PORTB ^ 0xFF;
+    }
+
+    return 0;
+}</code></pre>
+<p>Why?</p>
+<p>0 XOR 1 = 1<br>1 XOR 1 = 0</p>
+<p>So every bit is toggled.</p></div></details><details class="q" data-m=""><summary><span class="no">10</span><span class="tt">Toggle only one bit</span><span class="meta"></span></summary><div class="a"><p class="lbl">Question</p>
+<p>Toggle only bit 4 of <code>PORTB</code> without disturbing other pins.</p>
+<p>The module gives this program pattern.</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+#include &lt;util/delay.h&gt;
+
+int main(void)
+{
+    DDRB = DDRB | (1 &lt;&lt; 4);
+
+    while(1)
+    {
+        PORTB = PORTB | (1 &lt;&lt; 4);
+        _delay_ms(10);
+
+        PORTB = PORTB &amp; ~(1 &lt;&lt; 4);
+        _delay_ms(10);
+    }
+
+    return 0;
+}</code></pre>
+<ul><li>Important operators</li><li><code>PORTB</code> | (1 &lt;&lt; 4)</li></ul>
+<p>→ set bit 4.</p>
+<h4 class="sub"><code>PORTB</code> &amp; ~(1 &lt;&lt; 4)</h4>
+<p>→ clear bit 4.</p>
+<h4 class="sub"><code>PORTB</code> ^ (1 &lt;&lt; 4)</h4>
+<p>→ toggle bit 4.</p></div></details><details class="q" data-m=""><summary><span class="no">11</span><span class="tt">LED rotation using shift operators</span><span class="meta"><span class="dgb">🖊️ Diagram</span></span></summary><div class="a"><div class="note tp">🔥 7-MARK PROGRAM — LEARN FULL PROGRAM</div>
+<p>This exact type appeared in the November 2023 paper.</p>
+<p class="lbl">Question</p>
+<p>Write an AVR C program to rotate LEDs connected to <code>PORTA</code> sequentially with delay using shift operators.</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+#include &lt;util/delay.h&gt;
+
+int main(void)
+{
+    unsigned char led = 0x01;
+
+    DDRA = 0xFF;
+
+    while(1)
+    {
+        PORTA = led;
+        _delay_ms(100);
+
+        led = led &lt;&lt; 1;
+
+        if(led == 0x00)
+            led = 0x01;
+    }
+
+    return 0;
+}</code></pre>
+<h4 class="sub">Sequence</h4>
+<p>0000 0001<br>0000 0010<br>0000 0100<br>0000 1000<br>0001 0000<br>0010 0000<br>0100 0000<br>1000 0000<br>0000 0001<br>...</p>
+<p>So the LEDs appear to move one position at a time.</p>
+<div class="note dg">🖊 LEARN DIAGRAM if the question asks for LED interfacing.</div></div></details><details class="q" data-m=""><summary><span class="no">12</span><span class="tt">Door sensor + LED program</span><span class="meta"></span></summary><div class="a"><p>The module contains this type of bit-level programming example.</p>
+<p class="lbl">Question</p>
+<p>A sensor is connected to an input pin and LED to an output pin. Turn ON LED when sensor is HIGH.</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    DDRA = DDRA &amp; ~(1 &lt;&lt; 1);   // PA1 input
+    DDRD = DDRD | (1 &lt;&lt; 7);    // PD7 output
+
+    while(1)
+    {
+        if(PINA &amp; (1 &lt;&lt; 1))
+            PORTD = PORTD | (1 &lt;&lt; 7);
+        else
+            PORTD = PORTD &amp; ~(1 &lt;&lt; 7);
+    }
+
+    return 0;
+}</code></pre>
+<p class="lbl">Remember the pattern</p>
+<p><code>DDRx</code> → configure<br><code>PINx</code> → read<br><code>PORTx</code> → output</p></div></details><details class="q" data-m=""><summary><span class="no">13</span><span class="tt">Time delay in AVR c</span><span class="meta"></span></summary><div class="a"><p>The module gives three methods.</p>
+<h4><i>1</i>Simple for loop</h4>
+<p>A delay can be created by executing a loop for a calculated number of times.</p>
+<p class="lbl">Accuracy depends mainly on</p>
+<ul><li>Crystal frequency</li><li>Compiler used</li></ul>
+<h4><i>2</i>Predefined C functions</h4>
+<p class="lbl">Use</p>
+<p>_delay_ms()<br>_delay_us()</p>
+<p class="lbl">These functions are defined in</p>
+<pre class="code"><code>#include &lt;util/delay.h&gt;</code></pre>
+<p>The module notes portability as a drawback because different compilers may use different delay-function names.</p>
+<h4><i>3</i>AVR timers</h4>
+<p>The timer counter is cleared/loaded at the beginning and allowed to count. The counter value represents elapsed time.</p></div></details><details class="q" data-m=""><summary><span class="no">14</span><span class="tt">100 ms DELAY PROGRAM</span><span class="meta"></span></summary><div class="a"><p>The module provides a program for toggling <code>PORTB</code> with 100 ms delay at 8 MHz.</p>
+<h4 class="sub">A cleaner exam version using the predefined function is:</h4>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+#include &lt;util/delay.h&gt;
+
+int main(void)
+{
+    DDRB = 0xFF;
+
+    while(1)
+    {
+        PORTB = 0xAA;
+        _delay_ms(100);
+
+        PORTB = 0x55;
+        _delay_ms(100);
+    }
+
+    return 0;
+}</code></pre></div></details><details class="q" data-m=""><summary><span class="no">15</span><span class="tt">Data conversion functions</span><span class="meta"></span></summary><div class="a"><p>The module briefly includes standard C conversion functions.</p>
+<div class="tw"><table><thead><tr><th>Function</th><th>Purpose</th></tr></thead><tbody><tr><td>atoi()</td><td>String → integer</td></tr><tr><td>atol()</td><td>String → long</td></tr><tr><td>itoa()</td><td>Integer → string</td></tr><tr><td>ltoa()</td><td>Long → string</td></tr><tr><td>atof()</td><td>String → floating point</td></tr></tbody></table></div>
+<p class="lbl">For these functions</p>
+<pre class="code"><code>#include &lt;stdlib.h&gt;</code></pre>
+<p>is used.</p>
+<p>Priority: Medium. Don&#x27;t spend too much time here compared with BCD/ASCII.</p></div></details><details class="q" data-m=""><summary><span class="no">16</span><span class="tt">BCD and ASCII</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 EXTREMELY IMPORTANT</div>
+<p>This is one of the most repeated Module 2 questions.</p>
+<ul><li>It appeared with different packed BCD values in the papers, including:</li><li>34H</li><li>47H</li><li>29H</li><li>42H</li></ul>
+<p>So don&#x27;t memorize only one program with one value. Learn the conversion method.</p>
+<hr>
+<p>What is BCD?</p>
+<p>BCD = Binary Coded Decimal.</p>
+<p>Each decimal digit from 0–9 is represented using 4 bits.</p>
+<h4 class="sub">Unpacked BCD</h4>
+<p>Only the lower 4 bits contain the BCD digit.</p>
+<p class="lbl">Example</p>
+<p>9 = 0000 1001<br>5 = 0000 0101</p>
+<h4 class="sub">Packed BCD</h4>
+<p>Two BCD digits are stored in one byte.</p>
+<p class="lbl">Example</p>
+<h4 class="sub">59 = 0101 1001 = 59H</h4>
+<p class="lbl">Upper nibble</p>
+<h4 class="sub">5</h4>
+<p class="lbl">Lower nibble</p>
+<h4 class="sub">9</h4>
+<p>The module describes exactly this packed/unpacked distinction.</p></div></details><details class="q" data-m=""><summary><span class="no">17</span><span class="tt">Packed BCD → ASCII</span><span class="meta"></span></summary><div class="a"><h4 class="sub">Conversion rule</h4>
+<p class="lbl">To convert packed BCD to ASCII</p>
+<h4 class="sub">Step 1</h4>
+<p>Extract lower nibble.</p>
+<pre class="code"><code>x = mybyte &amp; 0x0F;</code></pre>
+<h4 class="sub">Step 2</h4>
+<p>Add 30H.</p>
+<pre class="code"><code>x = x | 0x30;</code></pre>
+<h4 class="sub">Step 3</h4>
+<p>Extract upper nibble.</p>
+<pre class="code"><code>y = mybyte &amp; 0xF0;</code></pre>
+<h4 class="sub">Step 4</h4>
+<p>Shift it right four times.</p>
+<pre class="code"><code>y = y &gt;&gt; 4;</code></pre>
+<h4 class="sub">Step 5</h4>
+<p>Add 30H.</p>
+<pre class="code"><code>y = y | 0x30;</code></pre>
+<p>The module explains that packed BCD is first converted to unpacked BCD, then 30H is added to obtain ASCII.</p></div></details><details class="q" data-m=""><summary><span class="no">18</span><span class="tt">Full packed BCD → ASCII program</span><span class="meta"></span></summary><div class="a"><h4 class="sub">Generic program</h4>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    unsigned char x, y;
+    unsigned char mybyte = 0x29;
+
+    DDRB = 0xFF;
+    DDRC = 0xFF;
+
+    x = mybyte &amp; 0x0F;
+    x = x | 0x30;
+    PORTB = x;
+
+    y = mybyte &amp; 0xF0;
+    y = y &gt;&gt; 4;
+    y = y | 0x30;
+    PORTC = y;
+
+    return 0;
+}</code></pre>
+<h4 class="sub">For 29H</h4>
+<pre class="dia">29H
+ ↓
+Lower nibble = 09H
+ ↓
+09H + 30H = 39H = ASCII &#x27;9&#x27;</pre>
+<pre class="dia">Upper nibble = 20H
+ ↓
+20H &gt;&gt; 4 = 02H
+ ↓
+02H + 30H = 32H = ASCII &#x27;2&#x27;</pre>
+<p class="lbl">Therefore</p>
+<p><code>PORTB</code> = 39H → &#x27;9&#x27;<br><code>PORTC</code> = 32H → &#x27;2&#x27;</p>
+<div class="note wn">⚠ Important note about your PDF</div>
+<p class="lbl">The module&#x27;s printed program has</p>
+<pre class="code"><code>PORTB = mybyte | 0x30;</code></pre>
+<p>after calculating x.</p>
+<h4 class="sub">For a general BCD value, the correct conversion should use:</h4>
+<pre class="code"><code>PORTB = x | 0x30;</code></pre>
+<p>because x contains the extracted lower BCD digit.</p>
+<p>I&#x27;m explicitly pointing this out rather than silently changing your notes.</p></div></details><details class="q" data-m=""><summary><span class="no">19</span><span class="tt">How to handle any BCD value</span><span class="meta"></span></summary><div class="a"><p class="lbl">If question says</p>
+<h4 class="sub"><code>0x34</code></h4>
+<p class="lbl">Lower digit</p>
+<h4 class="sub">4 → ASCII 34H</h4>
+<p class="lbl">Upper digit</p>
+<ul><li>3 → ASCII 33H</li><li><code>0x47</code></li></ul>
+<p>4 → 34H<br>7 → 37H</p>
+<h4 class="sub"><code>0x29</code></h4>
+<p>2 → 32H<br>9 → 39H</p>
+<h4 class="sub"><code>0x42</code></h4>
+<p>4 → 34H<br>2 → 32H</p>
+<p>The program remains the same. Only mybyte changes.</p></div></details><details class="q" data-m=""><summary><span class="no">20</span><span class="tt">ASCII → packed BCD</span><span class="meta"></span></summary><div class="a"><p>This is also in the module.</p>
+<p class="lbl">Suppose</p>
+<p>&#x27;4&#x27; = 34H<br>&#x27;7&#x27; = 37H</p>
+<h4 class="sub">Step 1</h4>
+<p class="lbl">Remove upper four bits</p>
+<pre class="code"><code>w = w &amp; 0x0F;</code></pre>
+<p class="lbl">Now</p>
+<ul><li>34H → 04H</li><li>Step 2</li></ul>
+<p class="lbl">Shift it left four positions</p>
+<pre class="code"><code>w = w &lt;&lt; 4;</code></pre>
+<p class="lbl">Now</p>
+<ul><li>04H → 40H</li><li>Step 3</li></ul>
+<p class="lbl">Convert second ASCII character</p>
+<pre class="code"><code>z = z &amp; 0x0F;</code></pre>
+<ul><li>37H → 07H</li><li>Step 4</li></ul>
+<p class="lbl">Combine</p>
+<pre class="code"><code>bcdbyte = w | z;</code></pre>
+<h4 class="sub">40H | 07H = 47H</h4>
+<hr>
+<p class="lbl">Full program</p>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    unsigned char bcdbyte;
+    unsigned char w = &#x27;4&#x27;;
+    unsigned char z = &#x27;7&#x27;;
+
+    DDRB = 0xFF;
+
+    w = w &amp; 0x0F;
+    w = w &lt;&lt; 4;
+
+    z = z &amp; 0x0F;
+
+    bcdbyte = w | z;
+
+    PORTB = bcdbyte;
+
+    return 0;
+}</code></pre></div></details><details class="q" data-m=""><summary><span class="no">21</span><span class="tt">Data serialization</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 Important 3-mark topic</div>
+<p>The module defines serialization as sending a byte one bit at a time through a single pin.</p>
+<p class="lbl">Two ways</p>
+<h4><i>1</i>Using serial port</h4>
+<p>The serial port performs the transfer, but programmer has limited control over the sequence.</p>
+<h4><i>2</i>Sending one bit at a time</h4>
+<p class="lbl">The programmer controls</p>
+<ul><li>sequence of bits</li><li>timing/space between bits</li></ul></div></details><details class="q" data-m=""><summary><span class="no">22</span><span class="tt">Lsb-first serialization</span><span class="meta"></span></summary><div class="a"><p>This appeared directly as a 3-mark question in November 2024.</p>
+<h4 class="sub">Algorithm</h4>
+<p>Suppose a byte is stored in data.</p>
+<div class="li"><b>1</b><span>Take the least significant bit.</span></div>
+<div class="li"><b>2</b><span>Send/output that bit.</span></div>
+<div class="li"><b>3</b><span>Shift the data right by one position.</span></div>
+<div class="li"><b>4</b><span>Repeat for 8 bits.</span></div>
+<ul><li>Important operation</li><li>data &amp; <code>0x01</code></li></ul>
+<p>extracts the LSB.</p>
+<p class="lbl">Then</p>
+<pre class="code"><code>data = data &gt;&gt; 1;</code></pre>
+<p>moves the next bit into the LSB position.</p>
+<hr>
+<h4 class="sub">Full program pattern</h4>
+<pre class="code"><code>#include &lt;avr/io.h&gt;
+
+int main(void)
+{
+    unsigned char data = 0x29;
+    unsigned char i;
+
+    DDRB = 0xFF;
+
+    for(i = 0; i &lt; 8; i++)
+    {
+        PORTB = data &amp; 0x01;
+        data = data &gt;&gt; 1;
+    }
+
+    return 0;
+}</code></pre>
+<p>For an exam question asking algorithm, write the four steps clearly. For a programming question, write the full code.</p></div></details><details class="q" data-m=""><summary><span class="no">23</span><span class="tt">AVR timers and counters</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 VERY IMPORTANT</div>
+<p class="lbl">Timers are used mainly for</p>
+<ul><li>generating time delays</li><li>counting external events</li></ul>
+<p>The module explains that an internal clock source is used when the device works as a timer, while an external clock/event source can be used for counting.</p>
+<h4 class="sub">ATmega32 timers</h4>
+<p class="lbl">There are</p>
+<ul><li>Timer0</li><li>Timer1</li><li>Timer2</li></ul>
+<p>The module text has a typo saying Timer0 is 16-bit. The PYQ explicitly identifies Timer1 as the 16-bit timer, while Timer0/Timer2 are 8-bit. So for the exam remember:</p>
+<p>Timer0 → 8-bit<br>Timer1 → 16-bit<br>Timer2 → 8-bit</p>
+<p>The November 2025 paper directly asks the 16-bit timer.</p></div></details><details class="q" data-m=""><summary><span class="no">24</span><span class="tt">Basic timer registers</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 3/7 MARK</div>
+<p>The module lists the main timer registers.</p>
+<h4><i>1</i>TCNTn</h4>
+<p>Timer/Counter register.</p>
+<p>It contains the current counter value.</p>
+<p>Initially/reset value is zero.</p>
+<p>It increments with each clock pulse.</p>
+<p>It can be loaded or read.</p>
+<p class="lbl">For Timer0</p>
+<h4 class="sub"><code>TCNT0</code></h4>
+<hr>
+<h4><i>2</i>TCCRn</h4>
+<p>Timer/Counter Control Register.</p>
+<p class="lbl">Used to configure</p>
+<ul><li>timer/counter operation</li><li>mode of operation</li><li>clock selection</li></ul>
+<p class="lbl">For Timer0</p>
+<h4 class="sub"><code>TCCR0</code></h4>
+<hr>
+<h4><i>3</i>OCRn</h4>
+<p>Output Compare Register.</p>
+<p>The value in OCR is compared with TCNT.</p>
+<p class="lbl">When</p>
+<h4 class="sub">TCNTn = OCRn</h4>
+<p>the corresponding output compare flag is set.</p>
+<hr>
+<h4><i>4</i><code>TIFR</code></h4>
+<p>Timer/Counter Interrupt Flag Register.</p>
+<p class="lbl">Contains timer flags such as</p>
+<p>TOV0<br>TOV1<br>TOV2<br>OCF0<br>OCF1A<br>OCF1B<br>OCF2<br>ICF1</p>
+<p>The module specifically explains TOV0 as the Timer0 overflow flag.</p></div></details><details class="q" data-m=""><summary><span class="no">25</span><span class="tt">NORMAL MODE</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 VERY IMPORTANT</div>
+<p class="lbl">Definition</p>
+<p class="lbl">In Normal Mode</p>
+<div class="li"><b>1</b><span>Timer starts counting from its current value.</span></div>
+<div class="li"><b>2</b><span>Counter increments with each clock pulse.</span></div>
+<div class="li"><b>3</b><span>For an 8-bit Timer0, it counts up to FFH.</span></div>
+<h4><i>4</i>It rolls over:</h4>
+<h4 class="sub">FFH → 00H</h4>
+<div class="li"><b>5</b><span>The TOV0 overflow flag is set.</span></div>
+<div class="li"><b>6</b><span>The flag can be monitored to detect overflow.</span></div>
+<p>This is exactly the behaviour described in the module.</p></div></details><details class="q" data-m=""><summary><span class="no">26</span><span class="tt">CTC MODE</span><span class="meta"></span></summary><div class="a"><p>CTC = Clear Timer on Compare Match.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Timer counts upward.</span></div>
+<div class="li"><b>2</b><span>TCNT is continuously compared with OCR.</span></div>
+<div class="li"><b>3</b><span>When they become equal, a compare match occurs.</span></div>
+<div class="li"><b>4</b><span>The output compare flag is set.</span></div>
+<div class="li"><b>5</b><span>The timer is cleared on the next clock pulse.</span></div>
+<p>The module describes this using <code>TCNT1</code> and OCR1A.</p></div></details><details class="q" data-m=""><summary><span class="no">27</span><span class="tt">NORMAL vs CTC</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 3 MARK — LEARN TABLE</div>
+<div class="tw"><table><thead><tr><th>Normal Mode</th><th>CTC Mode</th></tr></thead><tbody><tr><td>Counter counts continuously upward</td><td>Counter counts until compare match</td></tr><tr><td>Counts up to maximum</td><td>Counts up to OCR value</td></tr><tr><td>Overflow occurs at FF → 00 for Timer0</td><td>Compare match occurs when TCNT = OCR</td></tr><tr><td>TOV0 flag indicates overflow</td><td>Output compare flag indicates match</td></tr><tr><td>Useful for overflow-based timing</td><td>Useful for fixed compare-based timing</td></tr></tbody></table></div>
+<p>This comparison was directly asked in the November 2023 paper.</p></div></details><details class="q" data-m="7"><summary><span class="no">28</span><span class="tt">TIMER0 normal mode — 7 mark</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Question</p>
+<p>Explain the steps to program Timer0 in normal mode.</p>
+<div class="note dg">🖊 LEARN TIMER0 REGISTER/BLOCK DIAGRAM</div>
+<p class="lbl">Answer</p>
+<div class="li"><b>1</b><span>Configure the required output/input port if the timer is being used with an external output device.</span></div>
+<div class="li"><b>2</b><span>Load the initial value into <code>TCNT0</code>.</span></div>
+<pre class="code"><code>TCNT0 = value;</code></pre>
+<div class="li"><b>3</b><span>Select Normal Mode using <code>TCCR0</code>.</span></div>
+<p>The required control value is loaded into <code>TCCR0</code>.</p>
+<div class="li"><b>4</b><span>Select the clock source/prescaler through the timer control register.</span></div>
+<div class="li"><b>5</b><span>Start Timer0.</span></div>
+<div class="li"><b>6</b><span>Allow Timer0 to count upward with each clock pulse.</span></div>
+<div class="li"><b>7</b><span>Monitor the TOV0 overflow flag in <code>TIFR</code>.</span></div>
+<h4><i>8</i>When:</h4>
+<h4 class="sub">FFH → 00H</h4>
+<p>the overflow flag becomes set.</p>
+<div class="li"><b>9</b><span>If required, clear/reload the timer and repeat the process to obtain continuous delays.</span></div>
+<h4 class="sub">Key registers to remember</h4>
+<p><code>TCNT0</code> → counter value<br><code>TCCR0</code> → control/mode/clock<br><code>TIFR</code>  → overflow flag<br>TOV0  → Timer0 overflow</p>
+<p>The timer register functions and Normal Mode operation are given in the module.</p></div></details><details class="q" data-m=""><summary><span class="no">29</span><span class="tt">INTERRUPTS</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥🔥 HIGHEST PRIORITY</div>
+<p class="lbl">Module 2 and the PYQs repeatedly ask</p>
+<ul><li>Define ISR</li><li>Interrupt sources</li><li>Interrupt execution steps</li><li>Enable/disable interrupts</li><li>Hardware interrupts</li><li>Interrupt priority</li></ul>
+<p>The five papers repeatedly return to this area.</p></div></details><details class="q" data-m=""><summary><span class="no">30</span><span class="tt">INTERRUPT vs POLLING</span><span class="meta"></span></summary><div class="a"><h4 class="sub">Interrupt</h4>
+<p class="lbl">In an interrupt mechanism</p>
+<p>Device needing service sends an interrupt signal.</p>
+<p>Microcontroller stops its current activity.</p>
+<p>It services the requesting device.</p>
+<p>The associated program is called an ISR.</p>
+<h4 class="sub">Polling</h4>
+<p class="lbl">In polling</p>
+<p>Microcontroller continuously checks the status of a device.</p>
+<p>When the required condition occurs, it performs the service.</p>
+<p>The module explicitly compares these two methods.</p></div></details><details class="q" data-m=""><summary><span class="no">31</span><span class="tt">ISR — interrupt service routine</span><span class="meta"></span></summary><div class="a"><p class="lbl">1 Mark</p>
+<p>ISR is the program/subroutine executed by the microcontroller when an interrupt occurs.</p>
+<p class="lbl">3 Marks</p>
+<p>Every interrupt has an associated ISR.</p>
+<p>When the interrupt occurs, the microcontroller executes its ISR.</p>
+<p>The ISR is also called an Interrupt Handler.</p>
+<p>ISR addresses are stored through the Interrupt Vector Table.</p>
+<p>The module states that the Interrupt Vector Table contains the addresses used to locate ISRs.</p></div></details><details class="q" data-m=""><summary><span class="no">32</span><span class="tt">Interrupt vector table</span><span class="meta"></span></summary><div class="a"><p>The Interrupt Vector Table is a group of memory locations containing the addresses of interrupt service routines.</p>
+<p>When an interrupt occurs, the microcontroller uses the appropriate vector to locate the ISR.</p></div></details><details class="q" data-m=""><summary><span class="no">33</span><span class="tt">Steps of interrupt execution</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 7 MARK — MEMORIZE THESE 5</div>
+<p>The module gives five steps.</p>
+<h4 class="sub">Step 1</h4>
+<p>The microcontroller finishes the instruction currently being executed.</p>
+<p>It saves the address of the next instruction, i.e. the Program Counter, onto the stack.</p>
+<h4 class="sub">Step 2</h4>
+<p>It jumps to the fixed location called the Interrupt Vector Table.</p>
+<p>The vector table directs it to the ISR address.</p>
+<h4 class="sub">Step 3</h4>
+<p>The microcontroller executes the Interrupt Service Routine.</p>
+<p>The ISR continues until the RETI instruction is reached.</p>
+<h4 class="sub">Step 4</h4>
+<p>RETI means Return from Interrupt.</p>
+<p>After executing RETI, the microcontroller returns to the point where it was interrupted.</p>
+<h4 class="sub">Step 5</h4>
+<p>The saved PC address is retrieved from the stack and loaded back into the PC.</p>
+<p>Normal program execution then continues from that address.</p>
+<p class="lbl">Memory trick</p>
+<pre class="dia">FINISH
+  ↓
+SAVE PC
+  ↓
+VECTOR
+  ↓
+ISR
+  ↓
+RETI
+  ↓
+RESTORE PC
+  ↓
+CONTINUE</pre></div></details><details class="q" data-m=""><summary><span class="no">34</span><span class="tt">Sources of AVR interrupts</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 3/7 MARK</div>
+<p>The module lists the following sources.</p>
+<h4><i>1</i>Timer interrupts</h4>
+<p class="lbl">Each timer can generate interrupts such as</p>
+<ul><li>Overflow</li><li>Compare match</li></ul>
+<h4><i>2</i>External hardware interrupts</h4>
+<p class="lbl">ATmega32 has</p>
+<p>INT0 → PD2<br>INT1 → PD3<br>INT2 → PB2</p>
+<h4><i>3</i>USART interrupts</h4>
+<p class="lbl">USART has interrupts associated with</p>
+<ul><li>Receive</li><li>Transmit</li></ul>
+<h4><i>4</i>SPI interrupt</h4>
+<p>Used for SPI communication.</p>
+<h4><i>5</i>ADC interrupt</h4>
+<p>Associated with Analog-to-Digital conversion.</p></div></details><details class="q" data-m=""><summary><span class="no">35</span><span class="tt">Enable / disable interrupts</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 VERY IMPORTANT</div>
+<p>The I bit of the AVR Status Register <code>SREG</code> controls global interrupt enabling/disabling.</p>
+<h4 class="sub">I = 1</h4>
+<p>Interrupts are enabled.</p>
+<h4 class="sub">I = 0</h4>
+<p>Interrupts are disabled.</p>
+<p class="lbl">Therefore</p>
+<h4 class="sub"><code>SREG</code> D7 = I bit</h4>
+<p>I = 1 → Enable<br>I = 0 → Disable</p>
+<p>The module specifically notes that interrupts may be disabled while performing a critical task.</p></div></details><details class="q" data-m=""><summary><span class="no">36</span><span class="tt">Hardware interrupts</span><span class="meta"></span></summary><div class="a"><p class="lbl">3 Mark</p>
+<p class="lbl">The external hardware interrupt pins are</p>
+<p>INT0 → PD2<br>INT1 → PD3<br>INT2 → PB2</p>
+<p>These are used when external hardware needs the microcontroller&#x27;s attention.</p></div></details><details class="q" data-m=""><summary><span class="no">37</span><span class="tt">Full interrupt priority / enable question</span><span class="meta"></span></summary><div class="a"><p class="lbl">One PYQ asks</p>
+<blockquote>Explain how to enable and disable interrupts in AVR and interrupt priority.</blockquote>
+<h4 class="sub">Enable/disable</h4>
+<p class="lbl">Write</p>
+<p><code>SREG</code> controls global interrupt enable.</p>
+<p>D7 is the I bit.</p>
+<p>I = 1 → interrupts enabled.</p>
+<p>I = 0 → interrupts disabled.</p>
+<p>Interrupts can be disabled during critical operations.</p>
+<h4 class="sub">Priority</h4>
+<p>For an exam answer, explain that when multiple interrupt requests are possible, the AVR uses its interrupt vector arrangement to determine which interrupt service location is entered. The exact priority ordering should be written only if it is given in your classroom notes; the Module 2 PDF excerpt provided here does not give a complete priority table, so don&#x27;t memorize an unsupported ordering.</p></div></details><details class="q" data-m="7"><summary><span class="no">38</span><span class="tt">What to write for 1 / 3 / 7 marks</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><h4 class="tier">🟢 1 MARK</h4>
+<p class="lbl">Know these instantly</p>
+<ul><li>unsigned char → 8-bit</li><li>unsigned int → 16-bit</li><li><code>DDRx</code> → data direction</li><li><code>PORTx</code> → output/data register</li><li><code>PINx</code> → input/pin register</li><li>&amp; → AND</li><li>| → OR</li><li>^ → XOR</li><li>~ → NOT</li><li>&lt;&lt; → left shift</li></ul>
+<blockquote>→ right shift</blockquote>
+<ul><li>BCD → Binary Coded Decimal</li><li>ASCII → character encoding</li><li>TCNTn → timer/counter register</li><li>TCCRn → timer control register</li><li>OCRn → output compare register</li><li><code>TIFR</code> → timer interrupt flag register</li><li>TOV0 → Timer0 overflow flag</li><li>ISR → Interrupt Service Routine</li><li>I bit → global interrupt enable/disable</li><li>I=1 → enable</li><li>I=0 → disable</li><li>Timer1 → 16-bit</li><li>Timer0/Timer2 → 8-bit</li></ul>
+<hr>
+<h4 class="tier">🟡 3-MARK MUST-PREP</h4>
+<h4><i>1</i>AVR C data types</h4>
+<h4><i>2</i><code>DDRx</code>, <code>PORTx</code>, <code>PINx</code></h4>
+<h4><i>3</i>Three bitwise operators</h4>
+<h4><i>4</i>Calculate bitwise expressions</h4>
+<h4><i>5</i><code>PORTB</code> → <code>PORTC</code> program</h4>
+<h4><i>6</i>00H → FFH program</h4>
+<h4><i>7</i>Time-delay methods</h4>
+<h4><i>8</i>Data serialization</h4>
+<h4><i>9</i>LSB-first serialization</h4>
+<h4><i>10</i>Timer registers</h4>
+<h4><i>11</i>Normal vs CTC</h4>
+<h4><i>12</i>ISR</h4>
+<h4><i>13</i>Sources of interrupts</h4>
+<h4><i>14</i>Enable/disable interrupts</h4>
+<h4><i>15</i>Hardware interrupts</h4>
+<hr>
+<h4 class="tier">🔴 7-MARK MUST-PREP</h4>
+<h4><i>1</i>AVR C logic/bitwise operators + examples</h4>
+<p>This appeared directly in April 2024.</p>
+<h4><i>2</i>LED rotation using shift operators</h4>
+<p>Direct PYQ.</p>
+<h4><i>3</i>Packed BCD → ASCII program</h4>
+<p>Repeated heavily.</p>
+<h4><i>4</i>Timer0 Normal Mode</h4>
+<p>Direct 7-mark question.</p>
+<h4><i>5</i>Timer registers</h4>
+<p>Direct 7-mark question.</p>
+<h4><i>6</i>Timer modes</h4>
+<p>Direct 7-mark question.</p>
+<h4><i>7</i>Interrupt execution steps</h4>
+<p>Direct 7-mark question.</p>
+<h4><i>8</i>ISR + interrupt sources</h4>
+<p>Direct 7-mark question.</p>
+<h4><i>9</i>Enable/disable interrupts</h4>
+<p>Repeated in PYQs.</p>
+<hr>
+<h4 class="sub">🚨 PROGRAMS I WOULD ACTUALLY MEMORIZE</h4>
+<p>If you&#x27;re short on time, don&#x27;t try to memorize every line of every program separately.</p>
+<p class="lbl">Learn these patterns</p>
+<h4 class="sub">Pattern 1 — Configure output</h4>
+<pre class="code"><code>DDRB = 0xFF;</code></pre>
+<h4 class="sub">Pattern 2 — Configure input</h4>
+<pre class="code"><code>DDRB = 0x00;</code></pre>
+<h4 class="sub">Pattern 3 — Read input</h4>
+<pre class="code"><code>x = PINB;</code></pre>
+<h4 class="sub">Pattern 4 — Output</h4>
+<pre class="code"><code>PORTB = x;</code></pre>
+<h4 class="sub">Pattern 5 — Set bit</h4>
+<pre class="code"><code>PORTB = PORTB | (1 &lt;&lt; n);</code></pre>
+<h4 class="sub">Pattern 6 — Clear bit</h4>
+<pre class="code"><code>PORTB = PORTB &amp; ~(1 &lt;&lt; n);</code></pre>
+<h4 class="sub">Pattern 7 — Toggle bit</h4>
+<pre class="code"><code>PORTB = PORTB ^ (1 &lt;&lt; n);</code></pre>
+<h4 class="sub">Pattern 8 — Test bit</h4>
+<pre class="code"><code>if(PINB &amp; (1 &lt;&lt; n))</code></pre>
+<h4 class="sub">Pattern 9 — Shift left</h4>
+<pre class="code"><code>x = x &lt;&lt; 1;</code></pre>
+<h4 class="sub">Pattern 10 — Shift right</h4>
+<pre class="code"><code>x = x &gt;&gt; 1;</code></pre>
+<h4 class="sub">Pattern 11 — Delay</h4>
+<pre class="code"><code>_delay_ms(100);</code></pre>
+<h4 class="sub">Pattern 12 — BCD lower digit</h4>
+<pre class="code"><code>x = data &amp; 0x0F;
+x = x | 0x30;</code></pre>
+<h4 class="sub">Pattern 13 — BCD upper digit</h4>
+<pre class="code"><code>y = data &amp; 0xF0;
+y = y &gt;&gt; 4;
+y = y | 0x30;</code></pre>
+<h4 class="sub">Pattern 14 — LSB serialization</h4>
+<pre class="code"><code>bit = data &amp; 0x01;
+data = data &gt;&gt; 1;</code></pre></div></details></div></section><section class="mod" id="mod3" hidden><details class="q intro" open><summary><span class="tt">Priority order</span></summary><div class="a"><div class="note tp">🔥 PRIORITY</div>
+<h4 class="tier">🔴 Tier 1 — DO NOT SKIP</h4>
+<h4><i>1</i>RS232 basics</h4>
+<h4><i>2</i>MAX232</h4>
+<h4><i>3</i>ATmega32 ↔ RS232 interfacing</h4>
+<h4><i>4</i>LCD pin functions</h4>
+<h4><i>5</i>RS, R/W and E pins</h4>
+<h4><i>6</i>LCD initialization</h4>
+<h4><i>7</i>Sending command/data to LCD</h4>
+<h4><i>8</i>4×4 keyboard interfacing</h4>
+<h4><i>9</i>Keyboard scanning and key detection</h4>
+<h4><i>10</i>ADC characteristics</h4>
+<h4><i>11</i>ATmega32 ADC features</h4>
+<h4><i>12</i>ADC resolution / Vref / conversion time</h4>
+<h4><i>13</i>DAC</h4>
+<h4><i>14</i>LM34/LM35 interfacing</h4>
+<h4 class="tier">🟡 Tier 2</h4>
+<h4><i>15</i>Synchronous vs asynchronous communication</h4>
+<h4><i>16</i>UART / USART</h4>
+<h4><i>17</i>Serial data conversion</h4>
+<h4><i>18</i>Signal conditioning</h4>
+<h4><i>19</i>DAC0808 / R-2R ladder</h4>
+<h4><i>20</i>ADC hardware considerations</h4></div></details><div class="gr"><details class="q" data-m=""><summary><span class="no">1</span><span class="tt">Serial data communication</span><span class="meta"></span></summary><div class="a"><p>Before RS232, understand the basic idea.</p>
+<p class="lbl">3 Marks</p>
+<p>For serial communication, a byte of data must be converted into a sequence of bits and transmitted through a single data line.</p>
+<p>At the receiving end, the serial bits are received and converted back into a byte.</p>
+<p class="lbl">The module describes</p>
+<pre class="dia">Parallel data
+     ↓
+Parallel-In Serial-Out
+     ↓
+Serial bits
+     ↓
+Communication line
+     ↓
+Serial-In Parallel-Out
+     ↓
+Parallel byte</pre>
+<p>This is the basic idea of serial data communication.</p></div></details><details class="q" data-m=""><summary><span class="no">2</span><span class="tt">Synchronous and asynchronous communication</span><span class="meta"></span></summary><div class="a"><p class="lbl">3 Marks</p>
+<h4 class="sub">Synchronous communication</h4>
+<p>Transfers a block of data/characters at a time.</p>
+<p>Communication is coordinated using synchronization between transmitter and receiver.</p>
+<h4 class="sub">Asynchronous communication</h4>
+<p>Transfers one byte at a time.</p>
+<p>It does not transfer a complete block as in synchronous communication.</p>
+<p>The module specifically distinguishes them this way.</p>
+<p class="lbl">Remember</p>
+<p>Synchronous → block<br>Asynchronous → byte</p></div></details><details class="q" data-m=""><summary><span class="no">3</span><span class="tt">UART and USART</span><span class="meta"></span></summary><div class="a"><p class="lbl">1 Mark</p>
+<p>UART = Universal Asynchronous Receiver-Transmitter.</p>
+<p>USART = Universal Synchronous/Asynchronous Receiver-Transmitter.</p>
+<p>These are serial communication interface devices described in the module.</p></div></details><details class="q" data-m=""><summary><span class="no">4</span><span class="tt">RS232</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥🔥 VERY IMPORTANT</div>
+<p>RS232 is a widely used serial I/O interfacing standard used in PCs and other equipment.</p>
+<p>The important problem is that RS232 voltage levels are not compatible with TTL levels used by the ATmega32.</p>
+<p class="lbl">According to the module</p>
+<ul><li>RS232 logic 1 → −3 V to −25 V</li><li>RS232 logic 0 → +3 V to +25 V</li><li>−3 V to +3 V → undefined region</li></ul>
+<p>Therefore, a voltage-level converter is required between RS232 and the AVR.</p></div></details><details class="q" data-m=""><summary><span class="no">5</span><span class="tt">MAX232</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 1 MARK</div>
+<p class="qq"><b>Q</b>Name the voltage converter used between RS232 and AVR.</p>
+<h4 class="sub">Answer: MAX232</h4>
+<p class="lbl">3 Marks</p>
+<p>MAX232 is a line driver / voltage converter used between the ATmega32 and RS232.</p>
+<p class="lbl">Its functions are</p>
+<div class="li"><b>1</b><span>Converts TTL voltage levels to RS232 levels for transmission.</span></div>
+<div class="li"><b>2</b><span>Converts RS232 voltage levels to TTL levels for the AVR receiver.</span></div>
+<div class="li"><b>3</b><span>It can operate using a +5 V supply, matching the AVR supply mentioned in the module.</span></div></div></details><details class="q" data-m=""><summary><span class="no">6</span><span class="tt">ATmega32 RS232 PINS</span><span class="meta"></span></summary><div class="a"><p class="lbl">The ATmega32 uses two serial communication pins</p>
+<p>TX → PD0<br>RX → PD1</p>
+<p class="lbl">For the 40-pin package, the module identifies</p>
+<ul><li>TX → pin 15</li><li>RX → pin 14</li></ul>
+<p>These pins are TTL compatible, so MAX232 is required to make them compatible with RS232.</p></div></details><details class="q" data-m="3"><summary><span class="no">7</span><span class="tt">RS232 interfacing — 3 mark</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Question</p>
+<p>Draw the block diagram of interfacing RS232 with ATmega32.</p>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p class="lbl">Draw</p>
+<pre class="dia">ATmega32
+      ┌───────────┐
+TX ───│           │
+      │           │
+RX ───│           │
+      └─────┬─────┘
+            │
+            ▼
+       ┌─────────┐
+       │ MAX232  │
+       │  Line   │
+       │ Driver  │
+       └────┬────┘
+            │
+            ▼
+        RS232 Port
+            │
+            ▼
+        PC / Device</pre>
+<p class="lbl">Explanation</p>
+<p>ATmega32 TX/RX operate with TTL-compatible levels.</p>
+<p>RS232 uses different voltage levels.</p>
+<p>MAX232 performs the voltage-level conversion.</p>
+<p>During transmission, TTL → RS232.</p>
+<p>During reception, RS232 → TTL.</p>
+<p>This is the basic block relationship given in the Module 3 notes.</p></div></details><details class="q" data-m="7"><summary><span class="no">8</span><span class="tt">RS232 interfacing — 7 mark</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note tp">🔥 DIRECT PYQ</div>
+<p class="lbl">Question</p>
+<p>With a diagram, explain the interfacing of RS232 with ATmega32.</p>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p class="lbl">Answer</p>
+<p>RS232 is a serial communication standard used in PCs and other equipment. Its voltage levels are not compatible with the TTL levels used by the ATmega32.</p>
+<p>Therefore, a MAX232 line driver is used between the ATmega32 and the RS232 connector.</p>
+<p class="lbl">Working</p>
+<h4><i>1</i>ATmega32 serial pins</h4>
+<p class="lbl">The ATmega32 has</p>
+<ul><li>TX pin for transmitting data</li><li>RX pin for receiving data</li></ul>
+<p>These are part of <code>PORTD</code>.</p>
+<h4><i>2</i>Voltage incompatibility</h4>
+<p>The ATmega32 uses TTL-compatible voltage levels, while RS232 uses much higher positive/negative voltage levels.</p>
+<h4><i>3</i>MAX232</h4>
+<p>MAX232 acts as a voltage-level converter.</p>
+<p class="lbl">For transmission</p>
+<pre class="dia">ATmega32 TX
+     ↓
+MAX232
+     ↓
+RS232</pre>
+<p class="lbl">For reception</p>
+<pre class="dia">RS232
+  ↓
+MAX232
+  ↓
+ATmega32 RX</pre>
+<h4><i>4</i>Line driver</h4>
+<p>MAX232 is called a line driver because it converts the logic levels required for communication between the microcontroller and RS232 equipment.</p>
+<h4><i>5</i>Power supply</h4>
+<p>The module notes that MAX232 can use the same +5 V supply used by the AVR.</p>
+<div class="note dg">🖊 Diagram is essential for the 7-mark version.</div></div></details><details class="q" data-m=""><summary><span class="no">9</span><span class="tt">LCD interfacing</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥🔥 VERY IMPORTANT</div>
+<p>LCD questions have appeared repeatedly.</p>
+<p>The November 2024 paper asks LCD operations, April 2024 asks the LCD interfacing diagram, April 2025 asks how to send data to LCD, and November 2023 asks the LCD register-selection pin.</p></div></details><details class="q" data-m=""><summary><span class="no">10</span><span class="tt">LCD pin functions</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 MUST MEMORIZE</div>
+<div class="tw"><table><thead><tr><th>Pin</th><th>Name</th><th>Function</th></tr></thead><tbody><tr><td>1</td><td>VSS</td><td>Ground</td></tr><tr><td>2</td><td>VCC</td><td>+5 V supply</td></tr><tr><td>3</td><td>VEE</td><td>Contrast control</td></tr><tr><td>4</td><td>RS</td><td>Register Select</td></tr><tr><td>5</td><td>R/W</td><td>Read/Write</td></tr><tr><td>6</td><td>E</td><td>Enable</td></tr><tr><td>7–14</td><td>D0–D7</td><td>8-bit data bus</td></tr></tbody></table></div>
+<p>These are directly from the Module 3 notes.</p></div></details><details class="q" data-m=""><summary><span class="no">11</span><span class="tt">RS PIN</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 1 MARK</div>
+<p class="qq"><b>Q</b>What is the function of RS?</p>
+<h4 class="sub">RS = Register Select</h4>
+<p>RS = 0 → Command register selected<br>RS = 1 → Data register selected</p>
+<p class="lbl">So</p>
+<ul><li>RS = 0 → send command</li><li>RS = 1 → send data/character</li></ul></div></details><details class="q" data-m=""><summary><span class="no">12</span><span class="tt">R/W PIN</span><span class="meta"></span></summary><div class="a"><p class="lbl">1 Mark</p>
+<p>R/W = 0 → Write<br>R/W = 1 → Read</p>
+<p>The R/W input determines whether the LCD is being written to or read from.</p></div></details><details class="q" data-m=""><summary><span class="no">13</span><span class="tt">E PIN</span><span class="meta"></span></summary><div class="a"><p class="lbl">1 Mark</p>
+<h4 class="sub">E = Enable</h4>
+<p>It is used to latch the information present on the LCD data pins.</p>
+<p>A high-to-low pulse is applied to E to latch the data.</p>
+<p>The module specifies a minimum pulse width of 450 ns.</p></div></details><details class="q" data-m=""><summary><span class="no">14</span><span class="tt">LCD data pins</span><span class="meta"></span></summary><div class="a"><p>D0–D7 are the 8-bit data pins.</p>
+<p class="lbl">They are used to</p>
+<ul><li>send information to LCD</li><li>read LCD internal register contents</li><li>send ASCII codes for characters and numbers when RS = 1</li></ul></div></details><details class="q" data-m=""><summary><span class="no">15</span><span class="tt">Advantages of LCD</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 3/7 MARK</div>
+<h4 class="sub">The module gives four reasons for using LCDs instead of LEDs:</h4>
+<h4><i>1</i>Low cost</h4>
+<p>The prices of LCDs have decreased.</p>
+<h4><i>2</i>Can display more information</h4>
+<p class="lbl">LCD can display</p>
+<ul><li>numbers</li><li>characters</li><li>graphics</li></ul>
+<p>LED displays are more limited.</p>
+<h4><i>3</i>Built-in refreshing controller</h4>
+<p>LCD contains a controller that handles refreshing, reducing the work required from the CPU.</p>
+<h4><i>4</i>Easy programming</h4>
+<p>LCDs can be programmed relatively easily for displaying characters and graphics.</p></div></details><details class="q" data-m=""><summary><span class="no">16</span><span class="tt">LCD initialization</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 IMPORTANT</div>
+<p>For 5×7 matrix and 8-bit operation, the module gives this command sequence:</p>
+<p>38H<br>0EH<br>01H</p>
+<h4 class="sub">Meaning to remember</h4>
+<p>38H → initialize 5×7 matrix, 8-bit operation<br>0EH → display/cursor setting<br>01H → clear display</p>
+<p>The module specifically gives the sequence <code>0x38</code>, <code>0x0E</code>, <code>0x01</code>.</p></div></details><details class="q" data-m=""><summary><span class="no">17</span><span class="tt">Sending a command to LCD</span><span class="meta"></span></summary><div class="a"><p class="lbl">3 Marks</p>
+<p class="lbl">Follow these steps</p>
+<div class="li"><b>1</b><span>Put the command value on D0–D7.</span></div>
+<h4><i>2</i>Set:</h4>
+<p>RS = 0<br>R/W = 0</p>
+<div class="li"><b>3</b><span>Give a high-to-low pulse on E.</span></div>
+<div class="li"><b>4</b><span>The LCD latches the command.</span></div>
+<div class="li"><b>5</b><span>Wait approximately 100 μs for the LCD to execute the command, except for the noted Clear Display and Return Home cases.</span></div></div></details><details class="q" data-m=""><summary><span class="no">18</span><span class="tt">Sending data to LCD</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 DIRECT PYQ</div>
+<p class="lbl">Question</p>
+<p>Explain how to send data to LCD.</p>
+<p class="lbl">Answer</p>
+<div class="li"><b>1</b><span>Put the data/ASCII value on D0–D7.</span></div>
+<h4><i>2</i>Set:</h4>
+<p>RS = 1<br>R/W = 0</p>
+<div class="li"><b>3</b><span>Apply a high-to-low pulse on the E pin.</span></div>
+<div class="li"><b>4</b><span>The LCD latches the data.</span></div>
+<div class="li"><b>5</b><span>Wait approximately 100 μs for the LCD to write the data.</span></div>
+<p class="lbl">Remember</p>
+<p>COMMAND:<br>RS = 0<br>R/W = 0</p>
+<p>DATA:<br>RS = 1<br>R/W = 0</p>
+<p>E:<br>High → Low pulse</p></div></details><details class="q" data-m=""><summary><span class="no">19</span><span class="tt">LCD interfacing diagram</span><span class="meta"><span class="dgb">🖊️ Diagram</span></span></summary><div class="a"><div class="note tp">🔥 7-MARK POSSIBILITY</div>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p class="lbl">For the diagram, show</p>
+<pre class="dia">ATmega32
+              ┌─────────────┐
+              │             │
+     RS  ─────│             │
+     R/W ─────│             │
+      E  ─────│             │
+              │             │
+ D0-D7  ◄────►│             │
+              └──────┬──────┘
+                     │
+                     ▼
+              ┌─────────────┐
+              │   16×2 LCD  │
+              │             │
+              │ D0-D7       │
+              │ RS R/W E    │
+              └─────────────┘</pre>
+<p>Use the exact connection diagram shown in your notes if your teacher expects the particular port connection.</p>
+<p>The Module 3 PDF contains an ATmega32 LCD connection diagram, including a 4-bit-data version.</p></div></details><details class="q" data-m=""><summary><span class="no">20</span><span class="tt">4×4 matrix keyboard</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥🔥 VERY IMPORTANT</div>
+<p>This is one of the strongest Module 3 topics.</p>
+<p>The November 2024 paper asks the sequence of keyboard operation, while the November 2025 paper asks the full keyboard interfacing as a 7-mark question.</p></div></details><details class="q" data-m=""><summary><span class="no">21</span><span class="tt">Basic keyboard structure</span><span class="meta"></span></summary><div class="a"><p class="lbl">A matrix keyboard is organized into</p>
+<ul><li>rows</li><li>columns</li></ul>
+<p class="lbl">For a 4×4 keyboard</p>
+<p>4 rows × 4 columns<br>= 16 keys</p>
+<p>The rows are connected to an output port.</p>
+<p>The columns are connected to an input port.</p></div></details><details class="q" data-m=""><summary><span class="no">22</span><span class="tt">Keyboard scanning</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 3/7 MARK</div>
+<h4 class="sub">Normal condition</h4>
+<p class="lbl">If no key is pressed</p>
+<h4 class="sub">Columns = 1111</h4>
+<p>because the columns are connected to HIGH/VCC.</p>
+<h4 class="sub">When a key is pressed</h4>
+<p>When rows are grounded, pressing a key connects one row to one column.</p>
+<p class="lbl">Therefore the corresponding column becomes</p>
+<h4 class="sub">0</h4>
+<p>The microcontroller detects this change.</p></div></details><details class="q" data-m=""><summary><span class="no">23</span><span class="tt">Steps to detect a key press</span><span class="meta"></span></summary><div class="a"><p class="lbl">3 Marks</p>
+<div class="li"><b>1</b><span>Connect rows to an output port.</span></div>
+<div class="li"><b>2</b><span>Connect columns to an input port.</span></div>
+<div class="li"><b>3</b><span>Initially keep/read the columns.</span></div>
+<div class="li"><b>4</b><span>If all columns read 1, no key is pressed.</span></div>
+<div class="li"><b>5</b><span>Ground the rows appropriately and scan them.</span></div>
+<div class="li"><b>6</b><span>When a key is pressed, the corresponding column reads 0.</span></div>
+<div class="li"><b>7</b><span>From the active row and column, identify the pressed key.</span></div>
+<p>The module describes the row/column scanning process and the 1111 → one column becomes 0 behaviour.</p></div></details><details class="q" data-m="7"><summary><span class="no">24</span><span class="tt">Keyboard interfacing — 7 mark</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Question</p>
+<p>Draw the connection diagram of a 4×4 matrix keyboard with AVR and explain the steps to detect a key press.</p>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p class="lbl">Draw</p>
+<pre class="dia">ATmega32
+          ┌─────────────┐
+          │             │
+          │ PORT        │
+          │             │
+          └──────┬──────┘
+                 │
+        ┌────────┴────────┐
+        │                 │
+      Rows              Columns
+      R0-R3             C0-C3
+        │                 │
+        └──────┬──────────┘
+               │
+         ┌───────────┐
+         │   4 × 4   │
+         │ Keyboard  │
+         └───────────┘</pre>
+<p class="lbl">Explanation</p>
+<h4><i>1</i>Matrix arrangement</h4>
+<p>The keyboard consists of rows and columns.</p>
+<h4><i>2</i>Port connection</h4>
+<ul><li>Rows → output port</li><li>Columns → input port</li></ul>
+<h4><i>3</i>No key condition</h4>
+<ul><li>When no key is pressed, all column inputs are HIGH:</li><li>1111</li></ul>
+<h4><i>4</i>Ground rows</h4>
+<p>The controller grounds the required row during scanning.</p>
+<h4><i>5</i>Key press</h4>
+<p>When a key is pressed, that key connects the grounded row to its corresponding column.</p>
+<h4><i>6</i>Column detection</h4>
+<p>The corresponding column changes from 1 to 0.</p>
+<h4><i>7</i>Key identification</h4>
+<p>The microcontroller identifies the key from the combination of the active row and column.</p>
+<div class="note dg">🖊 The diagram is important for the 7-mark answer.</div></div></details><details class="q" data-m=""><summary><span class="no">25</span><span class="tt">ADC</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥🔥 VERY IMPORTANT</div>
+<h4 class="sub">ADC = Analog-to-Digital Converter</h4>
+<p>An ADC converts an analog signal into a digital/binary value that the microcontroller can process.</p>
+<p class="lbl">Physical quantities such as</p>
+<ul><li>temperature</li><li>pressure</li><li>humidity</li><li>velocity</li><li>light</li></ul>
+<p>are analog.</p>
+<p>Sensors/transducers convert these physical quantities into electrical signals, generally voltage/current, and ADC converts those signals into digital values.</p></div></details><details class="q" data-m=""><summary><span class="no">26</span><span class="tt">ADC resolution</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 1 MARK</div>
+<p class="lbl">Definition</p>
+<p>ADC resolution is the number of bits used by the ADC to represent the analog input.</p>
+<p class="lbl">For an n-bit ADC</p>
+<h4 class="sub">Number of steps = 2ⁿ</h4>
+<p>Higher resolution means a smaller step size, allowing smaller changes in input to be detected.</p></div></details><details class="q" data-m=""><summary><span class="no">27</span><span class="tt">ADC characteristics</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 3/7 MARK</div>
+<p>The module lists four major characteristics.</p>
+<h4><i>1</i>Resolution</h4>
+<p>Resolution is the number of bits of the ADC.</p>
+<p class="lbl">Examples</p>
+<p>8-bit<br>10-bit<br>12-bit<br>16-bit<br>24-bit</p>
+<p>Higher resolution → smaller step size.</p>
+<hr>
+<h4><i>2</i>Conversion Time</h4>
+<p>The time required by the ADC to convert an analog input into a digital value.</p>
+<p>It depends on the clock supplied to the ADC.</p>
+<hr>
+<h4><i>3</i>Vref</h4>
+<p>Vref is the reference voltage.</p>
+<p>The ADC resolution and Vref determine the step size.</p>
+<p class="lbl">For an 8-bit ADC</p>
+<h4 class="sub">Step size = Vref / 256</h4>
+<hr>
+<h4><i>4</i>Digital Data Output</h4>
+<p>The digital output depends on ADC resolution.</p>
+<p class="lbl">For example</p>
+<p>8-bit ADC → D0–D7<br>10-bit ADC → D0–D9</p></div></details><details class="q" data-m=""><summary><span class="no">28</span><span class="tt">ADC step size</span><span class="meta"></span></summary><div class="a"><p class="lbl">For an 8-bit ADC</p>
+<h4 class="sub">Number of steps = 2⁸ = 256</h4>
+<p class="lbl">Therefore</p>
+<h4 class="sub">Step size = Vref / 256</h4>
+<p>The module gives this directly.</p></div></details><details class="q" data-m=""><summary><span class="no">29</span><span class="tt">ADC output relation</span><span class="meta"></span></summary><div class="a"><p class="lbl">The module gives</p>
+<h4 class="sub">Dout = Vin / Step Size</h4>
+<p class="lbl">where</p>
+<ul><li>Dout = digital output in decimal</li><li>Vin = analog input voltage</li><li>Step size = smallest detectable voltage change</li></ul></div></details><details class="q" data-m=""><summary><span class="no">30</span><span class="tt">ATmega32 ADC FEATURES</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 IMPORTANT 3 MARK</div>
+<p class="lbl">The module lists</p>
+<h4><i>1</i>Resolution</h4>
+<p class="lbl">ATmega32 has a</p>
+<h4 class="sub">10-bit ADC</h4>
+<h4><i>2</i>Analog channels</h4>
+<p class="lbl">It has</p>
+<h4 class="sub">8 analog input channels</h4>
+<p>and differential input options described in the notes.</p>
+<h4><i>3</i>ADC result registers</h4>
+<p class="lbl">The converted result is stored in</p>
+<p><code>ADCL</code><br><code>ADCH</code></p>
+<h4><i>4</i>10-bit result</h4>
+<p><code>ADCH</code> + <code>ADCL</code> provide 16 bits of register space, but the ADC result itself is 10 bits.</p>
+<h4><i>5</i>Vref options</h4>
+<p class="lbl">The notes give three reference options</p>
+<ul><li>AVCC</li><li>internal 2.56 V reference</li><li>external AREF</li></ul>
+<h4><i>6</i>Conversion time</h4>
+<p>Conversion time is related to the crystal/clock frequency.</p></div></details><details class="q" data-m=""><summary><span class="no">31</span><span class="tt">ADC hardware considerations</span><span class="meta"></span></summary><div class="a"><p class="lbl">3 Marks</p>
+<p class="lbl">The module gives two important considerations</p>
+<h4 class="sub">AVCC</h4>
+<p>AVCC supplies the analog ADC circuitry.</p>
+<p>A stable supply is needed for better ADC accuracy.</p>
+<h4 class="sub">Vref</h4>
+<p>A capacitor between the reference pin and ground can make Vref more stable and improve ADC precision.</p></div></details><details class="q" data-m=""><summary><span class="no">32</span><span class="tt">DAC</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 IMPORTANT</div>
+<h4 class="sub">DAC = Digital-to-Analog Converter</h4>
+<p>It converts digital data/pulses into an analog signal.</p>
+<p class="lbl">The module discusses two methods</p>
+<h4><i>1</i>Binary weighted</h4>
+<h4><i>2</i>R/2R ladder</h4>
+<p>The notes state that most integrated DACs discussed there use the R/2R method because it can provide better precision.</p></div></details><details class="q" data-m=""><summary><span class="no">33</span><span class="tt">DAC0808</span><span class="meta"></span></summary><div class="a"><p>The module discusses MC1408/DAC0808.</p>
+<p class="lbl">Its operation</p>
+<pre class="dia">Digital inputs
+     ↓
+DAC0808
+     ↓
+Output current Iout
+     ↓
+Resistor / op-amp
+     ↓
+Analog voltage</pre>
+<p>The digital inputs are D0–D7.</p>
+<ul><li>D0 = LSB</li><li>D7 = MSB</li></ul>
+<p>The output current depends on the binary input and reference current.</p></div></details><details class="q" data-m=""><summary><span class="no">34</span><span class="tt">Why use an op-amp with DAC0808?</span><span class="meta"></span></summary><div class="a"><p>The module explains that directly connecting Iout to a resistor can introduce inaccuracies because the load resistance affects the output.</p>
+<p>Therefore, an op-amp can be used to isolate the output current and convert it into voltage.</p>
+<p>The notes specifically discuss using an op-amp with a feedback resistor.</p></div></details><details class="q" data-m="3"><summary><span class="no">35</span><span class="tt">DAC — 3 MARK</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Question</p>
+<p>Write a short note on DAC.</p>
+<p class="lbl">Answer</p>
+<p>A Digital-to-Analog Converter converts digital data into an analog signal.</p>
+<h4 class="sub">The two common DAC methods mentioned in the module are:</h4>
+<h4><i>1</i>Binary weighted method</h4>
+<h4><i>2</i>R/2R ladder method</h4>
+<p>The R/2R ladder method is widely used because it can provide better precision.</p>
+<p>In DAC0808, digital inputs D0–D7 are converted into an output current. This current can be converted into an analog voltage using suitable circuitry.</p></div></details><details class="q" data-m=""><summary><span class="no">36</span><span class="tt">Sensor interfacing</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥 IMPORTANT</div>
+<p>A transducer converts physical information into an electrical signal.</p>
+<p class="lbl">Examples of physical quantities</p>
+<ul><li>temperature</li><li>light intensity</li><li>flow</li><li>speed</li></ul>
+<p class="lbl">The output may be</p>
+<ul><li>voltage</li><li>current</li><li>resistance</li><li>capacitance</li></ul>
+<p>The module uses thermistor and LM34/LM35 as examples.</p></div></details><details class="q" data-m=""><summary><span class="no">37</span><span class="tt">Signal conditioning</span><span class="meta"></span></summary><div class="a"><p class="lbl">3 Marks</p>
+<p>Sensor outputs are not always directly suitable for ADC input.</p>
+<p>Signal conditioning means modifying the sensor signal so that it becomes suitable for the ADC.</p>
+<p class="lbl">It may involve</p>
+<ul><li>current-to-voltage conversion</li><li>amplification</li><li>converting resistance-based output into voltage</li></ul>
+<p class="lbl">Example</p>
+<p>A thermistor changes resistance with temperature. This resistance change must be converted into a voltage suitable for the ADC.</p></div></details><details class="q" data-m=""><summary><span class="no">38</span><span class="tt">LM34 and LM35</span><span class="meta"></span></summary><div class="a"><div class="note tp">🔥🔥 VERY IMPORTANT</div>
+<p>The module gives both sensors.</p>
+<h4 class="sub">LM34</h4>
+<p class="lbl">Its output voltage is linearly proportional to</p>
+<ul><li>Fahrenheit temperature</li><li>LM35</li></ul>
+<p class="lbl">Its output voltage is linearly proportional to</p>
+<h4 class="sub">Celsius temperature</h4>
+<p>The module identifies both as precision integrated-circuit temperature sensors.</p></div></details><details class="q" data-m=""><summary><span class="no">39</span><span class="tt">LM34/LM35 output</span><span class="meta"></span></summary><div class="a"><p class="lbl">The module states</p>
+<h4 class="sub">10 mV per degree</h4>
+<p>for LM34/LM35 in the discussed interfacing setup.</p>
+<p class="lbl">For LM34</p>
+<h4 class="sub">temperature is measured in Fahrenheit</h4>
+<p>output voltage is proportional to Fahrenheit temperature.</p>
+<p class="lbl">For LM35</p>
+<h4 class="sub">temperature is measured in Celsius</h4>
+<p>output voltage is proportional to Celsius temperature.</p></div></details><details class="q" data-m="7"><summary><span class="no">40</span><span class="tt">LM34/LM35 with AVR — 7 mark</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note tp">🔥 DIRECT PYQ TYPE</div>
+<p>The November 2024 paper asks for the temperature sensor connection diagram, and the November 2025 paper asks LM34/35 temperature sensor interfacing as a 7-mark alternative.</p>
+<p class="lbl">Answer</p>
+<p>The temperature sensor produces an analog voltage proportional to temperature.</p>
+<p>This analog output cannot be directly processed as a digital value by the microcontroller, so it is connected to the ADC.</p>
+<p class="lbl">Working</p>
+<pre class="dia">Temperature
+     ↓
+LM34 / LM35
+     ↓
+Analog voltage
+     ↓
+ATmega32 ADC
+     ↓
+Digital value
+     ↓
+Microcontroller processing</pre>
+<h4 class="sub">Important points</h4>
+<div class="li"><b>1</b><span>LM34/LM35 senses temperature.</span></div>
+<div class="li"><b>2</b><span>It produces an analog output voltage.</span></div>
+<div class="li"><b>3</b><span>The output is applied to an ADC input channel.</span></div>
+<div class="li"><b>4</b><span>ATmega32 contains a 10-bit ADC.</span></div>
+<div class="li"><b>5</b><span>ADC converts the analog voltage into a digital value.</span></div>
+<div class="li"><b>6</b><span>The microcontroller processes the digital value.</span></div>
+<div class="li"><b>7</b><span>The temperature can then be displayed or used by the embedded system.</span></div>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<p class="lbl">Draw</p>
+<pre class="dia">┌────────────┐
+ │ LM34/LM35  │
+ │ Temperature│
+ │  Sensor    │
+ └─────┬──────┘
+       │ Analog
+       │ voltage
+       ▼
+ ┌───────────────┐
+ │   ATmega32    │
+ │               │
+ │     ADC       │
+ │               │
+ └───────┬───────┘
+         │
+         ▼
+   Digital value
+         │
+         ▼
+   Microcontroller</pre></div></details><details class="q" data-m="1"><summary><span class="no">41</span><span class="tt">Module 3 — 1 mark questions</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Memorize these exactly.</p>
+<h4 class="sub">Serial communication</h4>
+<p class="qq"><b>Q</b>Name the serial interface standard.</p>
+<h4 class="sub">→ RS232</h4>
+<p class="qq"><b>Q</b>What voltage converter is used with RS232?</p>
+<ul><li>→ MAX232</li><li>LCD</li></ul>
+<p class="qq"><b>Q</b>What is RS?</p>
+<p>→ Register Select.</p>
+<p class="qq"><b>Q</b>RS = 0?</p>
+<p>→ Command register.</p>
+<p class="qq"><b>Q</b>RS = 1?</p>
+<p>→ Data register.</p>
+<p class="qq"><b>Q</b>R/W = 0?</p>
+<p>→ Write.</p>
+<p class="qq"><b>Q</b>R/W = 1?</p>
+<p>→ Read.</p>
+<p class="qq"><b>Q</b>What is E?</p>
+<p>→ Enable.</p>
+<h4 class="sub">Keyboard</h4>
+<p class="qq"><b>Q</b>What does a column read when no key is pressed?</p>
+<p>→ 1 / HIGH.</p>
+<p>This was directly asked in April 2025.</p>
+<h4 class="sub">ADC</h4>
+<p class="qq"><b>Q</b>Define ADC resolution.</p>
+<p>→ Number of bits used to represent the analog input.</p>
+<h4 class="sub">DAC</h4>
+<p class="qq"><b>Q</b>Name two DAC methods.</p>
+<p>→ Binary weighted and R/2R ladder.</p>
+<h4 class="sub">Sensor</h4>
+<p class="qq"><b>Q</b>LM35 output is proportional to?</p>
+<p>→ Celsius temperature.</p>
+<p class="qq"><b>Q</b>LM34 output is proportional to?</p>
+<p>→ Fahrenheit temperature.</p></div></details><details class="q" data-m="3"><summary><span class="no">42</span><span class="tt">Module 3 — 3 mark questions</span><span class="meta"><span class="mk m3">3 marks</span></span></summary><div class="a"><div class="note tp">🔥 Must prepare</div>
+<div class="li"><b>1</b><span>Explain RS232 and MAX232.</span></div>
+<div class="li"><b>2</b><span>Explain TX and RX pins.</span></div>
+<div class="li"><b>3</b><span>Explain LCD RS, R/W and E.</span></div>
+<div class="li"><b>4</b><span>Explain how to send data to LCD.</span></div>
+<div class="li"><b>5</b><span>Draw LCD interfacing diagram.</span></div>
+<div class="li"><b>6</b><span>Explain keyboard scanning.</span></div>
+<div class="li"><b>7</b><span>Explain steps to detect a key press.</span></div>
+<div class="li"><b>8</b><span>List ADC characteristics.</span></div>
+<div class="li"><b>9</b><span>Explain ADC resolution, Vref and conversion time.</span></div>
+<div class="li"><b>10</b><span>Write short note on DAC.</span></div>
+<div class="li"><b>11</b><span>Explain DAC0808.</span></div>
+<div class="li"><b>12</b><span>Explain signal conditioning.</span></div>
+<div class="li"><b>13</b><span>Explain LM34 and LM35.</span></div>
+<p>These are strongly supported by the PYQs and Module 3 material.</p></div></details><details class="q" data-m="7"><summary><span class="no">43</span><span class="tt">Module 3 — 7 mark questions</span><span class="meta"><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note tp">🔥🔥 THE ONES I WOULD DEFINITELY STUDY</div>
+<h4><i>1</i>RS232 interfacing with ATmega32</h4>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<h4><i>2</i>4×4 keyboard interfacing</h4>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<h4><i>3</i>LM34/LM35 temperature sensor interfacing</h4>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<h4><i>4</i>LCD interfacing</h4>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<h4><i>5</i>ADC interfacing + characteristics</h4>
+<div class="note dg">🖊 LEARN BLOCK DIAGRAM</div>
+<h4><i>6</i>DAC interfacing / DAC0808</h4>
+<div class="note dg">🖊 LEARN BLOCK DIAGRAM</div>
+<p>The first three have particularly strong direct PYQ evidence: RS232 and 4×4 keyboard appear as 7-mark alternatives, while LM34/35 interfacing appears as a 7-mark question in the November 2025 paper.</p>
+<hr>
+<ul><li>🚨 WHAT TO MEMORIZE VS UNDERSTAND</li><li>MEMORIZE EXACTLY</li><li>RS232 → MAX232</li></ul>
+<p>TX → PD0<br>RX → PD1</p>
+<p>LCD:<br>RS = 0 → Command<br>RS = 1 → Data</p>
+<p>R/W = 0 → Write<br>R/W = 1 → Read</p>
+<h4 class="sub">E → Enable/latch</h4>
+<p>LCD initialization:<br>38H, 0EH, 01H</p>
+<p>Keyboard:<br>Rows → Output<br>Columns → Input<br>No key → 1111<br>Pressed key → corresponding column becomes 0</p>
+<p>ATmega32 ADC:<br>10-bit<br>8 analog input channels<br><code>ADCL</code> + <code>ADCH</code><br>Vref options</p>
+<p>LM34 → Fahrenheit<br>LM35 → Celsius</p>
+<p>Both:<br>10 mV/degree in the module&#x27;s sensor discussion</p>
+<p>DAC:<br>Digital → Analog<br>Binary weighted<br>R/2R ladder<br>DAC0808</p></div></details></div></section><section class="mod" id="mod4" hidden><details class="q intro" open><summary><span class="tt">Priority order</span></summary><div class="a"><h4 class="sub">Exam Prep Master — based on your Module 4 PDF + all 5 PYQs</h4>
+<p>I checked the Module 4 PDF and the five papers you provided. Module 4 is actually very important because questions are spread across almost every major topic.</p>
+<p class="lbl">The biggest repeated areas are</p>
+<div class="note tp">🔥 Priority order</div>
+<h4><i>1</i>Task / Process Scheduling</h4>
+<h4><i>2</i>RTOS requirements / selection</h4>
+<h4><i>3</i>Process, Task &amp; Thread</h4>
+<h4><i>4</i>IPC / Inter-task communication</h4>
+<h4><i>5</i>Functions of Operating System</h4>
+<h4><i>6</i>Multitasking / Multiprocessing</h4>
+<h4><i>7</i>Process states &amp; state transition</h4>
+<h4><i>8</i>Device Drivers</h4>
+<h4><i>9</i>Deadlock</h4>
+<h4><i>10</i>Types of RTOS / Real-time systems</h4>
+<p>The papers repeatedly ask these areas in different forms. For example, scheduling appeared through FCFS, priority, Round Robin, scheduling factors, and general task scheduling; RTOS selection appeared repeatedly; and process/thread/multitasking questions also recur.</p></div></details><div class="gr"><h3>1 mark questions</h3><div class="gi"><p>These are the exact-type facts you should memorize.</p></div><details class="q" data-m="1"><summary><span class="no">1</span><span class="tt">Define Operating System.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>An Operating System is software that acts as a bridge between user applications/tasks and the underlying system resources and manages those resources.</p></div></details><details class="q" data-m="1"><summary><span class="no">2</span><span class="tt">What is a kernel?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>The kernel is the core of the operating system that manages system resources and communication between hardware and system services.</p></div></details><details class="q" data-m="1"><summary><span class="no">3</span><span class="tt">What is RTOS?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A Real-Time Operating System (RTOS) implements policies and rules for time-critical allocation of system resources.</p></div></details><details class="q" data-m="1"><summary><span class="no">4</span><span class="tt">Define Task.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A task is something that needs to be done. It is also called a job in the operating system context.</p></div></details><details class="q" data-m="1"><summary><span class="no">5</span><span class="tt">Define Process.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A process is a program or part of a program in execution.</p></div></details><details class="q" data-m="1"><summary><span class="no">6</span><span class="tt">Define Thread.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A thread is a single sequential flow of control within a process. It is also called a lightweight process.</p></div></details><details class="q" data-m="1"><summary><span class="no">7</span><span class="tt">What is multitasking?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Multitasking is the ability of an OS to hold multiple processes in memory and switch the CPU from one process to another.</p></div></details><details class="q" data-m="1"><summary><span class="no">8</span><span class="tt">What is multiprocessing?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Multiprocessing is the ability to execute multiple processes simultaneously.</p></div></details><details class="q" data-m="1"><summary><span class="no">9</span><span class="tt">What is task scheduling?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Task scheduling is the process of determining which task/process should execute at a given point of time.</p></div></details><details class="q" data-m="1"><summary><span class="no">10</span><span class="tt">Name any two task scheduling algorithms.</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><ul><li>FCFS</li><li>Round Robin</li></ul>
+<p>Other algorithms: LCFS, SJF, Priority, Preemptive SJF/SRT.</p></div></details><details class="q" data-m="1"><summary><span class="no">11</span><span class="tt">What is IPC?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Inter Process Communication (IPC) is the mechanism through which processes/tasks communicate with each other.</p></div></details><details class="q" data-m="1"><summary><span class="no">12</span><span class="tt">What is a device driver?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A device driver is software that acts as a bridge between the operating system and hardware.</p></div></details><details class="q" data-m="1"><summary><span class="no">13</span><span class="tt">What is a GPOS?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A General Purpose Operating System is an OS used in general computing systems.</p></div></details><details class="q" data-m="1"><summary><span class="no">14</span><span class="tt">What is deterministic behaviour?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Deterministic behaviour means that OS services consume known and expected amounts of time.</p></div></details><details class="q" data-m="1"><summary><span class="no">15</span><span class="tt">What is waiting time?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Waiting time is the time spent by a process in the Ready queue waiting for CPU time.</p></div></details><details class="q" data-m="1"><summary><span class="no">16</span><span class="tt">What is turnaround time?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Turnaround time is the amount of time taken by a process to complete its execution.</p></div></details><details class="q" data-m="1"><summary><span class="no">17</span><span class="tt">What is response time?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Response time is the time elapsed between submission of a process and its first response.</p></div></details><details class="q" data-m="1"><summary><span class="no">18</span><span class="tt">What is throughput?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Throughput indicates the number of processes executed per unit time.</p></div></details><details class="q" data-m="1"><summary><span class="no">19</span><span class="tt">What is CPU utilisation?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>CPU utilisation is the percentage/amount of CPU being utilised.</p></div></details><details class="q" data-m="1"><summary><span class="no">20</span><span class="tt">What is Round Robin scheduling?</span><span class="meta"><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Round Robin is a preemptive scheduling algorithm in which each process gets a predefined time slice.</p></div></details></div><div class="gr"><h3>3 mark questions</h3><details class="q" data-m="3"><summary><span class="no">1</span><span class="tt">Explain the structure of a process.</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>A process is a program or part of a program in execution.</p>
+<p class="lbl">A process contains</p>
+<h4><i>1</i>Program Counter (PC)</h4>
+<p>Points to the next executable instruction of the process.</p>
+<h4><i>2</i>Working Registers</h4>
+<p>Hold temporary data and values required during execution.</p>
+<h4><i>3</i>Status Register</h4>
+<p>Stores the current status of the process.</p>
+<h4><i>4</i>Stack</h4>
+<p>Stores local variables and information associated with the process.</p>
+<p>Thus, a process maintains its own execution information and system resources.</p>
+<div class="note dg">🖊 LEARN DIAGRAM — Structure of a Process</div>
+<p>The Module 4 PDF specifically shows the process structure with stack, working registers, status register and program counter.</p></div></details><details class="q" data-m="3"><summary><span class="no">2</span><span class="tt">Explain Thread.</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>A thread is a single sequential flow of control within a process.</p>
+<p>A thread is also called a lightweight process.</p>
+<p>Multiple threads belonging to the same process share the same address space.</p>
+<p class="lbl">Each thread maintains its own</p>
+<ul><li>Thread status / CPU register values</li><li>Program Counter</li><li>Stack</li></ul>
+<p>Threads allow different activities of the same process to execute independently.</p></div></details><details class="q" data-m="3"><summary><span class="no">3</span><span class="tt">Differentiate Multiprocessing and Multitasking.</span><span class="meta"><span class="st" title="Priority">★★★★</span><span class="mk m3">3 marks</span></span></summary><div class="a"><div class="tw"><table><thead><tr><th>Multiprocessing</th><th>Multitasking</th></tr></thead><tbody><tr><td>Executes multiple processes simultaneously.</td><td>Switches CPU between multiple processes/tasks.</td></tr><tr><td>Normally associated with multiple processing capability.</td><td>Can be achieved even in a uniprocessor system through switching.</td></tr><tr><td>Provides actual simultaneous execution when multiple processors are available.</td><td>Creates an illusion of parallel execution.</td></tr><tr><td>Focuses on executing multiple processes.</td><td>Focuses on managing/switching between processes.</td></tr></tbody></table></div>
+<p>The Module 4 notes specifically state that a uniprocessor cannot execute multiple processes simultaneously, but can achieve pseudo-parallelism through switching.</p></div></details><details class="q" data-m="3"><summary><span class="no">4</span><span class="tt">Explain types of multitasking.</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">There are three types</p>
+<h4><i>1</i>Co-operative multitasking</h4>
+<p>The currently executing process voluntarily gives up the CPU.</p>
+<p>A process can hold the CPU as long as it wants.</p>
+<p>Another process gets a chance only when the current process relinquishes the CPU.</p>
+<h4><i>2</i>Preemptive multitasking</h4>
+<p>Every process gets a chance to execute.</p>
+<p>The currently running process can be preempted.</p>
+<p>Preemption can be based on time slots or priority.</p>
+<h4><i>3</i>Non-preemptive multitasking</h4>
+<p>The currently executing process continues until it terminates or enters the blocked/wait state.</p>
+<p>The OS does not forcibly remove it from the CPU.</p></div></details><details class="q" data-m="3"><summary><span class="no">5</span><span class="tt">List the factors considered while selecting a scheduling algorithm.</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">The important factors are</p>
+<div class="li"><b>1</b><span>CPU Utilisation — CPU utilisation should be high.</span></div>
+<div class="li"><b>2</b><span>Throughput — Number of processes completed per unit time should be high.</span></div>
+<div class="li"><b>3</b><span>Turnaround Time — Time required to complete a process should be low.</span></div>
+<div class="li"><b>4</b><span>Waiting Time — Time spent in the Ready queue should be minimum.</span></div>
+<div class="li"><b>5</b><span>Response Time — Time until the first response should be minimum.</span></div></div></details><details class="q" data-m="3"><summary><span class="no">6</span><span class="tt">Explain IPC.</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Inter Process Communication (IPC) is the mechanism through which processes/tasks communicate with each other.</p>
+<p>IPC is required for process coordination.</p>
+<p class="lbl">Main IPC mechanisms in the module are</p>
+<h4><i>1</i>Shared Memory</h4>
+<p>Processes share an area of memory.</p>
+<p>One process writes information into the shared area.</p>
+<p>Other processes can read the information.</p>
+<h4><i>2</i>Pipes</h4>
+<p>A pipe is a section of shared memory.</p>
+<p>It follows client-server architecture.</p>
+<p>Pipes are unidirectional.</p>
+<h4><i>3</i>Memory Mapped Objects</h4>
+<p>A shared block of memory is allocated.</p>
+<p>Multiple processes can access the shared memory.</p>
+<h4><i>4</i>Message Queue</h4>
+<p>A process places a message into a FIFO queue.</p>
+<p>The message is temporarily stored and passed to the required process.</p></div></details><details class="q" data-m="3"><summary><span class="no">7</span><span class="tt">Explain Device Driver.</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>A device driver is a software component that acts as a bridge between the operating system and hardware.</p>
+<p class="lbl">Functions</p>
+<div class="li"><b>1</b><span>Establishes connectivity with hardware.</span></div>
+<div class="li"><b>2</b><span>Initializes hardware devices.</span></div>
+<div class="li"><b>3</b><span>Manages communication with hardware peripherals.</span></div>
+<div class="li"><b>4</b><span>Transfers data between the OS/application and hardware.</span></div>
+<div class="li"><b>5</b><span>Handles hardware-specific initialization and communication protocols.</span></div>
+<div class="li"><b>6</b><span>Different hardware classes may require different driver components.</span></div>
+<p>Examples of hardware requiring drivers include Wi-Fi modules, file systems and storage interfaces.</p>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<h4 class="sub">User Application → Operating System → Device Driver → Hardware</h4></div></details></div><div class="gr"><h3>7 mark questions</h3><div class="gi"><p>These are the ones I would actually prepare properly, because several have appeared as 7-mark questions.</p></div><details class="q" data-m="7"><summary><span class="no">1</span><span class="tt">Functions of operating system</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Definition</p>
+<p>An operating system acts as a bridge between user applications/tasks and the underlying system resources. It manages system resources and makes them available to applications when required.</p>
+<p class="lbl">The two primary purposes are</p>
+<div class="li"><b>1</b><span>Make the system convenient to use.</span></div>
+<div class="li"><b>2</b><span>Organise and manage system resources efficiently and correctly.</span></div>
+<h4 class="sub">Main functions</h4>
+<h4><i>1</i>Process Management</h4>
+<p>Process management deals with managing processes/tasks.</p>
+<p class="lbl">It includes</p>
+<p>Setting up memory space for processes.</p>
+<p>Loading process code into memory.</p>
+<p>Allocating system resources.</p>
+<p>Scheduling and managing process execution.</p>
+<p>Setting up and managing the Process Control Block.</p>
+<p>Inter-process communication and synchronisation.</p>
+<p>Process termination/deletion.</p>
+<h4><i>2</i>Primary Memory Management</h4>
+<p>The Memory Management Unit manages primary memory.</p>
+<p class="lbl">It</p>
+<p>Keeps track of which part of memory is being used by each process.</p>
+<p>Allocates memory when required.</p>
+<p>De-allocates memory when it is no longer required.</p>
+<h4><i>3</i>File System Management</h4>
+<p>It manages files and directories.</p>
+<p class="lbl">Functions include</p>
+<p>Creating, deleting and modifying files.</p>
+<p>Creating, deleting and modifying directories.</p>
+<p>Saving files in secondary storage.</p>
+<p>Automatically allocating file space.</p>
+<p>Providing flexible file naming.</p>
+<h4><i>4</i>I/O System / Device Management</h4>
+<p>The kernel routes I/O requests from applications to appropriate devices.</p>
+<p class="lbl">The Device Manager</p>
+<p>Loads and unloads device drivers.</p>
+<p>Exchanges information with devices.</p>
+<p>Exchanges system-specific control signals.</p>
+<h4><i>5</i>Secondary Storage Management</h4>
+<p>It manages secondary storage devices.</p>
+<p class="lbl">Functions include</p>
+<p>Disk storage allocation.</p>
+<p>Disk scheduling.</p>
+<p>Free disk-space management.</p>
+<div class="note dg">🖊 LEARN DIAGRAM — Kernel and OS Functions</div>
+<p>The Module 4 PDF gives these as the main OS/kernel services.</p></div></details><details class="q" data-m="7"><summary><span class="no">2</span><span class="tt">Real-time operating system — functionalities</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This appeared as a 7-mark area in the papers.</p>
+<p class="lbl">Definition</p>
+<p>An RTOS implements policies and rules for time-critical allocation of system resources.</p>
+<p class="lbl">It decides</p>
+<p>Which application should run.</p>
+<p>In what order applications should run.</p>
+<p>How much time should be allocated to each application.</p>
+<h4 class="sub">Major functionalities</h4>
+<h4><i>1</i>Task/Process Management</h4>
+<p>Manages creation, execution, scheduling and termination of tasks.</p>
+<h4><i>2</i>Memory Management</h4>
+<p>Allocates and manages memory required by tasks and OS services.</p>
+<h4><i>3</i>Scheduling</h4>
+<p>Determines which task should receive CPU time.</p>
+<h4><i>4</i>Time Management</h4>
+<p>Provides controlled timing required for real-time tasks.</p>
+<h4><i>5</i>Inter Process Communication</h4>
+<p>Allows tasks/processes to communicate.</p>
+<h4><i>6</i>Task Synchronisation</h4>
+<p>Coordinates tasks that share resources or depend on each other.</p>
+<h4><i>7</i>I/O and Device Management</h4>
+<p>Manages communication between tasks and hardware devices.</p>
+<h4><i>8</i>Device Driver Support</h4>
+<p>Provides the software interface required for hardware peripherals.</p>
+<p>The important idea is that an RTOS must provide predictable timing behaviour, especially for time-critical embedded applications.</p></div></details><details class="q" data-m="7"><summary><span class="no">3</span><span class="tt">Process states and state transition</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This is a very important 7-mark question. It appeared directly in a paper.</p>
+<h4 class="sub">Process Life Cycle</h4>
+<p>The process does not directly go from creation to completion. It passes through different states.</p>
+<p>The complete cycle is called the Process Life Cycle.</p>
+<h4><i>1</i>Created State</h4>
+<p>The process is being created.</p>
+<h4><i>2</i>Ready State</h4>
+<p>The process has been placed in memory and is waiting for processor time.</p>
+<h4><i>3</i>Running State</h4>
+<p>The process is currently executing its instructions.</p>
+<h4><i>4</i>Blocked / Wait State</h4>
+<p>The running process is temporarily suspended because it is waiting for:</p>
+<h4 class="sub">I/O completion, or</h4>
+<p>A shared resource.</p>
+<h4><i>5</i>Completed State</h4>
+<p>The process has finished its execution.</p>
+<ul><li>State transitions</li><li>Created → Ready</li></ul>
+<p>The process is incepted into memory.</p>
+<h4 class="sub">Ready → Running</h4>
+<p>The process is selected/scheduled for execution.</p>
+<h4 class="sub">Running → Ready</h4>
+<p>The process may be preempted.</p>
+<h4 class="sub">Running → Blocked</h4>
+<p>The process waits for I/O or a shared resource.</p>
+<h4 class="sub">Blocked → Ready</h4>
+<p>The required I/O/resource becomes available.</p>
+<h4 class="sub">Running → Completed</h4>
+<p>The process finishes execution.</p>
+<div class="note dg">🖊 LEARN DIAGRAM — Process State Transition</div>
+<p>The exact states and transitions are given in your Module 4 PDF.</p></div></details><details class="q" data-m="7"><summary><span class="no">4</span><span class="tt">Task / process scheduling</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Definition</p>
+<p>Task/process scheduling is the process of determining which task/process should execute at a particular point in time.</p>
+<p>Task scheduling forms the basis of multitasking.</p>
+<h4 class="sub">Scheduling types</h4>
+<p class="lbl">There are two main types</p>
+<ul><li>A. Non-preemptive scheduling</li><li>The currently executing task is allowed to run until:</li><li>it terminates, or</li></ul>
+<p>it enters the Wait state.</p>
+<p class="lbl">Algorithms</p>
+<h4><i>1</i>FCFS / FIFO</h4>
+<h4><i>2</i>LCFS / LIFO</h4>
+<h4><i>3</i>SJF</h4>
+<h4><i>4</i>Priority Based Scheduling</h4>
+<h4 class="sub">B. Preemptive scheduling</h4>
+<p>The currently running task can be preempted so that another task can get CPU time.</p>
+<p class="lbl">Algorithms</p>
+<h4><i>1</i>Preemptive SJF / Shortest Remaining Time</h4>
+<h4><i>2</i>Round Robin</h4></div></details><details class="q" data-m="7"><summary><span class="no">5</span><span class="tt">FCFS scheduling</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><ul><li>Full form</li><li>FCFS = First Come First Served</li></ul>
+<p>It is a non-preemptive scheduling algorithm.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Processes enter the Ready queue.</span></div>
+<div class="li"><b>2</b><span>The process that enters first is selected first.</span></div>
+<div class="li"><b>3</b><span>It receives CPU time.</span></div>
+<div class="li"><b>4</b><span>After it terminates or enters the wait state, the next process is selected.</span></div>
+<div class="li"><b>5</b><span>The process order is therefore the same as the Ready queue order.</span></div>
+<p>FCFS is also called FIFO — First In First Out.</p>
+<p class="lbl">Example</p>
+<p class="lbl">Suppose</p>
+<div class="tw"><table><thead><tr><th>Process</th><th>Execution time</th></tr></thead><tbody><tr><td>P1</td><td>10 ms</td></tr><tr><td>P2</td><td>5 ms</td></tr><tr><td>P3</td><td>7 ms</td></tr></tbody></table></div>
+<p class="lbl">Order</p>
+<h4 class="sub">P1 → P2 → P3</h4>
+<p class="lbl">Gantt chart</p>
+<p>|    P1    | P2 |   P3   |<br>0          10   15       22</p>
+<p class="lbl">Waiting time</p>
+<ul><li>P1 = 0 ms</li><li>P2 = 10 ms</li><li>P3 = 15 ms</li></ul>
+<p class="lbl">Average waiting time</p>
+<p>\[<br>\frac{0+10+15}{3}=8.33ms<br>\]</p>
+<p class="lbl">Turnaround time</p>
+<ul><li>P1 = 10 ms</li><li>P2 = 15 ms</li><li>P3 = 22 ms</li></ul>
+<p class="lbl">Average turnaround time</p>
+<p>\[<br>\frac{10+15+22}{3}=15.66ms<br>\]</p>
+<p>These exact values are also worked out in your Module 4 notes.</p></div></details><details class="q" data-m="7"><summary><span class="no">6</span><span class="tt">LCFS scheduling</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><ul><li>Full form</li><li>LCFS = Last Come First Served</li></ul>
+<p>It is a non-preemptive scheduling algorithm.</p>
+<p>Processes are selected according to their entry order.</p>
+<p>The last entered process is serviced first.</p>
+<p>It is also called LIFO — Last In First Out.</p>
+<p class="lbl">Example</p>
+<p class="lbl">If the Ready queue is</p>
+<h4 class="sub">P1 → P2 → P3</h4>
+<p class="lbl">LCFS executes</p>
+<h4 class="sub">P3 → P2 → P1</h4></div></details><details class="q" data-m="7"><summary><span class="no">7</span><span class="tt">SJF scheduling</span><span class="meta"><span class="st" title="Priority">★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><ul><li>Full form</li><li>SJF = Shortest Job First</li></ul>
+<p>It is a non-preemptive scheduling algorithm.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>The Ready queue is examined.</span></div>
+<div class="li"><b>2</b><span>The process having the shortest estimated execution time is selected.</span></div>
+<div class="li"><b>3</b><span>After it completes/relinquishes CPU, the queue is examined again.</span></div>
+<div class="li"><b>4</b><span>The next shortest process is selected.</span></div>
+<p class="lbl">Example</p>
+<div class="tw"><table><thead><tr><th>Process</th><th>Time</th></tr></thead><tbody><tr><td>P1</td><td>10 ms</td></tr><tr><td>P2</td><td>5 ms</td></tr><tr><td>P3</td><td>7 ms</td></tr></tbody></table></div>
+<p class="lbl">Execution order</p>
+<h4 class="sub">P2 → P3 → P1</h4>
+<p class="lbl">because</p>
+<h4 class="sub">5 &lt; 7 &lt; 10</h4></div></details><details class="q" data-m="7"><summary><span class="no">8</span><span class="tt">Priority based scheduling</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This is another important scheduling algorithm because it was directly asked with FCFS.</p>
+<p>Priority-based scheduling is a non-preemptive scheduling algorithm in the Module 4 notes.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Each process is assigned a priority.</span></div>
+<div class="li"><b>2</b><span>The process with higher priority is serviced earlier.</span></div>
+<div class="li"><b>3</b><span>Lower-priority processes wait in the Ready queue.</span></div>
+<div class="li"><b>4</b><span>Priority may be assigned when the task/process is created.</span></div>
+<div class="li"><b>5</b><span>The priority is represented by a number supported by the OS.</span></div>
+<p class="lbl">In the module&#x27;s example</p>
+<ul><li>Priority 0 = highest</li><li>Priority 3 = lowest</li><li>Important point</li></ul>
+<p>SJF can also be viewed as priority-based scheduling because the process requiring less execution time is given higher priority.</p></div></details><details class="q" data-m="7"><summary><span class="no">9</span><span class="tt">Round robin scheduling</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Definition</p>
+<p>Round Robin is a preemptive scheduling algorithm in which every process receives a predefined time slot called a time slice.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>The first process in the Ready queue is selected.</span></div>
+<div class="li"><b>2</b><span>It executes for the predefined time slice.</span></div>
+<div class="li"><b>3</b><span>If it completes before the time slice ends, the next process is selected.</span></div>
+<div class="li"><b>4</b><span>If its time slice expires before completion, it is preempted.</span></div>
+<div class="li"><b>5</b><span>The next process in the Ready queue is selected.</span></div>
+<div class="li"><b>6</b><span>The process that was preempted is placed back in the queue.</span></div>
+<div class="li"><b>7</b><span>The process selection continues repeatedly.</span></div>
+<p class="lbl">Example</p>
+<p class="lbl">Processes</p>
+<ul><li>P1 = 10 ms</li><li>P2 = 5 ms</li><li>P3 = 7 ms</li></ul>
+<p class="lbl">Time slice</p>
+<h4 class="sub">3 ms</h4>
+<p class="lbl">Initial order</p>
+<h4 class="sub">P1 → P2 → P3</h4>
+<p>The CPU gives each process a maximum of 3 ms per turn.</p>
+<p class="lbl">The important difference from FCFS is</p>
+<blockquote>Round Robin adds time-slice-based preemption to the FCFS-like queue order.</blockquote>
+<div class="note dg">🖊 LEARN GANTT CHART / ROUND ROBIN WORKING</div>
+<p>Your Module 4 PDF specifically includes a Round Robin example using P1 = 10 ms, P2 = 5 ms, P3 = 7 ms and time slice = 3 ms.</p></div></details><details class="q" data-m="7"><summary><span class="no">10</span><span class="tt">Inter-process / inter-task communication</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This is a very high-priority 7-mark topic.</p>
+<p>IPC is the mechanism through which processes/tasks communicate with each other and is required for process coordination.</p>
+<h4 class="sub">Methods</h4>
+<h4><i>1</i>Shared Memory</h4>
+<p>Processes share an area of memory.</p>
+<p>Sender writes information into the shared area.</p>
+<p>Receiver reads information from it.</p>
+<p>Implementation depends on the OS kernel.</p>
+<h4><i>2</i>Pipes</h4>
+<p>A pipe is a section of shared memory used for communication.</p>
+<p>Uses client-server architecture.</p>
+<p>Process creating the pipe = pipe server.</p>
+<p>Process connecting to it = pipe client.</p>
+<p>Pipes are unidirectional.</p>
+<h4><i>3</i>Memory Mapped Objects</h4>
+<p>A shared block of memory is allocated by certain RTOSs.</p>
+<p>Multiple processes can access this shared block.</p>
+<h4><i>4</i>Message Queue</h4>
+<p>A process posts a message into a FIFO queue.</p>
+<p>The message is temporarily stored in a system-defined memory object and later passed to the required process.</p>
+<div class="note dg">🖊 LEARN DIAGRAM — IPC METHODS</div></div></details><details class="q" data-m="7"><summary><span class="no">11</span><span class="tt">Task synchronisation</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This appeared directly as a 7-mark question in the November 2023 paper.</p>
+<p class="lbl">Meaning</p>
+<p>Task synchronisation is required when multiple tasks/processes share resources or when the execution of one task depends on another.</p>
+<p>Its purpose is to coordinate tasks so that they access shared resources in the required order and avoid conflicts.</p>
+<p class="lbl">Important points to write</p>
+<div class="li"><b>1</b><span>Multiple tasks may need the same resource.</span></div>
+<div class="li"><b>2</b><span>Uncontrolled simultaneous access can produce incorrect results.</span></div>
+<div class="li"><b>3</b><span>Synchronisation controls the access to shared resources.</span></div>
+<div class="li"><b>4</b><span>It coordinates the execution of dependent tasks.</span></div>
+<div class="li"><b>5</b><span>IPC and task synchronisation are OS-kernel dependent.</span></div>
+<div class="li"><b>6</b><span>Different kernels may provide different synchronisation mechanisms.</span></div>
+<p>Important source limitation: your Module 4 PDF mentions task synchronisation and its importance, but it does not give a detailed separate explanation of mechanisms such as mutexes/semaphores. So don&#x27;t memorise extra mechanisms as if they came from your PDF. The paper nevertheless asks the topic.</p></div></details><details class="q" data-m="7"><summary><span class="no">12</span><span class="tt">Device driver — 7 mark</span><span class="meta"><span class="st" title="Priority">★★★★</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Definition</p>
+<p>A device driver is software that acts as a bridge between the OS and hardware.</p>
+<h4 class="sub">Functions</h4>
+<div class="li"><b>1</b><span>Establishes connectivity with hardware.</span></div>
+<div class="li"><b>2</b><span>Initializes hardware.</span></div>
+<div class="li"><b>3</b><span>Manages communication with hardware peripherals.</span></div>
+<div class="li"><b>4</b><span>Transfers data.</span></div>
+<div class="li"><b>5</b><span>Handles hardware-specific protocols.</span></div>
+<div class="li"><b>6</b><span>Allows applications/OS to use hardware without directly handling hardware-specific details.</span></div>
+<div class="li"><b>7</b><span>Different hardware classes may require different driver components.</span></div>
+<p class="lbl">Examples</p>
+<ul><li>Wi-Fi module</li><li>File system</li><li>Storage interface</li></ul>
+<div class="note dg">🖊 LEARN DIAGRAM</div>
+<pre class="dia">User Application
+       ↓
+Operating System
+       ↓
+  Device Driver
+       ↓
+    Hardware</pre></div></details><details class="q" data-m="7"><summary><span class="no">13</span><span class="tt">Functional requirements for selecting an RTOS</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>VERY IMPORTANT. This was repeatedly asked, including directly as a 7-mark question.</p>
+<p>There are 8 functional requirements in your module.</p>
+<h4><i>1</i>Processor Support</h4>
+<p>The RTOS must support the processor architecture used in the embedded system.</p>
+<h4><i>2</i>Memory Requirements</h4>
+<p class="lbl">The RTOS requires</p>
+<p>ROM for storing OS files.</p>
+<p>RAM for loading OS services.</p>
+<p>Since embedded systems have limited memory, minimum ROM and RAM requirements must be checked.</p>
+<h4><i>3</i>Real-Time Capabilities</h4>
+<p>The RTOS must provide suitable real-time behaviour.</p>
+<p>Scheduling policies play an important role in real-time behaviour.</p>
+<h4><i>4</i>Kernel and Interrupt Latency</h4>
+<p>The kernel may disable interrupts while performing certain services.</p>
+<p>This can cause interrupt latency.</p>
+<p>For systems requiring fast response, interrupt latency should be minimum.</p>
+<h4><i>5</i>Inter Process Communication and Task Synchronisation</h4>
+<p>The OS should provide suitable IPC and synchronisation mechanisms.</p>
+<p>The options available depend on the OS kernel.</p>
+<h4><i>6</i>Modularisation Support</h4>
+<p>The OS should ideally allow required modules to be selected and the OS image to be recompiled.</p>
+<p>The notes give Windows CE as an example of a highly modular OS.</p>
+<h4><i>7</i>Networking and Communication Support</h4>
+<p>The OS should provide the required communication interfaces, networking stacks and driver support.</p>
+<h4><i>8</i>Development Language Support</h4>
+<p>The OS may need runtime libraries for languages such as Java or C#.</p>
+<p>If required support is not built into the OS, availability from third-party vendors should be checked.</p></div></details><details class="q" data-m="7"><summary><span class="no">14</span><span class="tt">Non-functional requirements for selecting an RTOS</span><span class="meta"><span class="st" title="Priority">★★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This was asked directly as a 1-mark/3-mark area and is also worth preparing as a longer answer.</p>
+<h4><i>1</i>Custom Developed or Off-the-Shelf</h4>
+<p class="lbl">The OS can either be</p>
+<h4 class="sub">developed specifically for the system, or</h4>
+<p>selected as an already available commercial/open-source OS.</p>
+<p class="lbl">The decision depends on</p>
+<ul><li>Development cost</li><li>Licensing fee</li><li>Development time</li><li>Availability of skilled resources</li></ul>
+<h4><i>2</i>Cost</h4>
+<p class="lbl">The total cost of</p>
+<ul><li>developing/buying the OS</li><li>maintaining it</li></ul>
+<p>must be considered.</p>
+<h4><i>3</i>Development and Debugging Tools</h4>
+<p>Availability of suitable development and debugging tools is an important selection factor.</p>
+<h4><i>4</i>Ease of Use</h4>
+<p>The ease with which the RTOS can be used should be considered.</p>
+<h4><i>5</i>After-Sales Support</h4>
+<ul><li>For a commercial RTOS, availability of support such as:</li><li>email support</li><li>on-call support</li><li>bug fixes</li><li>critical patches</li><li>production issue support</li></ul>
+<p>should be evaluated.</p></div></details><details class="q" data-m="7"><summary><span class="no">15</span><span class="tt">GPOS vs RTOS</span><span class="meta"><span class="st" title="Priority">★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><h4 class="sub">General Purpose Operating System</h4>
+<p>Designed for general computing systems.</p>
+<p>Kernel contains general-purpose services.</p>
+<p>Behaviour can be non-deterministic.</p>
+<p>Services can introduce unexpected delays.</p>
+<p>Common in personal computers/desktops.</p>
+<h4 class="sub">Real-Time Operating System</h4>
+<p>Designed for time-critical systems.</p>
+<p>Provides deterministic timing behaviour.</p>
+<p>OS services consume known/expected amounts of time.</p>
+<p>Decides the order and time allocation of applications/tasks.</p>
+<p>Examples given in the module: Windows CE, QNX, VxWorks, MicroC/OS-II.</p></div></details><details class="q" data-m="7"><summary><span class="no">16</span><span class="tt">HARD REAL-TIME vs SOFT REAL-TIME</span><span class="meta"><span class="st" title="Priority">★★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This appeared in the April 2025 paper.</p>
+<div class="tw"><table><thead><tr><th>Hard Real-Time</th><th>Soft Real-Time</th></tr></thead><tbody><tr><td>Deadline is strictly followed.</td><td>Deadline is not strictly followed.</td></tr><tr><td>Task must complete within the specified time.</td><td>Result may still be accepted after the deadline.</td></tr><tr><td>Missing deadline can make the result unacceptable.</td><td>Missing deadline does not necessarily make the result unacceptable.</td></tr><tr><td>Used where timing is critical.</td><td>Used where occasional delay can be tolerated.</td></tr></tbody></table></div></div></details><details class="q" data-m="7"><summary><span class="no">17</span><span class="tt">RTOS non-functional requirements — 3 mark version</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">If the question says</p>
+<blockquote>Write any three non-functional requirements in selecting an RTOS.</blockquote>
+<p class="lbl">Write any three with explanation</p>
+<div class="li"><b>1</b><span>Cost — Total cost of developing/buying and maintaining the OS should be considered.</span></div>
+<div class="li"><b>2</b><span>Ease of Use — The RTOS should be easy to use.</span></div>
+<div class="li"><b>3</b><span>Development and Debugging Tools — Suitable development/debugging tools should be available.</span></div>
+<p class="lbl">Other valid points</p>
+<ul><li>Custom-developed or off-the-shelf</li><li>After-sales support</li></ul></div></details><details class="q" data-m="7"><summary><span class="no">18</span><span class="tt">Scheduling factors — 3 mark version</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">If they ask</p>
+<blockquote>Describe factors affecting selection of scheduling algorithm.</blockquote>
+<p class="lbl">Write</p>
+<div class="li"><b>1</b><span>CPU Utilisation — Should be high.</span></div>
+<div class="li"><b>2</b><span>Throughput — Number of completed processes per unit time should be high.</span></div>
+<div class="li"><b>3</b><span>Turnaround Time — Time required to complete a process should be low.</span></div>
+<div class="li"><b>4</b><span>Waiting Time — Time spent waiting in Ready queue should be low.</span></div>
+<div class="li"><b>5</b><span>Response Time — Time until first response should be low.</span></div></div></details><details class="q" data-m="7"><summary><span class="no">19</span><span class="tt">Task / process / thread — important difference</span><span class="meta"><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="tw"><table><thead><tr><th>Task</th><th>Process</th><th>Thread</th></tr></thead><tbody><tr><td>Something that needs to be done.</td><td>Program/part of program in execution.</td><td>Sequential flow of control within a process.</td></tr><tr><td>Also called Job.</td><td>Has its own process resources/status.</td><td>Also called lightweight process.</td></tr><tr><td>General unit of work.</td><td>Requires CPU, memory, I/O etc.</td><td>Shares address space with other threads of same process.</td></tr><tr><td>—</td><td>Has PC, registers and stack.</td><td>Has its own PC, registers/status and stack.</td></tr></tbody></table></div></div></details><details class="q" data-m="7"><summary><span class="no">20</span><span class="tt">DEADLOCK</span><span class="meta"><span class="st" title="Priority">★★★</span><span class="mk m7">7 marks</span></span></summary><div class="a"><div class="note wn">⚠ Important source note: Deadlock is explicitly asked in your PYQs, but the Module 4 PDF you uploaded does not contain a detailed deadlock section. The November 2025 paper asks:</div>
+<blockquote>Define deadlock and explain the necessary conditions to hold a deadlock.</blockquote>
+<p>So don&#x27;t confuse this with content actually present in the module PDF.</p>
+<p class="lbl">For exam preparation, the standard answer is</p>
+<p class="lbl">Definition</p>
+<p>A deadlock is a situation in which two or more processes are permanently waiting for resources held by each other, so none of them can proceed.</p>
+<h4 class="sub">Necessary conditions</h4>
+<h4><i>1</i>Mutual Exclusion</h4>
+<p>A resource can be used by only one process at a time.</p>
+<h4><i>2</i>Hold and Wait</h4>
+<p>A process holds at least one resource while waiting for another resource.</p>
+<h4><i>3</i>No Preemption</h4>
+<p>A resource cannot be forcibly taken away from a process; it must be released by the process itself.</p>
+<h4><i>4</i>Circular Wait</h4>
+<p>A circular chain exists where each process waits for a resource held by the next process.</p>
+<p>For this particular answer, this is standard OS knowledge, not material stated in your Module 4 PDF.</p></div></details></div></section></main>
+<script>
+const $=s=>[...document.querySelectorAll(s)];let cur=+(location.hash.slice(2))||1,mk='all',qs='';
+const s=document.getElementById('s'),cnt=document.getElementById('cnt');
+$('details.q').forEach(d=>d._t=d.textContent.toLowerCase());
+function apply(){
+ $('.mod').forEach(m=>m.hidden=m.id!=='mod'+cur);
+ $('.tab').forEach(t=>t.setAttribute('aria-selected',+t.dataset.k===cur));
+ const m=document.getElementById('mod'+cur);let n=0;
+ m.querySelectorAll('details.q:not(.intro)').forEach(d=>{
+  const ok=(mk==='all'||d.dataset.m===mk)&&(!qs||d._t.includes(qs));d.hidden=!ok;if(ok){n++;if(qs.length>2)d.open=true}});
+ m.querySelectorAll('.gr').forEach(g=>g.hidden=!g.querySelector('details.q:not([hidden])'));
+ m.querySelectorAll('.intro').forEach(d=>d.hidden=!!qs||mk!=='all');
+ cnt.textContent=n+(n===1?' question':' questions');
+}
+$('.tab').forEach(t=>t.onclick=()=>{cur=+t.dataset.k;history.replaceState(null,'','#m'+cur);apply();scrollTo(0,0)});
+$('.chip').forEach(c=>c.onclick=()=>{mk=c.dataset.mk;$('.chip').forEach(x=>x.setAttribute('aria-pressed',x===c));apply()});
+s.oninput=()=>{qs=s.value.trim().toLowerCase();apply()};
+apply();
+</script>
+</body>
+</html>
