@@ -3,218 +3,677 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Study Portal</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@400;600;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<title>Study Portal — Exam Preparation Hub</title>
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+
 <style>
   :root {
-    --bg: #080c14;
-    --surface: #0e1520;
-    --border: #1e2d45;
-    --text: #e2eaf5;
-    --muted: #6b7fa3;
-    --accent1: #00d4ff;
-    --accent2: #00e5a0;
-    --accent3: #a855f7;
-    --accent4: #ffcb6b;
-    --accent5: #ff7b72;  /* new accent for C card */
-    --glow: rgba(0, 212, 255, 0.08);
+    --bg: #070b12;
+    --surface: rgba(14, 21, 32, 0.88);
+    --surface-hover: rgba(18, 28, 43, 0.96);
+    --border: #1d2b42;
+
+    --text: #e7eef8;
+    --muted: #7183a3;
+
+    --cyan: #00d4ff;
+    --green: #00e5a0;
+    --purple: #a855f7;
+    --yellow: #ffcb6b;
+    --red: #ff7b72;
+    --esro: #ff9f43;
+
+    --glow: rgba(0, 212, 255, 0.055);
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
 
   body {
     font-family: 'Space Grotesk', sans-serif;
-    background: var(--bg);
+    background:
+      radial-gradient(circle at 50% -20%, rgba(0, 212, 255, 0.09), transparent 40%),
+      var(--bg);
     color: var(--text);
     min-height: 100vh;
+
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
+
+    padding: 55px 20px 70px;
+
+    overflow-x: hidden;
   }
 
-  /* Grid background */
+  /* ─────────────────────────
+     BACKGROUND GRID
+  ───────────────────────── */
+
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: 
+
+    background-image:
       linear-gradient(var(--glow) 1px, transparent 1px),
       linear-gradient(90deg, var(--glow) 1px, transparent 1px);
+
     background-size: 40px 40px;
+
+    pointer-events: none;
+    z-index: -2;
+  }
+
+  body::after {
+    content: '';
+
+    position: fixed;
+    inset: 0;
+
+    background:
+      radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.035), transparent 25%),
+      radial-gradient(circle at 85% 75%, rgba(0, 229, 160, 0.03), transparent 25%);
+
     pointer-events: none;
     z-index: -1;
   }
 
+  /* ─────────────────────────
+     HEADER
+  ───────────────────────── */
+
   .header {
     text-align: center;
-    margin-bottom: 60px;
+    margin-bottom: 58px;
+
+    animation: fadeUp 0.7s ease both;
   }
 
   .header-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+
     font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
+
     letter-spacing: 3px;
-    color: var(--muted);
     text-transform: uppercase;
-    margin-bottom: 16px;
+
+    color: var(--muted);
+
+    margin-bottom: 17px;
+  }
+
+  .header-tag::before {
+    content: '';
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow: 0 0 12px rgba(0, 229, 160, 0.7);
+
+    animation: pulse 2s infinite;
   }
 
   h1 {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 6vw, 56px);
+
+    font-size: clamp(38px, 7vw, 64px);
     font-weight: 800;
-    line-height: 1.1;
-    background: linear-gradient(135deg, #fff 0%, var(--accent1) 60%, var(--accent3) 100%);
+    line-height: 1.05;
+
+    letter-spacing: -1.5px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #ffffff 5%,
+        var(--cyan) 55%,
+        var(--purple) 100%
+      );
+
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
-  .nav-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
-    width: 100%;
-    max-width: 1000px;
+  .subtitle {
+    margin-top: 14px;
+
+    font-size: 14px;
+    color: var(--muted);
+
+    letter-spacing: 0.3px;
   }
 
+  /* ─────────────────────────
+     CARD GRID
+  ───────────────────────── */
+
+  .nav-grid {
+    display: grid;
+
+    grid-template-columns:
+      repeat(auto-fit, minmax(285px, 1fr));
+
+    gap: 20px;
+
+    width: 100%;
+    max-width: 1050px;
+  }
+
+  /* ─────────────────────────
+     CARD
+  ───────────────────────── */
+
   .nav-card {
+    position: relative;
+
+    min-height: 255px;
+
     background: var(--surface);
+
     border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 32px 24px;
+    border-radius: 16px;
+
+    padding: 28px 25px;
+
     text-decoration: none;
+    color: inherit;
+
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    transition: all 0.3s ease;
-    position: relative;
+
+    gap: 10px;
+
     overflow: hidden;
+
+    backdrop-filter: blur(10px);
+
+    transition:
+      transform 0.3s ease,
+      border-color 0.3s ease,
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+
+    animation: fadeUp 0.6s ease both;
   }
+
+  /* top accent */
 
   .nav-card::before {
     content: '';
+
     position: absolute;
-    top: 0; left: 0; right: 0;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
     height: 3px;
+
     background: var(--border);
-    transition: background 0.3s ease;
+
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  /* subtle glow */
+
+  .nav-card::after {
+    content: '';
+
+    position: absolute;
+
+    width: 160px;
+    height: 160px;
+
+    right: -80px;
+    bottom: -90px;
+
+    border-radius: 50%;
+
+    background: var(--card-glow, transparent);
+
+    filter: blur(35px);
+
+    opacity: 0;
+
+    transition: opacity 0.35s ease;
+
+    pointer-events: none;
   }
 
   .nav-card:hover {
-    transform: translateY(-4px);
-    border-color: rgba(255, 255, 255, 0.1);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    transform: translateY(-6px);
+
+    background: var(--surface-hover);
+
+    border-color: rgba(255, 255, 255, 0.12);
+
+    box-shadow:
+      0 18px 45px rgba(0, 0, 0, 0.42),
+      0 0 30px var(--card-shadow, transparent);
   }
 
-  .card-ccn:hover::before { background: var(--accent1); }
-  .card-oop-guide:hover::before { background: var(--accent2); }
-  .card-oop-qb:hover::before { background: var(--accent3); }
-  .card-ds:hover::before { background: var(--accent4); }
-  .card-cprog:hover::before { background: var(--accent5); } /* new C card hover */
+  .nav-card:hover::after {
+    opacity: 1;
+  }
+
+  /* ─────────────────────────
+     ICON
+  ───────────────────────── */
 
   .card-icon {
-    font-size: 28px;
-    margin-bottom: 8px;
+    width: 52px;
+    height: 52px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    font-size: 25px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+
+    margin-bottom: 5px;
+
+    transition:
+      transform 0.3s ease,
+      background 0.3s ease;
   }
+
+  .nav-card:hover .card-icon {
+    transform: scale(1.07) rotate(-2deg);
+  }
+
+  /* ─────────────────────────
+     TEXT
+  ───────────────────────── */
 
   .card-title {
     font-family: 'Syne', sans-serif;
+
     font-size: 20px;
     font-weight: 700;
+
     color: #fff;
+
+    letter-spacing: -0.2px;
   }
 
   .card-desc {
-    font-size: 14px;
+    font-size: 13.5px;
+
     color: var(--muted);
-    line-height: 1.6;
+
+    line-height: 1.65;
+
     flex-grow: 1;
+
+    max-width: 95%;
   }
 
   .card-meta {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+
+    font-size: 10px;
     font-weight: 700;
-    color: var(--muted);
-    margin-top: 16px;
+
+    color: #526582;
+
+    margin-top: 15px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    letter-spacing: 0.2px;
   }
 
   .card-arrow {
-    font-size: 16px;
-    transition: transform 0.3s ease;
+    font-size: 17px;
+
+    color: #536986;
+
+    transition:
+      transform 0.3s ease,
+      color 0.3s ease;
   }
 
   .nav-card:hover .card-arrow {
-    transform: translateX(4px);
+    transform: translateX(6px);
+    color: #fff;
+  }
+
+  /* ─────────────────────────
+     CARD COLORS
+  ───────────────────────── */
+
+  .card-esro {
+    --card-glow: rgba(255, 159, 67, 0.14);
+    --card-shadow: rgba(255, 159, 67, 0.06);
+  }
+
+  .card-esro:hover::before {
+    background: var(--esro);
+    box-shadow: 0 0 18px rgba(255, 159, 67, 0.55);
+  }
+
+  .card-ccn {
+    --card-glow: rgba(0, 212, 255, 0.12);
+    --card-shadow: rgba(0, 212, 255, 0.05);
+  }
+
+  .card-ccn:hover::before {
+    background: var(--cyan);
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.5);
+  }
+
+  .card-oop-guide {
+    --card-glow: rgba(0, 229, 160, 0.12);
+    --card-shadow: rgba(0, 229, 160, 0.05);
+  }
+
+  .card-oop-guide:hover::before {
+    background: var(--green);
+    box-shadow: 0 0 18px rgba(0, 229, 160, 0.5);
+  }
+
+  .card-oop-qb {
+    --card-glow: rgba(168, 85, 247, 0.13);
+    --card-shadow: rgba(168, 85, 247, 0.05);
+  }
+
+  .card-oop-qb:hover::before {
+    background: var(--purple);
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.5);
+  }
+
+  .card-ds {
+    --card-glow: rgba(255, 203, 107, 0.12);
+    --card-shadow: rgba(255, 203, 107, 0.05);
+  }
+
+  .card-ds:hover::before {
+    background: var(--yellow);
+    box-shadow: 0 0 18px rgba(255, 203, 107, 0.5);
+  }
+
+  .card-cprog {
+    --card-glow: rgba(255, 123, 114, 0.12);
+    --card-shadow: rgba(255, 123, 114, 0.05);
+  }
+
+  .card-cprog:hover::before {
+    background: var(--red);
+    box-shadow: 0 0 18px rgba(255, 123, 114, 0.5);
+  }
+
+  /* ─────────────────────────
+     FOOTER
+  ───────────────────────── */
+
+  .footer {
+    margin-top: 50px;
+
+    font-family: 'JetBrains Mono', monospace;
+
+    font-size: 10px;
+
+    color: #3e4e68;
+
+    letter-spacing: 1px;
+
+    text-align: center;
+  }
+
+  /* ─────────────────────────
+     ANIMATIONS
+  ───────────────────────── */
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    50% {
+      opacity: 0.45;
+      transform: scale(0.8);
+    }
+  }
+
+  /* ─────────────────────────
+     MOBILE
+  ───────────────────────── */
+
+  @media (max-width: 650px) {
+
+    body {
+      padding:
+        35px
+        15px
+        50px;
+    }
+
+    .header {
+      margin-bottom: 40px;
+    }
+
+    .nav-grid {
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .nav-card {
+      min-height: 225px;
+      padding: 25px 22px;
+    }
+
+    .card-desc {
+      max-width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 </style>
 </head>
+
 <body>
 
-  <div class="header">
-    <div class="header-tag">Exam Preparation Hub</div>
-    <h1>Study Portal</h1>
-  </div>
+  <!-- HEADER -->
+  <header class="header">
 
-  <div class="nav-grid">
+    <div class="header-tag">
+      Exam Preparation Hub
+    </div>
+
+    <h1>Study Portal</h1>
+
+    <p class="subtitle">
+      Your centralized hub for semester exam preparation.
+    </p>
+
+  </header>
+
+
+  <!-- SUBJECT CARDS -->
+  <main class="nav-grid">
+
+    <!-- ESRO — FIRST CARD -->
+    <a href="esro.html" class="nav-card card-esro">
+
+      <div class="card-icon">⚙️</div>
+
+      <div class="card-title">
+        ESRO Exam Prep
+      </div>
+
+      <div class="card-desc">
+        Embedded Systems & Real-Time Operating Systems. Priority questions, microcontrollers, timers, ADC, LCD, sensors, and RTOS concepts.
+      </div>
+
+      <div class="card-meta">
+        <span>ESRO</span>
+        <span class="card-arrow">→</span>
+      </div>
+
+    </a>
+
+
+    <!-- CCN -->
     <a href="ccn_exam_prep.html" class="nav-card card-ccn">
+
       <div class="card-icon">🌐</div>
-      <div class="card-title">CCN Exam Prep</div>
-      <div class="card-desc">Computer Communication & Networks. Priority-ranked questions, OSI/TCP models, topologies, and network protocols.</div>
+
+      <div class="card-title">
+        CCN Exam Prep
+      </div>
+
+      <div class="card-desc">
+        Computer Communication & Networks. Priority-ranked questions, OSI/TCP models, topologies, and network protocols.
+      </div>
+
       <div class="card-meta">
         <span>TED (21) 4132</span>
         <span class="card-arrow">→</span>
       </div>
+
     </a>
 
+
+    <!-- JAVA / OOP PROGRAMS -->
     <a href="OOP_Programs_Guide.html" class="nav-card card-oop-guide">
+
       <div class="card-icon">💻</div>
-      <div class="card-title">Java Programs Guide</div>
-      <div class="card-desc">Complete code reference for OOP concepts, inheritance, interfaces, Java features, Swing GUI, and JDBC.</div>
+
+      <div class="card-title">
+        Java Programs Guide
+      </div>
+
+      <div class="card-desc">
+        Complete code reference for OOP concepts, inheritance, interfaces, Java features, Swing GUI, and JDBC.
+      </div>
+
       <div class="card-meta">
         <span>OOP 4131</span>
         <span class="card-arrow">→</span>
       </div>
+
     </a>
 
+
+    <!-- OOP QUESTION BANK -->
     <a href="OOP_4131_QuestionBank-2.html" class="nav-card card-oop-qb">
+
       <div class="card-icon">📚</div>
-      <div class="card-title">Priority Question Bank</div>
-      <div class="card-desc">Curated theoretical questions, DDL/DML/DCL commands, exception handling, and JVM architecture.</div>
+
+      <div class="card-title">
+        Priority Question Bank
+      </div>
+
+      <div class="card-desc">
+        Curated theoretical questions, DDL/DML/DCL commands, exception handling, and JVM architecture.
+      </div>
+
       <div class="card-meta">
         <span>OOP 4131</span>
         <span class="card-arrow">→</span>
       </div>
+
     </a>
 
+
+    <!-- DATA STRUCTURES -->
     <a href="DS_Complete_Study_Guide.html" class="nav-card card-ds">
+
       <div class="card-icon">📊</div>
-      <div class="card-title">DS Exam Prep</div>
-      <div class="card-desc">Data Structures with priority-ranked questions, arrays, linked lists, trees, graphs, and sorting algorithms.</div>
+
+      <div class="card-title">
+        DS Exam Prep
+      </div>
+
+      <div class="card-desc">
+        Data Structures with priority-ranked questions, arrays, linked lists, trees, graphs, and sorting algorithms.
+      </div>
+
       <div class="card-meta">
         <span>DS 4112</span>
         <span class="card-arrow">→</span>
       </div>
+
     </a>
 
-    <!-- NEW C PROGRAMMING PREP CARD -->
+
+    <!-- C PROGRAMMING -->
     <a href="psp.html" class="nav-card card-cprog">
+
       <div class="card-icon">⚡</div>
-      <div class="card-title">C Programming Prep</div>
-      <div class="card-desc">Important 1, 3 & 7 mark questions with concise answers. Pointers, arrays, recursion, file handling & more.</div>
+
+      <div class="card-title">
+        C Programming Prep
+      </div>
+
+      <div class="card-desc">
+        Important 1, 3 & 7 mark questions with concise answers. Pointers, arrays, recursion, file handling & more.
+      </div>
+
       <div class="card-meta">
         <span>PROG 3132 / 2131</span>
         <span class="card-arrow">→</span>
       </div>
+
     </a>
-  </div>
+
+  </main>
+
+
+  <footer class="footer">
+    STUDY PORTAL • EXAM MODE • 2026
+  </footer>
 
 </body>
 </html>
