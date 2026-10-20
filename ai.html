@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI &amp; Machine Learning</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{--bg:#F3F5F2;--sf:#fff;--ink:#16212A;--mu:#5B6B76;--ln:#D8DFDA;--br:#0B5D56;--c1:#E1EAF2;--t1:#27506E;--c3:#D9EEE6;--t3:#0B5D56;--c7:#F7E6CC;--t7:#7F4504;--cd:#0E1A20;--ct:#D7F2EC;--nt:#EEF3F0;--hi:#C2410C;--me:#B7791F;--lo:#2F855A}
+@media(prefers-color-scheme:dark){:root{--bg:#10181D;--sf:#172229;--ink:#E6EDF0;--mu:#93A4AD;--ln:#26353D;--br:#54C2B4;--c1:#1F3445;--t1:#9CC6E8;--c3:#14332F;--t3:#7ED8CB;--c7:#3A2A12;--t7:#F0C27A;--cd:#0A1318;--nt:#1C2A31;--hi:#F08A5D;--me:#E3B341;--lo:#5CC08C}}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 'IBM Plex Sans',system-ui,sans-serif}
+.w{max-width:860px;margin:0 auto;padding:0 14px}
+header{padding:18px 0 10px}
+.back{color:var(--mu);font-size:14px;text-decoration:none}
+.back:hover{color:var(--br)}
+h1{margin:6px 0 0;font-size:clamp(24px,5vw,34px);line-height:1.15;font-weight:600;letter-spacing:-.01em}
+h1 small{font:500 14px 'IBM Plex Mono',monospace;color:var(--br);margin-left:8px;letter-spacing:0}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--ln);padding:8px 0}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.tab{font:inherit;background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:8px;padding:6px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;line-height:1.25}
+.tab b{font-size:14px;font-weight:600}.tab small{font-size:11px;color:var(--mu);text-align:center}
+.tab[aria-selected=true]{background:var(--br);border-color:var(--br);color:#fff}.tab[aria-selected=true] small{color:#d6efeb}
+.tools{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;align-items:center}
+input{flex:1 1 180px;font:inherit;font-size:15px;padding:7px 10px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--ink)}
+.chips{display:flex;gap:6px}
+.chip{font:inherit;font-size:13px;padding:5px 10px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+#cnt{font-size:13px;color:var(--mu);margin:10px 0 0}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--br);outline-offset:2px}
+main{padding:12px 0 60px}
+.gr{background:var(--sf);border:1px solid var(--ln);border-radius:10px;margin:0 0 18px;overflow:clip}
+.gr h3{margin:0;padding:12px 14px;font-size:17px;font-weight:600;border-bottom:1px solid var(--ln)}
+.gi{padding:8px 14px;border-bottom:1px solid var(--ln);color:var(--mu);font-size:15px}
+.gi p{margin:4px 0}
+.q{border-bottom:1px solid var(--ln)}.q:last-child{border-bottom:0}
+.intro{background:var(--sf);border:1px solid var(--ln);border-radius:10px;margin-bottom:18px}
+summary{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;padding:12px 14px;cursor:pointer;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary::before{content:'+';font:500 16px 'IBM Plex Mono',monospace;color:var(--br);width:12px;flex:none}
+details[open]>summary::before{content:'\2212'}
+summary:hover .tt{color:var(--br)}
+.no{font:500 13px 'IBM Plex Mono',monospace;color:var(--mu);min-width:20px}
+.tt{flex:1 1 55%;font-weight:500}
+.meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-left:auto;padding-left:34px}
+.st{color:#C98A12;font-size:12px;letter-spacing:1px}
+.dgb{font-size:12px;color:var(--mu)}
+.mk{font-size:12px;font-weight:500;padding:1px 8px;border-radius:99px}
+.m1{background:var(--c1);color:var(--t1)}.m3{background:var(--c3);color:var(--t3)}.m7{background:var(--c7);color:var(--t7)}
+.a{padding:2px 14px 18px 36px;max-width:72ch}
+.a p{margin:.5em 0}
+.a h4{margin:1.1em 0 .2em;font-size:16px;font-weight:600}
+.a h4 i{font:500 12px 'IBM Plex Mono',monospace;font-style:normal;background:var(--nt);color:var(--br);border-radius:5px;padding:1px 6px;margin-right:8px}
+.a h4.sub{font-size:15px}.a h4.tier{font-size:15px;margin-top:1.4em}
+.li{display:flex;gap:8px;margin:.45em 0}.li b{font:500 12px 'IBM Plex Mono',monospace;color:var(--br);padding-top:4px;min-width:16px}
+.a ul{margin:.4em 0;padding-left:1.2em}
+.lbl{font-size:13px;font-weight:600;color:var(--br);margin:1.1em 0 .1em!important}
+.qq{font-weight:500}.qq b{color:var(--br);margin-right:8px}
+.note{margin:.8em 0;padding:8px 12px;border-radius:8px;background:var(--nt);border-left:3px solid var(--br);font-size:15px}
+.note.dg{border-color:#C98A12}.note.wn{border-color:#C2410C}
+blockquote{margin:.6em 0;padding:2px 12px;border-left:3px solid var(--ln);color:var(--mu)}
+code{font:400 .9em 'IBM Plex Mono',monospace;background:var(--nt);padding:0 4px;border-radius:4px}
+pre{margin:.7em 0;padding:12px 14px;border-radius:8px;overflow-x:auto;font:400 13.5px/1.55 'IBM Plex Mono',monospace}
+.code{background:var(--cd);color:var(--ct)}.code code{background:none;padding:0;font-size:inherit}
+.dia{background:var(--nt);border:1px solid var(--ln)}
+.tw{overflow-x:auto;margin:.7em 0}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{text-align:left;vertical-align:top;padding:7px 10px;border:1px solid var(--ln)}
+th{background:var(--nt)}
+hr{border:0;border-top:1px dashed var(--ln);margin:1.2em 0}
+@media(max-width:560px){.a{padding-left:14px}.meta{padding-left:0;margin-left:0}.tab small{display:none}}
+
+.tools select{font:inherit;font-size:14px;padding:6px 8px;border:1px solid var(--ln);border-radius:8px;background:var(--sf);color:var(--ink)}
+.chips{margin-top:8px;flex-wrap:wrap}
+.chip .n{font:500 11px 'IBM Plex Mono',monospace;color:var(--mu);margin-left:4px}.chip[aria-pressed=true] .n{color:inherit;opacity:.75}
+.d{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:var(--mu)}
+.d-high,.s-high:before{background:var(--hi)}.d-med,.s-med:before{background:var(--me)}.d-low,.s-low:before{background:var(--lo)}
+.sec{display:flex;align-items:baseline;gap:8px;padding:10px 14px;background:var(--nt);border-bottom:1px solid var(--ln);font-weight:600}
+.sec span{font-weight:400;font-size:14px;color:var(--mu)}
+.sec .n{margin-left:auto;font:500 12px 'IBM Plex Mono',monospace;font-style:normal;color:var(--mu)}
+.sec:before{content:'';width:9px;height:9px;border-radius:50%;background:var(--mu);align-self:center;flex:none}
+.pk{font:500 11px 'IBM Plex Mono',monospace;color:var(--mu);border:1px solid var(--ln);border-radius:5px;padding:0 5px}
+#empty{padding:30px 0;text-align:center;color:var(--mu)}
+#pool{display:none}
+@media(max-width:560px){.bar{position:static}.sec{position:sticky;top:0;z-index:4}}
+</style>
+</head>
+<body>
+<div class="w">
+<header><a class="back" href="index.html">&lsaquo; Study Portal</a><h1>AI &amp; Machine Learning<small>5133C</small></h1></header>
+</div>
+<div class="bar"><div class="w">
+<div class="tabs" role="tablist"><button class="tab" data-k="0"><b>All</b><small>Every module</small></button><button class="tab" data-k="1"><b>Module 1</b><small>Intro to AI</small></button><button class="tab" data-k="2"><b>Module 2</b><small>Python</small></button><button class="tab" data-k="3"><b>Module 3</b><small>Machine learning</small></button><button class="tab" data-k="4"><b>Module 4</b><small>Search and games</small></button></div>
+<div class="tools"><input id="s" type="search" placeholder="Search questions" aria-label="Search questions"><select id="so" aria-label="Sort by"><option value="priority">Sort: priority (marks)</option><option value="repeat">Sort: marks (highest first)</option><option value="syllabus">Sort: syllabus order</option></select><button class="chip" id="ex">Expand all</button></div><div class="chips" id="pc"><button class="chip" data-p="all" aria-pressed="true">All<span class="n" id="c-all"></span></button><button class="chip" data-p="high" aria-pressed="false"><i class="d d-high"></i>High<span class="n" id="c-high"></span></button><button class="chip" data-p="med" aria-pressed="false"><i class="d d-med"></i>Medium<span class="n" id="c-med"></span></button><button class="chip" data-p="low" aria-pressed="false"><i class="d d-low"></i>Low<span class="n" id="c-low"></span></button><button class="chip" data-p="note" aria-pressed="false">Notes<span class="n" id="c-note"></span></button></div></div></div>
+<main class="w"><p id="cnt" aria-live="polite"></p><div id="list"><details class="q intro" data-k="1" open><summary><span class="tt">How to use this guide</span></summary><div class="a"><h4 class="sub">🎯 How to use this guide</h4>
+<div class="tw"><table><thead><tr><th>Priority</th><th>Meaning</th><th>What you should do</th></tr></thead><tbody><tr><td>🔴 HIGH</td><td>Directly asked in April 2026 or an important exam question supported by the materials</td><td>Learn first</td></tr><tr><td>🟡 MEDIUM</td><td>Important syllabus topic with potential for short or long answers</td><td>Learn after High</td></tr><tr><td>🟢 LOW</td><td>Additional syllabus coverage and backup questions</td><td>Revise last</td></tr></tbody></table></div>
+<h4 class="sub">Answer-writing rules</h4>
+<p>1 mark: Write the exact answer. No unnecessary explanation.</p>
+<p>3 marks: Definition plus the main points, with brief explanations.</p>
+<p>7 marks: Introduction plus properly explained points. Don&#x27;t write keywords alone.</p>
+<p>Programs: Learn the code, indentation, and output where applicable.</p>
+<p>Diagram required? I&#x27;ll mark it with 🖊️ LEARN DIAGRAM.</p></div></details>
+<details class="q" data-k="1" data-p="high" data-r="1" data-o="1"><summary><span class="no">1</span><span class="tt">Define Artificial Intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Answer: Artificial Intelligence (AI) is a branch of computer science that enables machines to imitate human intelligence, including learning, reasoning, problem-solving, and decision-making.</p>
+<p>Remember: John McCarthy first coined the term Artificial Intelligence in 1956.</p></div></details>
+<details class="q" data-k="1" data-p="high" data-r="3" data-o="2"><summary><span class="no">2</span><span class="tt">Explain the necessity of Artificial Intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m3">3 marks</span></span></summary><div class="a"><h4 class="sub">Artificial Intelligence is necessary for the following reasons:</h4>
+<div class="li"><b>1</b><span>Solving real-world problems: AI can help solve problems in healthcare, marketing, and traffic management accurately.</span></div>
+<div class="li"><b>2</b><span>Virtual assistants: AI enables assistants such as Siri and Google Assistant to respond to user commands.</span></div>
+<div class="li"><b>3</b><span>Working in dangerous environments: AI-powered robots can perform tasks in places where human safety is at risk.</span></div>
+<div class="li"><b>4</b><span>Developing new technologies: AI supports the development of new devices, software, and technological opportunities.</span></div>
+<p>For 3 marks: Write any three well-explained points.</p></div></details>
+<details class="q" data-k="1" data-p="high" data-r="7" data-o="3"><summary><span class="no">3</span><span class="tt">Explain the components of intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Priority: 🔴 HIGH — This appeared as a 7-mark question in April 2026.</p>
+<p>Intelligence is the ability to understand information, learn from experience, solve problems, and make decisions. According to the Module 1 notes, intelligence consists of several components.</p>
+<h4><i>1</i>Reasoning</h4>
+<p>Reasoning is the process of using information and logical thinking to reach a conclusion. It helps a system make judgments and decisions based on available facts.</p>
+<h4><i>2</i>Learning</h4>
+<p>Learning is the process of acquiring knowledge or skills through experience or information. An intelligent system can use what it has learned to improve its performance.</p>
+<h4><i>3</i>Problem-solving</h4>
+<p>Problem-solving is the ability to identify a problem, examine possible solutions, and choose an appropriate solution.</p>
+<h4><i>4</i>Perception</h4>
+<p>Perception is the ability to interpret information received from the surroundings. For example, an AI system can analyse images to identify objects.</p>
+<h4><i>5</i>Language understanding</h4>
+<p>Language understanding is the ability to interpret human language and determine the meaning of words, sentences, or commands.</p>
+<p>Conclusion: Reasoning, learning, problem-solving, perception, and language understanding help form the basis of intelligent behaviour in machines.</p>
+<p>For a 3-mark question: Write the introduction and explain any three components.</p></div></details>
+<details class="q" data-k="1" data-p="high" data-r="7" data-o="4"><summary><span class="no">4</span><span class="tt">List the applications of Artificial Intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Priority: 🔴 HIGH — This appeared as a 7-mark question in April 2026.</p>
+<p>Artificial Intelligence is used in many fields to automate tasks, analyse information, solve problems, and support decision-making.</p>
+<h4><i>1</i>AI in Astronomy</h4>
+<p>AI helps analyse astronomical data and study complex problems related to the universe.</p>
+<h4><i>2</i>AI in Healthcare</h4>
+<p>AI assists healthcare professionals in analysing medical information, supporting diagnosis, and identifying signs that a patient&#x27;s condition may be worsening.</p>
+<h4><i>3</i>AI in Gaming</h4>
+<p>AI enables computers to play strategic games such as chess by evaluating possible moves and selecting suitable actions.</p>
+<h4><i>4</i>AI in Finance</h4>
+<p>AI is used in financial automation, chatbots, algorithmic trading, and the analysis of financial information.</p>
+<h4><i>5</i>AI in Data Security</h4>
+<p>AI can help identify suspicious activity, software vulnerabilities, and possible cyberattacks.</p>
+<h4><i>6</i>AI in Social Media</h4>
+<p>AI analyses large amounts of user data to identify trends, recommend content, and organise information.</p>
+<h4><i>7</i>AI in Travel and Transport</h4>
+<p>AI helps recommend routes, arrange travel, suggest hotels, and provide automated customer support.</p>
+<h4><i>8</i>AI in the Automotive Industry</h4>
+<p>AI supports driver-assistance systems and the development of self-driving vehicles.</p>
+<h4><i>9</i>AI in Robotics</h4>
+<p>AI allows robots to perform tasks intelligently and adapt their actions using information and experience.</p>
+<h4><i>10</i>AI in Entertainment</h4>
+<p>Streaming services use AI to recommend films, programmes, and other content based on user interests.</p>
+<h4><i>11</i>AI in Agriculture</h4>
+<p>AI helps with crop monitoring, agricultural robotics, and predictive analysis.</p>
+<h4><i>12</i>AI in E-commerce</h4>
+<p>AI recommends products to customers based on their preferences and shopping behaviour.</p>
+<h4><i>13</i>AI in Education</h4>
+<p>AI can assist with grading, answer students&#x27; questions, and provide automated learning support.</p>
+<p>Conclusion: AI improves automation, analysis, and decision-making across different industries.</p>
+<p>Exam strategy: Learn at least seven applications with their explanations. If you have time, learn all thirteen.</p></div></details>
+<details class="q" data-k="1" data-p="high" data-r="3" data-o="5"><summary><span class="no">5</span><span class="tt">Summarize the types of learning in AI.</span><span class="meta"><span class="pk">M1</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Priority: 🔴 HIGH — Asked in Part B of April 2026 and the model question paper.</p>
+<p>Your materials use slightly different lists of learning types. To avoid confusion, learn the following distinctions.</p>
+<h4 class="sub">A. Main machine-learning approaches</h4>
+<h4><i>1</i>Supervised Learning</h4>
+<p>The model learns from labelled data, where inputs are paired with the correct outputs. It is used for classification and regression.</p>
+<p>Example: Predicting whether an email is spam.</p>
+<h4><i>2</i>Unsupervised Learning</h4>
+<p>The model learns from unlabelled data and identifies patterns or groups without being given the correct output for each example.</p>
+<p>Example: Grouping customers with similar behaviour.</p>
+<h4><i>3</i>Reinforcement Learning</h4>
+<p>An agent learns by interacting with an environment and receiving rewards or penalties for its actions.</p>
+<p>Example: An AI agent learning to play a game.</p>
+<p>These three are the types listed in the model question paper.</p>
+<p>B. What about Semi-supervised Learning?</p>
+<p>Your Module 1 notes also discuss Semi-supervised Learning.</p>
+<p>It uses a combination of labelled and unlabelled data. It is useful when obtaining labelled data is expensive or time-consuming.</p>
+<h4 class="sub">C. Special note for the April 2026 question</h4>
+<p>The April 2026 scoring guidance reportedly lists learning types such as Auditory, Episodic, Motor, Observational, Perceptual, and Relational Learning.</p>
+<p>That list is different from the main machine-learning approaches above. If the question specifically asks for any three types of Learning according to that scoring guidance, prepare three of those named types from the corresponding class material as well.</p>
+<p>Priority advice: Know Supervised, Unsupervised, and Reinforcement Learning first, but don&#x27;t assume they are the only possible answers to every question containing the word learning.</p></div></details>
+<details class="q" data-k="1" data-p="high" data-r="3" data-o="6"><summary><span class="no">6</span><span class="tt">List any six AI tools.</span><span class="meta"><span class="pk">M1</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Priority: 🔴 HIGH — Directly asked in April 2026.</p>
+<p class="lbl">Write any six of the following</p>
+<div class="li"><b>1</b><span>NumPy — Used for numerical computing and array operations.</span></div>
+<div class="li"><b>2</b><span>Pandas — Used for data manipulation and analysis.</span></div>
+<div class="li"><b>3</b><span>Scikit-learn — Provides machine-learning algorithms and tools.</span></div>
+<div class="li"><b>4</b><span>Matplotlib — Used for plotting graphs and visualising data.</span></div>
+<div class="li"><b>5</b><span>Keras — Used to develop neural networks and deep-learning models.</span></div>
+<div class="li"><b>6</b><span>OpenCV — Used for image processing and computer vision.</span></div>
+<div class="li"><b>7</b><span>NLTK — Used for natural-language processing.</span></div>
+<p>Other tools named in your scoring guidance include TensorFlow, PyTorch, OpenNN, and ChatGPT.</p>
+<p>Exam tip: For a question asking only to list six tools, the names are sufficient unless the question also asks you to explain them.</p></div></details>
+<details class="q" data-k="1" data-p="med" data-r="7" data-o="7"><summary><span class="no">7</span><span class="tt">Explain the different fields of Artificial Intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>The fields of AI represent different areas in which intelligent systems are developed.</p>
+<h4><i>1</i>Machine Learning</h4>
+<p>Machine Learning allows systems to learn patterns from data and use them to make predictions or decisions.</p>
+<h4><i>2</i>Natural Language Processing</h4>
+<p>Natural Language Processing (NLP) enables computers to process and understand human language.</p>
+<h4><i>3</i>Machine Vision</h4>
+<p>Machine vision enables computers to analyse images and visual information.</p>
+<h4><i>4</i>Pattern Recognition</h4>
+<p>Pattern recognition identifies recurring patterns in data, images, or other information.</p>
+<h4><i>5</i>Search</h4>
+<p>Search techniques examine possible alternatives to find a suitable path or solution to a problem.</p>
+<h4><i>6</i>Logic-based AI</h4>
+<p>Logic-based AI uses logical rules and reasoning to derive conclusions and solve problems.</p>
+<h4><i>7</i>Knowledge Representation</h4>
+<p>Knowledge representation organises facts and information in a form that an AI system can use to reason about the world.</p>
+<p>Conclusion: These fields help AI systems understand information, learn from data, reason, and solve problems.</p></div></details>
+<details class="q" data-k="1" data-p="med" data-r="7" data-o="8"><summary><span class="no">8</span><span class="tt">Explain the types of Artificial Intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m7">3 or 7 marks</span></span></summary><div class="a"><p>Artificial Intelligence can be classified into three types based on its capabilities.</p>
+<h4><i>1</i>Artificial Narrow Intelligence (ANI)</h4>
+<p>ANI, also called Narrow AI or Weak AI, is designed to perform specific tasks.</p>
+<p>Examples include image-recognition software and virtual assistants.</p>
+<h4><i>2</i>Artificial General Intelligence (AGI)</h4>
+<p>AGI, also called General AI or Strong AI, refers to AI that could learn, reason, and perform a wide range of tasks similarly to a human.</p>
+<p>The Module 1 notes describe AGI as a work in progress.</p>
+<h4><i>3</i>Artificial Superintelligence (ASI)</h4>
+<p>ASI refers to a theoretical form of AI whose capabilities would surpass human intelligence.</p>
+<p>The notes describe ASI as a concept rather than an established practical system.</p>
+<p>For 3 marks: Give the name and a one-sentence explanation of each type.</p>
+<p>For 7 marks: Add examples for ANI and explain the intended capabilities of AGI and ASI.</p></div></details>
+<details class="q" data-k="1" data-p="med" data-r="3" data-o="9"><summary><span class="no">9</span><span class="tt">Explain the goals of Artificial Intelligence.</span><span class="meta"><span class="pk">M1</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">The main goals of AI are</p>
+<div class="li"><b>1</b><span>Replicate human intelligence: Develop machines capable of performing tasks associated with human intelligence.</span></div>
+<div class="li"><b>2</b><span>Solve knowledge-intensive tasks: Use stored information and reasoning to solve complex problems.</span></div>
+<div class="li"><b>3</b><span>Connect perception and action: Enable systems to interpret their surroundings and respond appropriately.</span></div>
+<div class="li"><b>4</b><span>Perform intelligent tasks: Develop systems capable of tasks such as playing chess, proving theorems, planning surgical operations, and driving vehicles.</span></div>
+<div class="li"><b>5</b><span>Learn and provide advice: Create systems that can learn, explain information, and advise users.</span></div>
+<p>These goals are based on the Module 1 notes.</p></div></details>
+<details class="q" data-k="1" data-p="med" data-r="7" data-o="10"><summary><span class="no">10</span><span class="tt">Write the advantages and disadvantages of AI.</span><span class="meta"><span class="pk">M1</span><span class="mk m7">3 or 7 marks</span></span></summary><div class="a"><h4 class="sub">Advantages</h4>
+<div class="li"><b>1</b><span>High accuracy: AI can produce accurate results when appropriately designed and trained.</span></div>
+<div class="li"><b>2</b><span>High speed: It can process large amounts of information quickly.</span></div>
+<div class="li"><b>3</b><span>High reliability: AI can perform repetitive tasks consistently.</span></div>
+<div class="li"><b>4</b><span>Useful in risky areas: Robots can perform tasks in environments dangerous to humans.</span></div>
+<div class="li"><b>5</b><span>Digital assistance: AI supports virtual assistants and automated services.</span></div>
+<div class="li"><b>6</b><span>Public utility: AI can help improve services and solve practical problems.</span></div>
+<h4 class="sub">Disadvantages</h4>
+<div class="li"><b>1</b><span>High cost: Developing and maintaining AI systems can be expensive.</span></div>
+<div class="li"><b>2</b><span>Limited flexibility: A system designed for a specific task may not handle unrelated tasks effectively.</span></div>
+<div class="li"><b>3</b><span>No human feelings: AI does not experience human emotions in the way people do.</span></div>
+<div class="li"><b>4</b><span>Dependency on machines: Excessive reliance on AI can reduce human involvement in some tasks.</span></div>
+<div class="li"><b>5</b><span>Limited original creativity: AI has limitations compared with human creativity and judgement.</span></div>
+<p>For 3 marks: Explain any three advantages or disadvantages, depending on the wording.</p>
+<p>For 7 marks: Write an introduction followed by several clearly explained points from both sides if the question asks for a comparison.</p></div></details>
+<details class="q" data-k="1" data-p="low" data-r="0" data-o="11"><summary><span class="no">11</span><span class="tt">Who coined the term Artificial Intelligence, and in which year?</span><span class="meta"><span class="pk">M1</span></span></summary><div class="a"><p>Answer: John McCarthy, in 1956.</p></div></details>
+<details class="q" data-k="1" data-p="low" data-r="0" data-o="12"><summary><span class="no">12</span><span class="tt">What is learning?</span><span class="meta"><span class="pk">M1</span></span></summary><div class="a"><p>Answer: Learning is the process of converting experience into knowledge or expertise.</p></div></details>
+<details class="q" data-k="1" data-p="low" data-r="0" data-o="13"><summary><span class="no">13</span><span class="tt">List any four disciplines that contribute to AI.</span><span class="meta"><span class="pk">M1</span></span></summary><div class="a"><p>Answer: Mathematics, Biology, Psychology, and Computer Science.</p>
+<p>Other disciplines mentioned in the notes include Sociology, Neuron Study, and Statistics.</p></div></details>
+<details class="q" data-k="1" data-p="low" data-r="0" data-o="14"><summary><span class="no">14</span><span class="tt">Give two examples of Narrow AI.</span><span class="meta"><span class="pk">M1</span></span></summary><div class="a"><p>Answer: Image-recognition software and virtual assistants such as Siri.</p></div></details>
+<details class="q" data-k="1" data-p="low" data-r="0" data-o="15"><summary><span class="no">15</span><span class="tt">Give two examples of AI applications in education.</span><span class="meta"><span class="pk">M1</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<div class="li"><b>1</b><span>Automated grading.</span></div>
+<div class="li"><b>2</b><span>AI chatbots that assist students.</span></div></div></details>
+<details class="q" data-k="1" data-p="low" data-r="1" data-o="16"><summary><span class="no"></span><span class="tt">One-mark revision bank</span><span class="meta"><span class="pk">M1</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Memorise these exact answers.</p>
+<div class="tw"><table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody><tr><td>Who coined the term AI?</td><td>John McCarthy</td></tr><tr><td>In which year was the term AI coined?</td><td>1956</td></tr><tr><td>What does AI stand for?</td><td>Artificial Intelligence</td></tr><tr><td>What is the computational ability to make judgements and decisions called in the April 2026 question?</td><td>Reasoning</td></tr><tr><td>Name two fields of AI.</td><td>Machine Learning and Natural Language Processing</td></tr><tr><td>Name two AI tools.</td><td>NumPy and Scikit-learn</td></tr><tr><td>Name three main learning approaches in the model paper.</td><td>Supervised, Unsupervised, and Reinforcement Learning</td></tr><tr><td>What is Narrow AI?</td><td>AI designed to perform specific tasks</td></tr><tr><td>What is AGI?</td><td>AI intended to perform a wide range of tasks similarly to humans</td></tr><tr><td>What is ASI?</td><td>Theoretical AI that surpasses human intelligence</td></tr><tr><td>Name two applications of AI.</td><td>Healthcare and Gaming</td></tr><tr><td>Name two disciplines contributing to AI.</td><td>Mathematics and Computer Science</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="1" data-p="note" data-r="0" data-o="17"><summary><span class="no"></span><span class="tt">What to study first</span><span class="meta"><span class="pk">M1</span></span></summary><div class="a"><p class="lbl">Follow this order if you&#x27;re short on time</p>
+<h4><i>1</i>🔴 Applications of AI — 7 marks</h4>
+<h4><i>2</i>🔴 Components of intelligence — 7 marks</h4>
+<h4><i>3</i>🔴 Types of learning — 3 marks</h4>
+<h4><i>4</i>🔴 Six AI tools — 3 marks</h4>
+<h4><i>5</i>🔴 Definition of AI and John McCarthy — 1 mark</h4>
+<h4><i>6</i>🟡 Fields of AI — 7 marks</h4>
+<h4><i>7</i>🟡 Types of AI — 3 or 7 marks</h4>
+<h4><i>8</i>🟡 Goals of AI</h4>
+<h4><i>9</i>🟡 Advantages and disadvantages</h4>
+<h4><i>10</i>🟢 Remaining short questions</h4>
+<p>Important: This is an exam-preparation priority order, not a guarantee of what will appear in the next examination.</p>
+<p>The next section will cover Python conditional statements, for and while loops, strings, lists, dictionaries, modules and packages, with complete programs and outputs. I&#x27;ll keep the same High / Medium / Low priority structure and give the April 2026 seven-mark questions full answers rather than shallow summaries.</p>
+<h4 class="sub">📘 POLYLEARN — AI &amp; ML EXAM PREP MASTER</h4></div></details>
+<details class="q intro" data-k="2" open><summary><span class="tt">Overview</span></summary><div class="a"><h4 class="sub">TED(21)-5133C | Revision 2021 | Diploma Examination</h4>
+<p>I&#x27;ve based this guide on your uploaded AI Module 2 notes, April 2026 question paper, and model question paper.</p>
+<h4 class="sub">🎯 Module 2 priority list</h4>
+<div class="tw"><table><thead><tr><th>Priority</th><th>Topic</th><th>Exam relevance</th></tr></thead><tbody><tr><td>🔴 HIGH</td><td>Conditional statements</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>Dictionaries: concatenate three dictionaries and check empty</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>Modules vs Packages</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>String reversal and palindrome</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>List creation, sorting and reversing</td><td>April 2026 Part B — 3 marks</td></tr><tr><td>🔴 HIGH</td><td>while loop with example</td><td>April 2026 Part B — 3 marks</td></tr><tr><td>🔴 HIGH</td><td>Factorial using for loop</td><td>April 2026 Part B — 3 marks</td></tr><tr><td>🟡 MEDIUM</td><td>for loop, range(), loop control statements</td><td>Model question paper and module notes</td></tr><tr><td>🟡 MEDIUM</td><td>Python features</td><td>Model question paper</td></tr><tr><td>🟡 MEDIUM</td><td>List and Dictionary data types</td><td>Model question paper</td></tr><tr><td>🟡 MEDIUM</td><td>String operations</td><td>Model question paper</td></tr><tr><td>🟢 LOW</td><td>Other short questions and syntax revision</td><td>Additional practice</td></tr></tbody></table></div>
+<p>Important: High priority means prepare it first. It does not guarantee that the same question will appear again.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="7" data-o="18"><summary><span class="no">1</span><span class="tt">Explain conditional statements in Python.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>Conditional statements in Python are used to make decisions based on conditions. They allow a program to execute different blocks of code depending on whether a condition is true or false.</p>
+<p>Python provides the following conditional statements.</p>
+<h4><i>1</i>if statement</h4>
+<p>The if statement executes a block of code when the given condition is true.</p>
+<p class="lbl">Syntax</p>
+<pre class="dia">if condition:
+    statements</pre>
+<p class="lbl">Example</p>
+<h4 class="sub">num = 5</h4>
+<pre class="dia">if num &gt; 0:
+    print(&quot;The number is positive.&quot;)</pre>
+<p class="lbl">Output</p>
+<p>The number is positive.</p>
+<h4><i>2</i>if-else statement</h4>
+<p>The if-else statement executes one block when the condition is true and another block when the condition is false.</p>
+<p class="lbl">Syntax</p>
+<pre class="dia">if condition:
+    statements
+else:
+    statements</pre>
+<p class="lbl">Example</p>
+<h4 class="sub">num = 7</h4>
+<pre class="dia">if num % 2 == 0:
+    print(&quot;Even number&quot;)
+else:
+    print(&quot;Odd number&quot;)</pre>
+<p class="lbl">Output</p>
+<h4 class="sub">Odd number</h4>
+<h4><i>3</i>if-elif-else statement</h4>
+<p>The if-elif-else statement is used when multiple conditions must be checked. Python executes the block belonging to the first condition that evaluates to true.</p>
+<p class="lbl">Syntax</p>
+<pre class="dia">if condition1:
+    statements
+elif condition2:
+    statements
+else:
+    statements</pre>
+<p class="lbl">Example</p>
+<h4 class="sub">marks = 85</h4>
+<pre class="dia">if marks &gt;= 90:
+    print(&quot;Grade S&quot;)
+elif marks &gt;= 80:
+    print(&quot;Grade A&quot;)
+elif marks &gt;= 70:
+    print(&quot;Grade B&quot;)
+else:
+    print(&quot;Grade C&quot;)</pre>
+<p class="lbl">Output</p>
+<h4 class="sub">Grade A</h4>
+<h4><i>4</i>Nested if statement</h4>
+<p>A nested if statement is an if statement placed inside another if statement. It is useful when a second condition should be checked only after the first condition is satisfied.</p>
+<p class="lbl">Example</p>
+<h4 class="sub">num = 10</h4>
+<pre class="dia">if num &gt; 0:
+    if num % 2 == 0:
+        print(&quot;Positive even number&quot;)</pre>
+<p class="lbl">Output</p>
+<ul><li>Positive even number</li><li>Conclusion</li></ul>
+<p>Conditional statements control the flow of a Python program and allow it to make decisions based on given conditions.</p>
+<p>Exam strategy: Learn all four types, their syntax, and at least one example. The April 2026 question asks for a 7-mark explanation, so don&#x27;t write only the definitions.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="7" data-o="19"><summary><span class="no">2</span><span class="tt">Write a Python program to create three dictionaries, concatenate them into a fourth dictionary, and check whether a dictionary is empty.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>A dictionary in Python stores data as key-value pairs. Dictionaries are created using curly brackets {}.</p>
+<p>Dictionaries can be combined using the update() method.</p>
+<p class="lbl">Program</p>
+<p># Creating three dictionaries<br>d1 = {&quot;a&quot;: 1, &quot;b&quot;: 2}<br>d2 = {&quot;c&quot;: 3, &quot;d&quot;: 4}<br>d3 = {&quot;e&quot;: 5, &quot;f&quot;: 6}</p>
+<p># Creating a fourth dictionary<br>d4 = {}</p>
+<p># Concatenating the dictionaries<br>d4.update(d1)<br>d4.update(d2)<br>d4.update(d3)</p>
+<p># Displaying the fourth dictionary<br>print(&quot;Combined dictionary:&quot;, d4)</p>
+<pre class="dia"># Checking whether the dictionary is empty
+if not d4:
+    print(&quot;Dictionary is empty&quot;)
+else:
+    print(&quot;Dictionary is not empty&quot;)</pre>
+<p class="lbl">Output</p>
+<p>Combined dictionary: {&#x27;a&#x27;: 1, &#x27;b&#x27;: 2, &#x27;c&#x27;: 3, &#x27;d&#x27;: 4, &#x27;e&#x27;: 5, &#x27;f&#x27;: 6}<br>Dictionary is not empty</p>
+<p class="lbl">Explanation</p>
+<div class="li"><b>1</b><span>Three dictionaries, d1, d2, and d3, are created with different key-value pairs.</span></div>
+<div class="li"><b>2</b><span>An empty dictionary, d4, is created.</span></div>
+<div class="li"><b>3</b><span>The update() method copies the contents of each dictionary into d4.</span></div>
+<div class="li"><b>4</b><span>The combined dictionary is displayed using print().</span></div>
+<div class="li"><b>5</b><span>The condition if not d4 checks whether d4 is empty.</span></div>
+<div class="li"><b>6</b><span>If it is empty, the program prints &quot;Dictionary is empty&quot;.</span></div>
+<div class="li"><b>7</b><span>Otherwise, it prints &quot;Dictionary is not empty&quot;.</span></div>
+<p>Remember: If two dictionaries contain the same key, the value from the dictionary updated later replaces the earlier value for that key.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="7" data-o="20"><summary><span class="no">3</span><span class="tt">Compare Modules and Packages in Python.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>Python supports code reuse through modules and packages. They help organise programs and make code easier to maintain.</p>
+<div class="tw"><table><thead><tr><th>Module</th><th>Package</th></tr></thead><tbody><tr><td>1. A module is a single Python file containing reusable code.</td><td>A package is a collection of related Python modules organised together.</td></tr><tr><td>2. A module usually has the .py extension.</td><td>A package is generally represented by a directory containing related modules.</td></tr><tr><td>3. A module can contain functions, variables, and classes.</td><td>A package can contain multiple modules and sub-packages.</td></tr><tr><td>4. A module helps organise code into a single file.</td><td>A package helps organise a larger application into related components.</td></tr><tr><td>5. A module can be imported using import.</td><td>A module inside a package can be imported using a package-qualified name.</td></tr><tr><td>6. Example: math.py or a module named calculator.py.</td><td>Example: a package containing separate modules for mathematics, statistics, and plotting.</td></tr></tbody></table></div>
+<ul><li>Example of importing a module</li><li>import math</li><li>print(math.sqrt(25))</li></ul>
+<p class="lbl">Output</p>
+<ul><li>5.0</li><li>Example of importing a module from a package</li></ul>
+<p>Suppose a package named mypackage contains a module named calculator.py.</p>
+<h4 class="sub">from mypackage import calculator</h4>
+<p>This imports the calculator module from mypackage.</p>
+<h4 class="sub">Conclusion</h4>
+<p>A module organises reusable code in a single file, while a package organises related modules into a larger structure.</p>
+<p>Exam tip: Write at least five clear differences. The table above is suitable for a comparison question.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="7" data-o="21"><summary><span class="no">4</span><span class="tt">Write Python programs to reverse a string and check whether it is a palindrome.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>A string is a sequence of characters enclosed in single or double quotation marks.</p>
+<p>A string can be reversed using Python slicing. A palindrome is a word or string that reads the same forwards and backwards.</p>
+<ul><li>Program 1: Reverse a string</li><li>s = input(&quot;Enter a string: &quot;)</li><li>rev = s[::-1]</li><li>print(&quot;Reversed string:&quot;, rev)</li></ul>
+<p class="lbl">Sample output</p>
+<p>Enter a string: python<br>Reversed string: nohtyp</p>
+<p class="lbl">Explanation</p>
+<p>s stores the input string.</p>
+<p>s[::-1] accesses the string in reverse order.</p>
+<p>The reversed string is stored in rev.</p>
+<p>print() displays the result.</p>
+<ul><li>Program 2: Check whether a string is a palindrome</li><li>s = input(&quot;Enter a string: &quot;)</li><li>rev = s[::-1]</li></ul>
+<pre class="dia">if s == rev:
+    print(&quot;Palindrome&quot;)
+else:
+    print(&quot;Not a palindrome&quot;)</pre>
+<p class="lbl">Sample output 1</p>
+<p>Enter a string: madam<br>Palindrome</p>
+<p class="lbl">Sample output 2</p>
+<p>Enter a string: python<br>Not a palindrome</p>
+<p class="lbl">Explanation</p>
+<div class="li"><b>1</b><span>The program accepts a string from the user.</span></div>
+<div class="li"><b>2</b><span>It reverses the string using s[::-1].</span></div>
+<div class="li"><b>3</b><span>It compares the original string with the reversed string.</span></div>
+<div class="li"><b>4</b><span>If both strings are equal, the string is a palindrome.</span></div>
+<div class="li"><b>5</b><span>Otherwise, it is not a palindrome.</span></div>
+<p>Note: These programs perform a case-sensitive comparison and do not ignore spaces or punctuation.</p>
+<p>For the exam: Practise writing both programs without looking at the answer.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="3" data-o="22"><summary><span class="no">5</span><span class="tt">Define a Dictionary with a suitable example.</span><span class="meta"><span class="pk">M2</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>A dictionary is a Python data type that stores data as key-value pairs. It is written using curly brackets {}, with a colon : separating each key from its value.</p>
+<p class="lbl">Example</p>
+<pre class="dia">student = {
+    &quot;name&quot;: &quot;Anil&quot;,
+    &quot;course&quot;: &quot;Computer Engineering&quot;,
+    &quot;semester&quot;: 5
+}</pre>
+<h4 class="sub">print(student)</h4>
+<p class="lbl">Output</p>
+<pre class="code"><code>{&#x27;name&#x27;: &#x27;Anil&#x27;, &#x27;course&#x27;: &#x27;Computer Engineering&#x27;, &#x27;semester&#x27;: 5}</code></pre>
+<p class="lbl">Important characteristics</p>
+<div class="li"><b>1</b><span>A dictionary stores data as key-value pairs.</span></div>
+<div class="li"><b>2</b><span>Dictionaries are mutable, meaning their contents can be changed.</span></div>
+<div class="li"><b>3</b><span>Keys must be unique; a dictionary cannot retain separate values for duplicate keys.</span></div></div></details>
+<details class="q" data-k="2" data-p="high" data-r="3" data-o="23"><summary><span class="no">6</span><span class="tt">Perform list operations: create a list of names, sort it, and print the reversed sorted list.</span><span class="meta"><span class="pk">M2</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part B.</p>
+<p class="lbl">Program</p>
+<ul><li>names = [&#x27;Anil&#x27;, &#x27;Bimal&#x27;, &#x27;Adityan&#x27;, &#x27;Abin&#x27;, &#x27;Carol&#x27;]</li><li>print(&quot;Original list:&quot;, names)</li></ul>
+<p>names.sort()<br>print(&quot;Sorted list:&quot;, names)</p>
+<p>names.reverse()<br>print(&quot;Reversed sorted list:&quot;, names)</p>
+<p class="lbl">Output</p>
+<p>Original list: [&#x27;Anil&#x27;, &#x27;Bimal&#x27;, &#x27;Adityan&#x27;, &#x27;Abin&#x27;, &#x27;Carol&#x27;]<br>Sorted list: [&#x27;Abin&#x27;, &#x27;Adityan&#x27;, &#x27;Anil&#x27;, &#x27;Bimal&#x27;, &#x27;Carol&#x27;]<br>Reversed sorted list: [&#x27;Carol&#x27;, &#x27;Bimal&#x27;, &#x27;Anil&#x27;, &#x27;Adityan&#x27;, &#x27;Abin&#x27;]</p>
+<p class="lbl">Explanation</p>
+<div class="li"><b>1</b><span>The list names stores five names.</span></div>
+<div class="li"><b>2</b><span>The sort() method arranges the names in ascending alphabetical order.</span></div>
+<div class="li"><b>3</b><span>The reverse() method reverses the order of the sorted list.</span></div>
+<p>Remember: sort() sorts the list; reverse() reverses its current order.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="3" data-o="24"><summary><span class="no">7</span><span class="tt">Explain the while loop in Python with a suitable example.</span><span class="meta"><span class="pk">M2</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part B.</p>
+<p class="lbl">Answer</p>
+<p>A while loop repeatedly executes a block of statements as long as the given condition remains true. It is useful when the number of iterations is not known in advance.</p>
+<p class="lbl">Syntax</p>
+<pre class="dia">while condition:
+    statements</pre>
+<p class="lbl">Example</p>
+<h4 class="sub">i = 1</h4>
+<pre class="dia">while i &lt; 6:
+    print(i)
+    i += 1</pre>
+<p class="lbl">Output</p>
+<p>1<br>2<br>3<br>4<br>5</p>
+<p class="lbl">Explanation</p>
+<div class="li"><b>1</b><span>The variable i is initialised to 1.</span></div>
+<div class="li"><b>2</b><span>The condition i &lt; 6 is checked before every iteration.</span></div>
+<div class="li"><b>3</b><span>The value of i is printed while the condition is true.</span></div>
+<div class="li"><b>4</b><span>i += 1 increases the value of i by one.</span></div>
+<div class="li"><b>5</b><span>The loop stops when i becomes 6.</span></div>
+<p>Important: If you forget to update the variable or otherwise make the condition false, a while loop may run indefinitely.</p></div></details>
+<details class="q" data-k="2" data-p="high" data-r="3" data-o="25"><summary><span class="no">8</span><span class="tt">Write a Python program using a for loop to calculate the factorial of a given number.</span><span class="meta"><span class="pk">M2</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part B.</p>
+<p class="lbl">Answer</p>
+<p>The factorial of a non-negative integer n is the product of all positive integers from 1 to n. The factorial of 0 is 1.</p>
+<p class="lbl">For example</p>
+<h4 class="sub">5! = 5 × 4 × 3 × 2 × 1 = 120</h4>
+<p class="lbl">Program</p>
+<ul><li>n = int(input(&quot;Enter a number: &quot;))</li><li>fact = 1</li></ul>
+<pre class="dia">for i in range(2, n + 1):
+    fact = fact * i</pre>
+<h4 class="sub">print(&quot;Factorial =&quot;, fact)</h4>
+<p class="lbl">Output</p>
+<p>Enter a number: 5<br>Factorial = 120</p>
+<p class="lbl">Explanation</p>
+<div class="li"><b>1</b><span>The program accepts a number from the user.</span></div>
+<div class="li"><b>2</b><span>fact is initialised to 1.</span></div>
+<div class="li"><b>3</b><span>The for loop iterates from 2 to n.</span></div>
+<div class="li"><b>4</b><span>Each value of i is multiplied by fact.</span></div>
+<div class="li"><b>5</b><span>The final factorial is displayed.</span></div>
+<p>Note: This program assumes the input is a non-negative integer. If the input is 0, the loop does not run and the result remains 1.</p></div></details>
+<details class="q" data-k="2" data-p="med" data-r="3" data-o="26"><summary><span class="no">9</span><span class="tt">Explain the for loop in Python with a suitable example.</span><span class="meta"><span class="pk">M2</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>A for loop is used to iterate over a sequence, such as a list, tuple, string, set, or dictionary. It executes a block of statements for each item in the sequence.</p>
+<p class="lbl">Syntax</p>
+<pre class="dia">for variable in sequence:
+    statements</pre>
+<p class="lbl">Example</p>
+<pre class="dia">for x in &quot;python&quot;:
+    print(x)</pre>
+<p class="lbl">Output</p>
+<p>p<br>y<br>t<br>h<br>o<br>n</p>
+<p class="lbl">Explanation</p>
+<div class="li"><b>1</b><span>The string &quot;python&quot; is the sequence.</span></div>
+<div class="li"><b>2</b><span>The variable x takes each character in the string, one at a time.</span></div>
+<div class="li"><b>3</b><span>The print() statement displays each character.</span></div>
+<div class="li"><b>4</b><span>The loop ends after all characters have been processed.</span></div></div></details>
+<details class="q" data-k="2" data-p="med" data-r="0" data-o="27"><summary><span class="no">10</span><span class="tt">Explain the range() function with an example.</span><span class="meta"><span class="pk">M2</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>The range() function generates a sequence of integers. It is commonly used with a for loop to repeat statements a specified number of times.</p>
+<p class="lbl">Syntax</p>
+<h4 class="sub">range(start, stop, step)</h4>
+<p>start: The starting value; defaults to 0.</p>
+<p>stop: The ending boundary, which is excluded.</p>
+<p>step: The increment or decrement between values; defaults to 1.</p>
+<p class="lbl">Example</p>
+<pre class="dia">for i in range(2, 10, 3):
+    print(i)</pre>
+<p class="lbl">Output</p>
+<p>2<br>5<br>8</p>
+<p>The sequence starts at 2, increases by 3, and stops before reaching 10.</p></div></details>
+<details class="q" data-k="2" data-p="med" data-r="0" data-o="28"><summary><span class="no">11</span><span class="tt">Explain the loop control statements in Python.</span><span class="meta"><span class="pk">M2</span></span></summary><div class="a"><p>Python provides three commonly used loop control statements.</p>
+<h4><i>1</i>break</h4>
+<p>The break statement immediately terminates the loop.</p>
+<p class="lbl">Example</p>
+<pre class="dia">for i in range(1, 6):
+    if i == 3:
+        break
+    print(i)</pre>
+<p class="lbl">Output</p>
+<p>1<br>2</p>
+<h4><i>2</i>continue</h4>
+<p>The continue statement skips the remaining statements in the current iteration and proceeds to the next iteration.</p>
+<p class="lbl">Example</p>
+<pre class="dia">for i in range(1, 6):
+    if i == 3:
+        continue
+    print(i)</pre>
+<p class="lbl">Output</p>
+<p>1<br>2<br>4<br>5</p>
+<h4><i>3</i>pass</h4>
+<p>The pass statement does nothing. It is used as a placeholder when a statement is syntactically required but no action needs to be performed yet.</p>
+<p class="lbl">Example</p>
+<pre class="dia">for i in range(3):
+    pass</pre>
+<h4 class="sub">print(&quot;Finished&quot;)</h4>
+<p class="lbl">Output</p>
+<h4 class="sub">Finished</h4>
+<p>These statements control how loops execute and help manage different situations inside a loop.</p></div></details>
+<details class="q" data-k="2" data-p="med" data-r="7" data-o="29"><summary><span class="no">12</span><span class="tt">Explain the features of the Python programming language.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Priority: 🟡 MEDIUM — Included in the model question paper.</p>
+<p class="lbl">Answer</p>
+<p>Python is a high-level, general-purpose programming language known for its readable syntax and wide range of applications.</p>
+<h4><i>1</i>Easy to learn</h4>
+<p>Python has a relatively simple and readable syntax, making it suitable for beginners.</p>
+<h4><i>2</i>Easy to use</h4>
+<p>Python uses indentation to organise code blocks, reducing the need for explicit block delimiters such as curly brackets.</p>
+<h4><i>3</i>Dynamically typed</h4>
+<p>Variables do not generally require explicit type declarations. Python determines the type of a value at runtime.</p>
+<h4><i>4</i>Free and open-source</h4>
+<p>Python is available for use without purchasing a language licence, and its source code can be studied and modified under its licence.</p>
+<h4><i>5</i>High-level language</h4>
+<p>Python provides abstractions that make programming easier than working directly with low-level machine instructions.</p>
+<h4><i>6</i>Portable</h4>
+<p>Python programs can run on different operating systems, such as Windows, macOS, and Linux, provided the necessary environment and dependencies are available.</p>
+<h4><i>7</i>Interpreted execution</h4>
+<p>Python code is commonly executed through an interpreter, which handles the program&#x27;s execution.</p>
+<h4><i>8</i>Large standard library</h4>
+<p>Python provides many built-in modules for tasks such as mathematics, file handling, and data processing.</p>
+<p>Conclusion: These features make Python useful for general programming, automation, web development, and AI/ML applications.</p></div></details>
+<details class="q" data-k="2" data-p="med" data-r="7" data-o="30"><summary><span class="no">13</span><span class="tt">Explain List and Dictionary data types in Python.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Lists and dictionaries are Python data types used to store collections of data.</p>
+<h4><i>1</i>List</h4>
+<p>A list is an ordered, mutable collection of items. It is created using square brackets [].</p>
+<p class="lbl">Example</p>
+<h4 class="sub">fruits = [&quot;Apple&quot;, &quot;Grape&quot;, &quot;Orange&quot;]</h4>
+<p>print(fruits)<br>print(fruits[0])</p>
+<p class="lbl">Output</p>
+<p>[&#x27;Apple&#x27;, &#x27;Grape&#x27;, &#x27;Orange&#x27;]<br>Apple</p>
+<p class="lbl">Characteristics of a list</p>
+<p>Lists preserve item order.</p>
+<p>Lists are mutable, so items can be changed.</p>
+<p>Lists allow duplicate values.</p>
+<p>Items are accessed using indexes, starting from 0.</p>
+<h4><i>2</i>Dictionary</h4>
+<p>A dictionary stores information as key-value pairs and is created using curly brackets {}.</p>
+<p class="lbl">Example</p>
+<pre class="dia">student = {
+    &quot;name&quot;: &quot;Anil&quot;,
+    &quot;course&quot;: &quot;CT&quot;,
+    &quot;semester&quot;: 5
+}</pre>
+<p>print(student)<br>print(student[&quot;name&quot;])</p>
+<p class="lbl">Output</p>
+<p>{&#x27;name&#x27;: &#x27;Anil&#x27;, &#x27;course&#x27;: &#x27;CT&#x27;, &#x27;semester&#x27;: 5}<br>Anil</p>
+<p class="lbl">Characteristics of a dictionary</p>
+<p>A dictionary stores key-value pairs.</p>
+<p>Dictionaries are mutable.</p>
+<p>Keys must be unique.</p>
+<p>Values are accessed using their keys rather than numerical indexes.</p>
+<h4 class="sub">Differences</h4>
+<div class="tw"><table><thead><tr><th>List</th><th>Dictionary</th></tr></thead><tbody><tr><td>Uses square brackets [].</td><td>Uses curly brackets {}.</td></tr><tr><td>Stores individual items.</td><td>Stores key-value pairs.</td></tr><tr><td>Items are accessed by index.</td><td>Values are accessed by key.</td></tr><tr><td>Duplicate items are allowed.</td><td>Keys must be unique.</td></tr><tr><td>Example: a = [10, 20, 30]</td><td>Example: a = {&quot;x&quot;: 10, &quot;y&quot;: 20}</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="2" data-p="med" data-r="7" data-o="31"><summary><span class="no">14</span><span class="tt">Write Python programs for string operations.</span><span class="meta"><span class="pk">M2</span><span class="mk m7">3 or 7 marks</span></span></summary><div class="a"><p>Included in the model question paper.</p>
+<ul><li>Program 1: Convert a string to uppercase</li><li>s = input(&quot;Enter a string: &quot;)</li><li>print(s.upper())</li></ul>
+<p class="lbl">Sample output</p>
+<p>Enter a string: python<br>PYTHON</p>
+<p>The upper() method returns a version of the string with its letters converted to uppercase.</p>
+<ul><li>Program 2: Count the occurrence of a character</li><li>s = &quot;hellohai&quot;</li><li>count = s.count(&#x27;h&#x27;)</li><li>print(&quot;Count of h:&quot;, count)</li></ul>
+<p class="lbl">Output</p>
+<h4 class="sub">Count of h: 2</h4>
+<p>The count() method returns the number of occurrences of the specified character or substring.</p>
+<ul><li>Program 3: Split a string into words</li><li>s = &quot;Python is easy to learn&quot;</li><li>words = s.split()</li><li>print(words)</li></ul>
+<p class="lbl">Output</p>
+<h4 class="sub">[&#x27;Python&#x27;, &#x27;is&#x27;, &#x27;easy&#x27;, &#x27;to&#x27;, &#x27;learn&#x27;]</h4>
+<p>The split() method divides a string into a list of substrings. Without an explicit separator, it splits on whitespace.</p></div></details>
+<details class="q" data-k="2" data-p="med" data-r="0" data-o="32"><summary><span class="no">15</span><span class="tt">Write a Python program to count even and odd numbers in a list.</span><span class="meta"><span class="pk">M2</span></span></summary><div class="a"><h4 class="sub">numbers = [10, 21, 4, 45, 66, 93, 1]</h4>
+<p>even_count = 0<br>odd_count = 0</p>
+<pre class="dia">for num in numbers:
+    if num % 2 == 0:
+        even_count += 1
+    else:
+        odd_count += 1</pre>
+<p>print(&quot;Even numbers:&quot;, even_count)<br>print(&quot;Odd numbers:&quot;, odd_count)</p>
+<p class="lbl">Output</p>
+<p>Even numbers: 3<br>Odd numbers: 4</p>
+<p class="lbl">Explanation</p>
+<p>The for loop examines each number. The expression num % 2 == 0 checks whether the number is even. The appropriate counter is incremented for each number.</p></div></details>
+<details class="q" data-k="2" data-p="med" data-r="0" data-o="33"><summary><span class="no">16</span><span class="tt">Write a Python program to create a dictionary of countries and currencies.</span><span class="meta"><span class="pk">M2</span></span></summary><div class="a"><pre class="dia">country_currency = {
+    &quot;India&quot;: &quot;Rupee&quot;,
+    &quot;United States&quot;: &quot;Dollar&quot;,
+    &quot;United Arab Emirates&quot;: &quot;Dirham&quot;
+}</pre>
+<h4 class="sub">print(country_currency)</h4>
+<p class="lbl">Output</p>
+<pre class="code"><code>{&#x27;India&#x27;: &#x27;Rupee&#x27;, &#x27;United States&#x27;: &#x27;Dollar&#x27;, &#x27;United Arab Emirates&#x27;: &#x27;Dirham&#x27;}</code></pre>
+<p class="lbl">Explanation</p>
+<p>The dictionary stores country names as keys and their currency names as values.</p></div></details>
+<details class="q" data-k="2" data-p="low" data-r="1" data-o="34"><summary><span class="no"></span><span class="tt">One-mark revision bank</span><span class="meta"><span class="pk">M2</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Memorise these short answers.</p>
+<div class="tw"><table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody><tr><td>Which symbol starts a single-line Python comment?</td><td>#</td></tr><tr><td>Which brackets are used to create a list?</td><td>Square brackets []</td></tr><tr><td>Which brackets are used to create a dictionary?</td><td>Curly brackets {}</td></tr><tr><td>Which symbol separates a dictionary key from its value?</td><td>Colon :</td></tr><tr><td>Which keyword starts a conditional statement?</td><td>if</td></tr><tr><td>Which keyword checks another condition?</td><td>elif</td></tr><tr><td>Which keyword handles the alternative branch?</td><td>else</td></tr><tr><td>Which loop is used to iterate over a sequence?</td><td>for loop</td></tr><tr><td>Which loop runs while a condition is true?</td><td>while loop</td></tr><tr><td>Which function generates a sequence of integers?</td><td>range()</td></tr><tr><td>Which statement terminates a loop immediately?</td><td>break</td></tr><tr><td>Which statement skips the current iteration?</td><td>continue</td></tr><tr><td>Which statement acts as a placeholder?</td><td>pass</td></tr><tr><td>Which method sorts a list?</td><td>sort()</td></tr><tr><td>Which method reverses a list&#x27;s current order?</td><td>reverse()</td></tr><tr><td>Which method converts a string to uppercase?</td><td>upper()</td></tr><tr><td>Which method counts occurrences of a substring?</td><td>count()</td></tr><tr><td>Which method splits a string into parts?</td><td>split()</td></tr><tr><td>How can a string be reversed using slicing?</td><td>s[::-1]</td></tr><tr><td>What is a Python module?</td><td>A file containing Python code</td></tr><tr><td>What is a Python package?</td><td>A collection of related Python modules</td></tr><tr><td>What is the factorial of 0?</td><td>1</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="2" data-p="note" data-r="0" data-o="35"><summary><span class="no"></span><span class="tt">Final study plan</span><span class="meta"><span class="pk">M2</span></span></summary><div class="a"><p class="lbl">If you&#x27;re short on time, learn in this order</p>
+<h4 class="sub">First session — Must learn 🔴</h4>
+<div class="li"><b>1</b><span>Conditional statements — full 7-mark answer.</span></div>
+<div class="li"><b>2</b><span>Dictionary concatenation and empty check — complete program.</span></div>
+<div class="li"><b>3</b><span>Modules vs Packages — differences.</span></div>
+<div class="li"><b>4</b><span>String reversal and palindrome — both programs.</span></div>
+<div class="li"><b>5</b><span>List sorting and reversing.</span></div>
+<div class="li"><b>6</b><span>while loop.</span></div>
+<div class="li"><b>7</b><span>Factorial using for loop.</span></div>
+<h4 class="sub">Second session — Strengthen your score 🟡</h4>
+<div class="li"><b>8</b><span>for loop and range().</span></div>
+<div class="li"><b>9</b><span>Loop control statements.</span></div>
+<div class="li"><b>10</b><span>Features of Python.</span></div>
+<div class="li"><b>11</b><span>List vs Dictionary.</span></div>
+<div class="li"><b>12</b><span>String operations.</span></div>
+<div class="li"><b>13</b><span>Counting even and odd numbers.</span></div>
+<h4 class="sub">Final revision 🟢</h4>
+<div class="li"><b>14</b><span>One-mark revision bank.</span></div>
+<div class="li"><b>15</b><span>Practise writing the four main programs without looking at the answers.</span></div>
+<div class="note tp">✅ Your Module 2 target</div>
+<p>Before moving to Module 3, make sure you can write these four programs from memory:</p>
+<p>[ ] Dictionary concatenation and empty check.</p>
+<p>[ ] String reversal and palindrome check.</p>
+<p>[ ] Factorial using a for loop.</p>
+<p>[ ] List sorting and reversing.</p>
+<p>These directly prepare you for questions in the April 2026 paper.</p>
+<p>Next up: MODULE 3 — MACHINE LEARNING, including KNN, K-Means, data preprocessing, classifier performance metrics, and building a classifier in Python.</p>
+<h4 class="sub">📘 POLYLEARN — AI &amp; ML EXAM PREP MASTER</h4></div></details>
+<details class="q intro" data-k="3" open><summary><span class="tt">Overview</span></summary><div class="a"><h4 class="sub">TED(21)-5133C | Revision 2021 | Diploma Examination</h4>
+<p>I&#x27;ve checked your uploaded Module 3 notes, April 2026 question paper, and model question paper. The priority order below is based on those materials—not a guarantee of what will appear next.</p>
+<h4 class="sub">🎯 Module 3 priority list</h4>
+<div class="tw"><table><thead><tr><th>Priority</th><th>Topic</th><th>Exam relevance</th></tr></thead><tbody><tr><td>🔴 HIGH</td><td>Classifier and performance metrics</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>K-Nearest Neighbour (KNN)</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>Features of K-Means</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>Steps to build a classifier in Python</td><td>April 2026 Part C — 7 marks</td></tr><tr><td>🔴 HIGH</td><td>Binarization</td><td>April 2026 Part B — 3 marks</td></tr><tr><td>🔴 HIGH</td><td>NumPy and import statement</td><td>April 2026 Part B — 3 marks</td></tr><tr><td>🔴 HIGH</td><td>Supervised learning algorithms</td><td>April 2026 Part A — 1 mark</td></tr><tr><td>🟡 MEDIUM</td><td>Machine Learning definition and characteristics</td><td>Module 3 notes</td></tr><tr><td>🟡 MEDIUM</td><td>Supervised vs Unsupervised Learning</td><td>Model question paper</td></tr><tr><td>🟡 MEDIUM</td><td>Data preprocessing techniques</td><td>Model question paper</td></tr><tr><td>🟡 MEDIUM</td><td>Linear Regression</td><td>Module 3 notes and model question paper</td></tr><tr><td>🟡 MEDIUM</td><td>Support Vector Machine (SVM)</td><td>Module 3 notes and model question paper</td></tr><tr><td>🟢 LOW</td><td>Additional ML concepts and revision questions</td><td>Backup preparation</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="3" data-p="high" data-r="7" data-o="36"><summary><span class="no">1</span><span class="tt">Define a classifier and list the metrics used to measure its performance.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>A classifier is a supervised machine-learning model that learns from labelled training data and predicts the class or category of new data.</p>
+<p>For example, a classifier can identify whether an email is spam or not spam.</p>
+<p>The performance of a classifier can be evaluated using the following metrics.</p>
+<h4><i>1</i>Accuracy</h4>
+<p>Accuracy measures the proportion of predictions that the model classifies correctly out of all predictions.</p>
+<p>\[<br>\text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}<br>\]</p>
+<h4><i>2</i>Precision</h4>
+<p>Precision measures how many of the instances predicted as positive are actually positive.</p>
+<p>\[<br>\text{Precision}=\frac{TP}{TP+FP}<br>\]</p>
+<h4><i>3</i>Recall</h4>
+<p>Recall measures how many of the actual positive instances are correctly identified by the classifier.</p>
+<p>\[<br>\text{Recall}=\frac{TP}{TP+FN}<br>\]</p>
+<h4><i>4</i>F1-score</h4>
+<p>The F1-score combines precision and recall using their harmonic mean. It is useful when both precision and recall matter.</p>
+<p>\[<br>F1=2\times\frac{\text{Precision}\times\text{Recall}}{\text{Precision}+\text{Recall}}<br>\]</p>
+<h4><i>5</i>Confusion Matrix</h4>
+<p>A confusion matrix summarises the model&#x27;s predictions by comparing predicted classes with actual classes. For binary classification, it contains four outcomes:</p>
+<p>TP — True Positive: Positive cases correctly predicted as positive.</p>
+<p>TN — True Negative: Negative cases correctly predicted as negative.</p>
+<p>FP — False Positive: Negative cases incorrectly predicted as positive.</p>
+<p>FN — False Negative: Positive cases incorrectly predicted as negative.</p>
+<h4 class="sub">Conclusion</h4>
+<p>Accuracy, precision, recall, F1-score, and the confusion matrix help evaluate a classifier and understand its strengths and weaknesses.</p>
+<p>Exam tip: Your question asks to define a classifier and list the names of metrics. To be safer for seven marks, write the definition, explain the metrics, and include the formulas.</p></div></details>
+<details class="q" data-k="3" data-p="high" data-r="7" data-o="37"><summary><span class="no">2</span><span class="tt">Summarize the K-Nearest Neighbour (KNN) algorithm in Machine Learning.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>K-Nearest Neighbour (KNN) is a simple supervised machine-learning algorithm that classifies new data based on its similarity to existing data.</p>
+<p>It is commonly used for classification, but it can also be used for regression.</p>
+<h4 class="sub">Features of KNN</h4>
+<div class="li"><b>1</b><span>Supervised learning: KNN uses labelled training data to predict the class of new data.</span></div>
+<div class="li"><b>2</b><span>Similarity-based classification: It assigns a new data point to a category based on the nearest training examples.</span></div>
+<div class="li"><b>3</b><span>Non-parametric algorithm: KNN does not assume a particular underlying probability distribution for the data.</span></div>
+<div class="li"><b>4</b><span>Lazy learner: It stores the training data rather than building an explicit generalised model during a separate training phase. The main calculations happen when a prediction is required.</span></div>
+<div class="li"><b>5</b><span>Uses distance calculations: KNN commonly uses Euclidean distance to determine which data points are nearest.</span></div>
+<div class="li"><b>6</b><span>Choice of K matters: The value of K determines how many neighbours are considered. A very small K may be sensitive to noise, while a larger K can produce different classification results.</span></div>
+<div class="li"><b>7</b><span>Classification and regression: KNN can predict a class through neighbour voting or estimate a numerical value using neighbouring observations.</span></div>
+<h4 class="sub">Working steps of KNN</h4>
+<p>Step 1: Choose K.<br>Select the number of nearest neighbours to consider.</p>
+<p>Step 2: Calculate distances.<br>Calculate the distance between the new data point and the training data points.</p>
+<p>Step 3: Find the nearest neighbours.<br>Select the K data points with the smallest distances.</p>
+<p>Step 4: Count the classes.<br>For classification, count how many of the selected neighbours belong to each class.</p>
+<p>Step 5: Assign the class.<br>Assign the new data point to the class with the highest number of neighbours.</p>
+<p>Step 6: Produce the prediction.<br>Return the predicted class for the new data point.</p>
+<p class="lbl">Example</p>
+<p>Suppose a model has already learned from labelled images of cats and dogs. When it receives a new animal image, KNN compares its features with the stored examples. If most of its nearest neighbours belong to the cat class, it classifies the new image as a cat.</p>
+<h4 class="sub">Advantages</h4>
+<p>Simple to understand and implement.</p>
+<p>Can be useful with noisy training data.</p>
+<p>Can work effectively with sufficiently representative training data.</p>
+<h4 class="sub">Disadvantages</h4>
+<p>Choosing an appropriate K can be difficult.</p>
+<p>Prediction can be computationally expensive because distances must be calculated against stored training examples.</p>
+<p>Conclusion: KNN predicts a new data point using the classes or values of its nearest neighbours.</p>
+<p>For 3 marks: Write the definition, mention that it is supervised and similarity-based, and explain the basic neighbour-voting process.</p></div></details>
+<details class="q" data-k="3" data-p="high" data-r="7" data-o="38"><summary><span class="no">3</span><span class="tt">Summarize the features of K-Means in Machine Learning.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>K-Means is an unsupervised machine-learning algorithm used to divide an unlabelled dataset into a specified number of groups called clusters.</p>
+<p>The value K represents the number of clusters to be created.</p>
+<h4 class="sub">Features of K-Means</h4>
+<h4><i>1</i>Unsupervised learning</h4>
+<p>K-Means works with unlabelled data. It does not require the correct class label for every data point.</p>
+<h4><i>2</i>Clustering</h4>
+<p>It groups data points with similar characteristics into the same cluster.</p>
+<h4><i>3</i>Predetermined value of K</h4>
+<p>The user chooses the number of clusters before running the algorithm. For example, if K = 3, the algorithm aims to create three clusters.</p>
+<h4><i>4</i>Centroid-based algorithm</h4>
+<p>Each cluster is represented by a centroid, which acts as its centre.</p>
+<h4><i>5</i>Iterative process</h4>
+<p>The algorithm repeatedly assigns data points to clusters and recalculates their centroids.</p>
+<h4><i>6</i>Distance-based assignment</h4>
+<p>Each data point is assigned to the nearest centroid according to the chosen distance measure, commonly Euclidean distance.</p>
+<h4><i>7</i>Minimises within-cluster distances</h4>
+<p>The algorithm aims to reduce the distances between data points and their corresponding cluster centroids.</p>
+<h4 class="sub">Working steps of K-Means</h4>
+<div class="li"><b>1</b><span>Choose the number of clusters, K.</span></div>
+<div class="li"><b>2</b><span>Select K initial centroids.</span></div>
+<div class="li"><b>3</b><span>Calculate the distance from each data point to the centroids.</span></div>
+<div class="li"><b>4</b><span>Assign each data point to its nearest centroid, forming clusters.</span></div>
+<div class="li"><b>5</b><span>Recalculate the centroid of each cluster.</span></div>
+<div class="li"><b>6</b><span>Reassign the data points using the updated centroids.</span></div>
+<div class="li"><b>7</b><span>Repeat the process until the assignments or centroids stop changing significantly.</span></div>
+<p class="lbl">Example</p>
+<p>A shop has information about its customers&#x27; purchases but does not have predefined customer groups. K-Means can group customers with similar purchasing behaviour into clusters. The shop can then study each cluster to understand different customer groups.</p>
+<h4 class="sub">Conclusion</h4>
+<p>K-Means is a centroid-based, iterative, unsupervised algorithm that groups unlabelled data into K clusters according to similarity.</p>
+<p>For 3 marks: Define K-Means, explain the meaning of K, and state that it groups similar unlabelled data using centroids.</p></div></details>
+<details class="q" data-k="3" data-p="high" data-r="7" data-o="39"><summary><span class="no">4</span><span class="tt">Outline the steps to build a classifier in Python.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part C.</p>
+<p class="lbl">Answer</p>
+<p>Building a classifier in Python involves preparing data, training a machine-learning model, making predictions, and evaluating its performance.</p>
+<p>The following steps are given in the Module 3 notes and model question paper.</p>
+<h4 class="sub">Step 1: Import the libraries</h4>
+<p>Import the libraries required for data processing, model building, and evaluation.</p>
+<p>Examples include NumPy, Pandas, and Scikit-learn.</p>
+<h4 class="sub">Step 2: Fetch the data</h4>
+<p>Load the dataset from a file, database, or other source.</p>
+<p>The data must contain the information required to train the classifier.</p>
+<h4 class="sub">Step 3: Determine the target variable</h4>
+<p>Identify the target variable that the classifier must predict.</p>
+<p>For example, in an email dataset, the target could be whether an email is spam.</p>
+<h4 class="sub">Step 4: Create the predictor variables</h4>
+<p>Select the input features used to predict the target variable.</p>
+<p>These features are commonly represented by X, while the target is represented by y.</p>
+<h4 class="sub">Step 5: Split the data</h4>
+<p>Divide the dataset into training and testing sets.</p>
+<p>Training data is used to fit the model.</p>
+<p>Testing data is used to evaluate its performance on data not used for training.</p>
+<h4 class="sub">Step 6: Create and train the classifier</h4>
+<p>Select a suitable classification algorithm, such as Random Forest, and train it using the training data.</p>
+<h4 class="sub">Step 7: Evaluate the classifier</h4>
+<p>Compare predictions with the actual test labels using metrics such as accuracy, precision, recall, and F1-score.</p>
+<h4 class="sub">Step 8: Make predictions</h4>
+<p>Use the trained classifier to predict the classes of new data or the test dataset.</p>
+<h4 class="sub">Step 9: Visualise the results</h4>
+<p>Use a plotting library such as Matplotlib to display relevant results when visualisation is appropriate.</p>
+<h4 class="sub">Conclusion</h4>
+<p>These steps help develop a classifier that can learn from labelled data, predict new cases, and be evaluated using appropriate performance metrics.</p>
+<ul><li>Quick memory trick</li><li>I – L – T – P – S – C – E – P – V</li></ul>
+<h4><i>1</i>Import libraries</h4>
+<h4><i>2</i>Load data</h4>
+<h4><i>3</i>Identify Target</h4>
+<h4><i>4</i>Select Predictors</h4>
+<h4><i>5</i>Split data</h4>
+<h4><i>6</i>Create and train classifier</h4>
+<h4><i>7</i>Evaluate model</h4>
+<h4><i>8</i>Make Predictions</h4>
+<h4><i>9</i>Visualise results</h4></div></details>
+<details class="q" data-k="3" data-p="high" data-r="3" data-o="40"><summary><span class="no">5</span><span class="tt">Define Binarization and state the process used in data preprocessing.</span><span class="meta"><span class="pk">M3</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part B.</p>
+<p class="lbl">Answer</p>
+<p>Binarization is a data preprocessing technique that transforms numerical features into binary values, usually 0 and 1.</p>
+<p>It is used to represent information in a binary form and can make some data suitable for particular classification algorithms.</p>
+<h4 class="sub">Process</h4>
+<div class="li"><b>1</b><span>Select a threshold value.</span></div>
+<div class="li"><b>2</b><span>Compare each numerical value with the threshold.</span></div>
+<div class="li"><b>3</b><span>Assign 1 to values greater than or equal to the threshold and 0 to values below it.</span></div>
+<p class="lbl">Example</p>
+<p>Suppose the threshold is 5.</p>
+<div class="tw"><table><thead><tr><th>Original value</th><th>Binarized value</th></tr></thead><tbody><tr><td>2</td><td>0</td></tr><tr><td>5</td><td>1</td></tr><tr><td>8</td><td>1</td></tr></tbody></table></div>
+<ul><li>Python example</li><li>from sklearn import preprocessing</li><li>data = [[2], [5], [8]]</li></ul>
+<p>binarizer = preprocessing.Binarizer(threshold=5)<br>result = binarizer.transform(data)</p>
+<h4 class="sub">print(result)</h4>
+<p class="lbl">Output</p>
+<p>[[0]<br>[0]<br>[1]]</p>
+<p>Why is 5 converted to 0 here? Scikit-learn&#x27;s Binarizer assigns 1 only when a value is strictly greater than the threshold. This differs from the simplified threshold description in some notes, so follow the actual library behaviour when writing code.</p></div></details>
+<details class="q" data-k="3" data-p="high" data-r="3" data-o="41"><summary><span class="no">6</span><span class="tt">Define NumPy and write the instruction to import it.</span><span class="meta"><span class="pk">M3</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Asked in April 2026, Part B.</p>
+<p class="lbl">Answer</p>
+<p>NumPy is a Python library used for numerical computing. It provides support for multidimensional arrays and mathematical operations on numerical data.</p>
+<h4 class="sub">Main uses of NumPy</h4>
+<div class="li"><b>1</b><span>Creating and manipulating arrays.</span></div>
+<div class="li"><b>2</b><span>Performing mathematical and statistical operations.</span></div>
+<div class="li"><b>3</b><span>Supporting numerical data processing used in machine learning.</span></div>
+<ul><li>Import statement</li><li>import numpy as np</li></ul>
+<p>Here, np is the conventional alias used to access NumPy functions.</p>
+<p class="lbl">Example</p>
+<ul><li>import numpy as np</li><li>data = np.array([10, 20, 30])</li></ul>
+<p>print(data)<br>print(np.mean(data))</p>
+<p class="lbl">Output</p>
+<p>[10 20 30]<br>20.0</p></div></details>
+<details class="q" data-k="3" data-p="med" data-r="7" data-o="42"><summary><span class="no">7</span><span class="tt">Define Machine Learning and explain its characteristics.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">3 or 7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Machine Learning (ML) is a branch of Artificial Intelligence that uses data and algorithms to learn patterns and improve performance without requiring every rule to be explicitly programmed.</p>
+<p>Arthur Samuel introduced the term Machine Learning in 1959, according to the course material.</p>
+<h4 class="sub">Characteristics of Machine Learning</h4>
+<h4><i>1</i>Data-driven learning</h4>
+<p>Machine-learning algorithms use data to identify patterns and relationships.</p>
+<h4><i>2</i>Generalisation</h4>
+<p>A trained model can use patterns learned from training data to make predictions on previously unseen data.</p>
+<h4><i>3</i>Adaptation</h4>
+<p>A model can be retrained or updated with new data to improve its performance as circumstances change.</p>
+<p class="lbl">Example</p>
+<p>An email spam filter learns from labelled examples of spam and legitimate emails. It then uses the learned patterns to classify incoming messages.</p>
+<p>For 3 marks: Definition and the three characteristics in brief.</p>
+<p>For 7 marks: Add a more detailed explanation and a suitable example.</p></div></details>
+<details class="q" data-k="3" data-p="med" data-r="7" data-o="43"><summary><span class="no">8</span><span class="tt">Differentiate Supervised and Unsupervised Learning.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">3 or 7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Supervised and unsupervised learning are two approaches to machine learning. The main difference is whether the training data includes target labels.</p>
+<div class="tw"><table><thead><tr><th>Supervised Learning</th><th>Unsupervised Learning</th></tr></thead><tbody><tr><td>1. Uses labelled data.</td><td>Uses unlabelled data.</td></tr><tr><td>2. Learns from inputs paired with known outputs.</td><td>Finds patterns and structures without supplied target labels.</td></tr><tr><td>3. Common tasks include classification and regression.</td><td>Common tasks include clustering and association.</td></tr><tr><td>4. Predictions can be compared with known labels during evaluation.</td><td>Evaluation depends on the clustering task and its objectives.</td></tr><tr><td>5. Example: spam email classification.</td><td>Example: grouping customers by purchasing behaviour.</td></tr></tbody></table></div>
+<h4 class="sub">Conclusion</h4>
+<p>Supervised learning learns from labelled examples, while unsupervised learning discovers patterns in unlabelled data.</p></div></details>
+<details class="q" data-k="3" data-p="med" data-r="7" data-o="44"><summary><span class="no">9</span><span class="tt">Explain data preprocessing and its techniques.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Data preprocessing is the process of preparing raw data so that it is suitable for machine-learning algorithms.</p>
+<p>Raw data may contain values on different scales or formats. Preprocessing transforms the data into a form that is more appropriate for analysis and model training.</p>
+<p>Your Module 3 notes cover the following techniques.</p>
+<h4><i>1</i>Binarization</h4>
+<p>Binarization transforms numerical features into binary values, generally 0 and 1, using a threshold.</p>
+<p>Example: Converting numerical pixel values into black-and-white values.</p>
+<h4><i>2</i>Mean Removal</h4>
+<p>Mean removal subtracts the mean of a feature from its values so that the feature is centred around zero.</p>
+<p>It can help remove a feature&#x27;s offset and make data more suitable for certain algorithms.</p>
+<p class="lbl">Basic formula</p>
+<p>\[<br>x_{\text{new}}=x-\bar{x}<br>\]</p>
+<p>Here, x is an original value and \bar{x} is the feature&#x27;s mean.</p>
+<h4><i>3</i>Scaling</h4>
+<p>Scaling changes the numerical range of features so that they are represented on a more comparable scale.</p>
+<p>For example, Min-Max scaling transforms values to a range such as 0 to 1.</p>
+<p class="lbl">Min-Max scaling formula</p>
+<p>\[<br>x&#x27;=\frac{x-x_{\min}}{x_{\max}-x_{\min}}<br>\]</p>
+<p class="lbl">Here</p>
+<p>x is the original value.</p>
+<p>x_{\min} is the minimum value.</p>
+<p>x_{\max} is the maximum value.</p>
+<h4><i>4</i>Normalization</h4>
+<p>Normalization transforms data according to a specified rule or scale. The precise operation depends on the normalization method used.</p>
+<p>It can help prepare data for algorithms that are sensitive to feature magnitude.</p>
+<h4 class="sub">Conclusion</h4>
+<p>Binarization, mean removal, scaling, and normalization help prepare numerical data for machine-learning tasks.</p>
+<p>Exam tip: Learn the definitions and main purpose of all four techniques. Binarization is especially important because it was asked in April 2026.</p></div></details>
+<details class="q" data-k="3" data-p="med" data-r="7" data-o="45"><summary><span class="no">10</span><span class="tt">Explain Linear Regression.</span><span class="meta"><span class="pk">M3</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Linear Regression is a supervised machine-learning algorithm used to model the relationship between a dependent variable and one or more independent variables.</p>
+<p>It is commonly used to predict continuous numerical values.</p>
+<h4 class="sub">Equation</h4>
+<p class="lbl">For simple linear regression</p>
+<p>\[<br>y=mx+c<br>\]</p>
+<p class="lbl">Where</p>
+<p>y = predicted dependent variable.</p>
+<p>x = independent variable.</p>
+<p>m = slope of the line.</p>
+<p>c = intercept.</p>
+<h4 class="sub">Working of Linear Regression</h4>
+<h4><i>1</i>Collect data</h4>
+<p>Gather examples containing input variables and their corresponding numerical outputs.</p>
+<h4><i>2</i>Identify variables</h4>
+<p>Select the independent variable and the dependent variable to be predicted.</p>
+<h4><i>3</i>Fit a line</h4>
+<p>The algorithm determines a line that represents the relationship between the input and output.</p>
+<h4><i>4</i>Minimise prediction error</h4>
+<p>The model aims to find a suitable line by minimising an error measure between actual and predicted values.</p>
+<h4><i>5</i>Make predictions</h4>
+<p>Once trained, the model can estimate the dependent variable for new input values.</p>
+<p class="lbl">Example</p>
+<p>A model can use historical house sizes and their sale prices to estimate the price of a house of a given size.</p>
+<h4 class="sub">Applications</h4>
+<div class="li"><b>1</b><span>Market analysis.</span></div>
+<div class="li"><b>2</b><span>Financial analysis.</span></div>
+<div class="li"><b>3</b><span>Sports analysis.</span></div>
+<div class="li"><b>4</b><span>Environmental analysis.</span></div>
+<div class="li"><b>5</b><span>Medical data analysis.</span></div>
+<h4 class="sub">Conclusion</h4>
+<p>Linear Regression models relationships between variables and predicts continuous numerical outputs using a fitted linear equation.</p></div></details>
+<details class="q" data-k="3" data-p="med" data-r="7" data-o="46"><summary><span class="no">11</span><span class="tt">Explain the Support Vector Machine (SVM) algorithm.</span><span class="meta"><span class="pk">M3</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p class="lbl">Answer</p>
+<p>Support Vector Machine (SVM) is a supervised machine-learning algorithm used for classification and regression. It is primarily known for its use in classification.</p>
+<h4 class="sub">Working principle</h4>
+<p>The main objective of SVM classification is to find an optimal hyperplane that separates data points belonging to different classes.</p>
+<p>A hyperplane is a decision boundary that separates classes in the feature space.</p>
+<h4 class="sub">Important features</h4>
+<h4><i>1</i>Supervised algorithm</h4>
+<p>SVM learns from labelled training data.</p>
+<h4><i>2</i>Classification</h4>
+<p>It can classify data into different categories, such as spam and non-spam emails.</p>
+<h4><i>3</i>Hyperplane</h4>
+<p>It identifies a decision boundary that separates different classes.</p>
+<h4><i>4</i>Margin maximisation</h4>
+<p>SVM aims to maximise the margin between the separating hyperplane and the nearest data points of each class.</p>
+<h4><i>5</i>Support vectors</h4>
+<p>Support vectors are the data points closest to the decision boundary. They are important in determining the separating hyperplane.</p>
+<h4><i>6</i>Linear and nonlinear classification</h4>
+<p>Depending on the data and the method used, SVM can handle linear or nonlinear classification problems.</p>
+<h4 class="sub">Applications</h4>
+<p>Text classification.</p>
+<p>Image classification.</p>
+<p>Spam detection.</p>
+<p>Handwriting identification.</p>
+<p>Face detection.</p>
+<h4 class="sub">Conclusion</h4>
+<p>SVM is a supervised algorithm that finds a suitable decision boundary to separate classes, aiming for a large margin between them.</p>
+<div class="note dg">🖊 LEARN DIAGRAM: If your teacher&#x27;s notes include an SVM diagram, practise drawing two classes of points separated by a line, with the margin and support vectors labelled.</div></div></details>
+<details class="q" data-k="3" data-p="med" data-r="3" data-o="47"><summary><span class="no">12</span><span class="tt">Name any five supervised machine-learning algorithms.</span><span class="meta"><span class="pk">M3</span><span class="mk m3">1 or 3 marks</span></span></summary><div class="a"><p>Priority: 🔴 HIGH — The April 2026 paper asks for two algorithms in Part A.</p>
+<p>Write any two for the one-mark question, or three/five if the question asks for more.</p>
+<div class="li"><b>1</b><span>Decision Tree.</span></div>
+<div class="li"><b>2</b><span>Support Vector Machine (SVM).</span></div>
+<div class="li"><b>3</b><span>Random Forest.</span></div>
+<div class="li"><b>4</b><span>Logistic Regression.</span></div>
+<div class="li"><b>5</b><span>K-Nearest Neighbour (KNN).</span></div>
+<p>These algorithms are listed in your model question paper.</p></div></details>
+<details class="q" data-k="3" data-p="low" data-r="1" data-o="48"><summary><span class="no">13</span><span class="tt">What does K represent in K-Means?</span><span class="meta"><span class="pk">M3</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Answer: K represents the number of clusters to be created.</p></div></details>
+<details class="q" data-k="3" data-p="low" data-r="1" data-o="49"><summary><span class="no">14</span><span class="tt">What is clustering?</span><span class="meta"><span class="pk">M3</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Answer: Clustering is the process of grouping data points according to their similarities.</p></div></details>
+<details class="q" data-k="3" data-p="med" data-r="3" data-o="50"><summary><span class="no">15</span><span class="tt">Differentiate classification and regression.</span><span class="meta"><span class="pk">M3</span><span class="mk m3">3 marks</span></span></summary><div class="a"><div class="tw"><table><thead><tr><th>Classification</th><th>Regression</th></tr></thead><tbody><tr><td>Predicts a category or class.</td><td>Predicts a numerical value.</td></tr><tr><td>Example: spam or non-spam email.</td><td>Example: predicting a house price.</td></tr><tr><td>Algorithms include Decision Tree Classifier and KNN Classifier.</td><td>Algorithms include Linear Regression and Regression Trees.</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="3" data-p="low" data-r="1" data-o="51"><summary><span class="no"></span><span class="tt">One-mark revision bank</span><span class="meta"><span class="pk">M3</span><span class="mk m1">1 mark</span></span></summary><div class="a"><div class="tw"><table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody><tr><td>What is Machine Learning?</td><td>A branch of AI that learns patterns from data.</td></tr><tr><td>Name two supervised algorithms.</td><td>Decision Tree and KNN.</td></tr><tr><td>What does K represent in K-Means?</td><td>Number of clusters.</td></tr><tr><td>Is K-Means supervised or unsupervised?</td><td>Unsupervised.</td></tr><tr><td>Is KNN supervised or unsupervised?</td><td>Supervised.</td></tr><tr><td>What is a classifier?</td><td>A model that predicts the class of data.</td></tr><tr><td>What is accuracy?</td><td>The proportion of correct predictions among all predictions.</td></tr><tr><td>What is precision?</td><td>The proportion of predicted positive cases that are actually positive.</td></tr><tr><td>What is recall?</td><td>The proportion of actual positive cases correctly identified.</td></tr><tr><td>What is a confusion matrix?</td><td>A table comparing actual and predicted classes.</td></tr><tr><td>What is binarization?</td><td>Transforming numerical features into binary values.</td></tr><tr><td>What is NumPy?</td><td>A Python library for numerical computing and arrays.</td></tr><tr><td>Which statement imports NumPy using its conventional alias?</td><td>import numpy as np</td></tr><tr><td>What is Linear Regression used for?</td><td>Predicting continuous numerical values.</td></tr><tr><td>What is SVM?</td><td>A supervised algorithm that finds a decision boundary between classes.</td></tr><tr><td>Name two preprocessing techniques.</td><td>Binarization and Scaling.</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="3" data-p="note" data-r="0" data-o="52"><summary><span class="no"></span><span class="tt">What you should learn first</span><span class="meta"><span class="pk">M3</span></span></summary><div class="a"><p>If time is limited, follow this order.</p>
+<h4 class="sub">First priority: Learn these four 7-mark answers</h4>
+<p>[ ] Classifier and performance metrics.</p>
+<p>[ ] KNN algorithm.</p>
+<p>[ ] Features and working steps of K-Means.</p>
+<p>[ ] Steps to build a classifier in Python.</p>
+<h4 class="sub">Second priority: Learn the short answers</h4>
+<p>[ ] Binarization.</p>
+<p>[ ] NumPy definition and import statement.</p>
+<p>[ ] Supervised learning algorithms.</p>
+<p>[ ] Meaning of K in K-Means.</p>
+<h4 class="sub">Third priority: Cover the remaining topics</h4>
+<p>[ ] Supervised vs Unsupervised Learning.</p>
+<p>[ ] Data preprocessing techniques.</p>
+<p>[ ] Linear Regression.</p>
+<p>[ ] SVM.</p>
+<p>[ ] Machine Learning definition and characteristics.</p>
+<div class="note tp">✅ Self-test before moving to Module 4</div>
+<h4 class="sub">Try answering these without looking at the notes:</h4>
+<div class="li"><b>1</b><span>What is the difference between KNN and K-Means?</span></div>
+<div class="li"><b>2</b><span>What does K represent in K-Means?</span></div>
+<div class="li"><b>3</b><span>Explain the six main steps of KNN.</span></div>
+<div class="li"><b>4</b><span>Write the formula for accuracy.</span></div>
+<div class="li"><b>5</b><span>What are TP, TN, FP, and FN?</span></div>
+<div class="li"><b>6</b><span>List the steps for building a classifier.</span></div>
+<div class="li"><b>7</b><span>Define binarization.</span></div>
+<div class="li"><b>8</b><span>Write the NumPy import statement.</span></div>
+<div class="li"><b>9</b><span>Differentiate supervised and unsupervised learning.</span></div>
+<div class="li"><b>10</b><span>Write the equation of Linear Regression.</span></div>
+<p>The most important distinction to remember: KNN is a supervised learning algorithm used mainly for classification, whereas K-Means is an unsupervised algorithm used for clustering. Don&#x27;t mix them up in the exam.</p>
+<h4 class="sub">🤖 FUNDAMENTALS OF AI &amp; MACHINE LEARNING</h4></div></details>
+<details class="q intro" data-k="4" open><summary><span class="tt">Overview</span></summary><div class="a"><ul><li>TED(21)-5133C | Revision 2021 | Exam Preparation</li><li>This module is manageable once you understand three things:</li></ul>
+<div class="li"><b>1</b><span>Search algorithms — how AI finds a path to a goal.</span></div>
+<div class="li"><b>2</b><span>Minimax algorithm — how AI chooses a move in a game.</span></div>
+<div class="li"><b>3</b><span>Game-playing bots — how to develop a game such as Tic-Tac-Toe using AI.</span></div>
+<h4><i>1</i>🎯 PRIORITY LIST</h4>
+<h4 class="tier">🔴 HIGH PRIORITY — Learn these first</h4>
+<div class="tw"><table><thead><tr><th>Topic</th><th>Marks</th><th>Why it matters</th></tr></thead><tbody><tr><td>Steps to develop a Tic-Tac-Toe bot</td><td>7</td><td>Directly asked in April 2026</td></tr><tr><td>Combinatorial Search and an algorithm</td><td>7</td><td>Alternative question in April 2026</td></tr><tr><td>Minimax algorithm</td><td>7 / 3</td><td>Important game-playing algorithm</td></tr><tr><td>Uninformed search algorithms</td><td>1 / 3</td><td>Asked in April 2026</td></tr><tr><td>MAX and MIN players</td><td>1</td><td>Asked in April 2026</td></tr><tr><td>Categories of search algorithms</td><td>1</td><td>Asked in model paper</td></tr><tr><td>Alpha-Beta Pruning</td><td>Part of a long answer</td><td>Included in the solved model paper</td></tr></tbody></table></div>
+<h4 class="tier">🟡 MEDIUM PRIORITY</h4>
+<ul><li>Depth-First Search (DFS)</li><li>Breadth-First Search (BFS)</li><li>Uniform-Cost Search (UCS)</li><li>Heuristic Search</li><li>Greedy Best-First Search</li><li>A* Search</li><li>Properties of search algorithms</li><li>Steps to develop a Last Coin Standing game</li></ul>
+<h4 class="tier">🟢 QUICK REVISION</h4>
+<ul><li>Definition of a search problem</li><li>Definition of a heuristic</li><li>Examples of games using Minimax</li><li>Critical terms used in game-playing AI</li><li>Python libraries used to develop game bots</li></ul>
+<p>Study order: Minimax → Tic-Tac-Toe → Search algorithms → Alpha-Beta Pruning → remaining short answers.</p></div></details>
+<details class="q" data-k="4" data-p="low" data-r="1" data-o="53"><summary><span class="no">1</span><span class="tt">What is a search problem?</span><span class="meta"><span class="pk">M4</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A search problem consists of a state space, a start state, and a goal state. A search algorithm finds a sequence of actions that transforms the start state into the goal state.</p>
+<h4 class="sub">Remember these three terms</h4>
+<p>State Space: The set of all possible states.</p>
+<p>Start State: The state from which the search begins.</p>
+<p>Goal State: The state that satisfies the required objective.</p>
+<p>Example: Finding a route from your home to college.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="54"><summary><span class="no">2</span><span class="tt">What are the four properties of search algorithms?</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>The four properties used to compare the efficiency of search algorithms are:</p>
+<div class="li"><b>1</b><span>Completeness: Whether the algorithm guarantees finding a solution if one exists.</span></div>
+<div class="li"><b>2</b><span>Optimality: Whether the algorithm guarantees the best solution, usually the one with the lowest path cost.</span></div>
+<div class="li"><b>3</b><span>Time Complexity: The amount of time required by the algorithm to complete its task.</span></div>
+<div class="li"><b>4</b><span>Space Complexity: The maximum amount of memory required during the search.</span></div>
+<p>Exam tip: For three marks, write all four properties with their meanings.</p></div></details>
+<details class="q" data-k="4" data-p="low" data-r="1" data-o="55"><summary><span class="no">3</span><span class="tt">Name the two categories of search algorithms.</span><span class="meta"><span class="pk">M4</span><span class="mk m1">1 mark</span></span></summary><div class="a"><h4 class="sub">According to your model question paper, the two categories are:</h4>
+<h4><i>1</i>Combinatorial Search</h4>
+<h4><i>2</i>Heuristic Search</h4>
+<p>Important: Your module notes also classify search techniques into uninformed search and informed search. Learn both classifications because the papers use different wording.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="56"><summary><span class="no">4</span><span class="tt">What are uninformed search algorithms?</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Uninformed search is a search technique that explores the search space without using additional domain knowledge about how close a state is to the goal. It is also called blind search.</p>
+<p>It uses information such as the initial state, available actions, and goal test.</p>
+<h4 class="sub">Types of uninformed search</h4>
+<div class="li"><b>1</b><span>Depth-First Search (DFS): Explores one path as deeply as possible before backtracking.</span></div>
+<div class="li"><b>2</b><span>Breadth-First Search (BFS): Explores all nodes at one level before moving to the next level.</span></div>
+<div class="li"><b>3</b><span>Uniform-Cost Search (UCS): Expands the node with the lowest cumulative path cost.</span></div>
+<p>April 2026 paper connection: The one-mark question asks you to name any two uninformed search algorithms.</p>
+<p>Answer: DFS and BFS.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="57"><summary><span class="no">5</span><span class="tt">Explain Depth-First Search (DFS).</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Depth-First Search is a search algorithm that explores a tree or graph by following one path to its greatest depth before backtracking and exploring another path.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Start from the root or initial node.</span></div>
+<div class="li"><b>2</b><span>Visit an unvisited neighbouring node.</span></div>
+<div class="li"><b>3</b><span>Continue exploring deeper nodes along that path.</span></div>
+<div class="li"><b>4</b><span>When no further unvisited node is available, backtrack.</span></div>
+<div class="li"><b>5</b><span>Continue until the goal is found or the search is exhausted.</span></div>
+<h4 class="sub">Data structure used</h4>
+<p>Stack (LIFO — Last In, First Out).</p>
+<p>DFS can also be implemented recursively.</p>
+<p class="lbl">Example</p>
+<p class="lbl">Consider this tree</p>
+<pre class="dia">A
+       / \
+      B   C
+     / \
+    D   E</pre>
+<p class="lbl">One possible DFS traversal is</p>
+<h4 class="sub">A → B → D → E → C</h4>
+<p>The exact order depends on which child is explored first.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="58"><summary><span class="no">6</span><span class="tt">Explain Breadth-First Search (BFS).</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Breadth-First Search is a search algorithm that explores all nodes at the current level before moving to nodes at the next level.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Begin at the root node.</span></div>
+<div class="li"><b>2</b><span>Visit the current node.</span></div>
+<div class="li"><b>3</b><span>Add its unvisited neighbouring nodes to a queue.</span></div>
+<div class="li"><b>4</b><span>Remove the node at the front of the queue.</span></div>
+<div class="li"><b>5</b><span>Repeat until the goal is found or no nodes remain.</span></div>
+<h4 class="sub">Data structure used</h4>
+<p>Queue (FIFO — First In, First Out).</p>
+<p class="lbl">Example</p>
+<p class="lbl">Using the same tree</p>
+<pre class="dia">A
+       / \
+      B   C
+     / \
+    D   E</pre>
+<p class="lbl">BFS traversal</p>
+<ul><li>A → B → C → D → E</li><li>DFS vs BFS</li></ul>
+<div class="tw"><table><thead><tr><th>DFS</th><th>BFS</th></tr></thead><tbody><tr><td>Explores deeply before backtracking</td><td>Explores level by level</td></tr><tr><td>Uses a stack</td><td>Uses a FIFO queue</td></tr><tr><td>Can be implemented recursively</td><td>Commonly implemented using a queue</td></tr><tr><td>May follow a deep path before finding a nearby goal</td><td>Finds the shallowest goal in an unweighted graph when implemented correctly</td></tr></tbody></table></div></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="59"><summary><span class="no">7</span><span class="tt">Explain Uniform-Cost Search (UCS).</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Uniform-Cost Search is a search algorithm used on a weighted tree or graph. It expands the node with the lowest cumulative path cost.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Begin at the start node with a path cost of zero.</span></div>
+<div class="li"><b>2</b><span>Place available nodes in a priority queue.</span></div>
+<div class="li"><b>3</b><span>Select the node with the lowest cumulative cost.</span></div>
+<div class="li"><b>4</b><span>Expand that node and calculate the costs of its successors.</span></div>
+<div class="li"><b>5</b><span>Continue until the goal is reached under the algorithm&#x27;s appropriate stopping conditions.</span></div>
+<h4 class="sub">Data structure used</h4>
+<p>Priority Queue.</p>
+<h4 class="sub">Main feature</h4>
+<p>UCS is useful when different edges have different costs and the objective is to find the least-cost path.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="60"><summary><span class="no">8</span><span class="tt">What is informed search?</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Informed search is a search technique that uses additional problem knowledge to guide the search towards the goal. It is also called heuristic search.</p>
+<h4 class="sub">Features</h4>
+<div class="li"><b>1</b><span>It uses information about the problem to guide the search.</span></div>
+<div class="li"><b>2</b><span>It uses a heuristic function to estimate how close a state is to the goal.</span></div>
+<div class="li"><b>3</b><span>It can explore the search space more efficiently than an uninformed method in suitable problems.</span></div>
+<div class="li"><b>4</b><span>Examples include Greedy Best-First Search and A* Search.</span></div>
+<p>What is a heuristic?</p>
+<p>A heuristic is a function that estimates how close a particular state is to the goal state.</p>
+<p>Examples include Manhattan distance and Euclidean distance.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="61"><summary><span class="no">9</span><span class="tt">Explain Greedy Best-First Search.</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Greedy Best-First Search selects the node that appears most promising according to its heuristic estimate.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Start with the initial node.</span></div>
+<div class="li"><b>2</b><span>Estimate how close the available nodes are to the goal using a heuristic.</span></div>
+<div class="li"><b>3</b><span>Select the node that appears closest to the goal.</span></div>
+<div class="li"><b>4</b><span>Expand that node and evaluate its successors.</span></div>
+<div class="li"><b>5</b><span>Continue until the goal is found or no suitable nodes remain.</span></div>
+<h4 class="sub">Main feature</h4>
+<p>It tries to reach the goal quickly by choosing the most promising node at each step.</p>
+<p>Limitation: It does not always find the least-cost path because it does not necessarily account for the full cost already incurred.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="62"><summary><span class="no">10</span><span class="tt">Explain A* Search.</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: A* is an informed search algorithm that combines the cost of reaching a node with an estimate of the remaining cost to reach the goal.</p>
+<p class="lbl">It uses the evaluation function</p>
+<p>\[<br>\boxed{f(n)=g(n)+h(n)}<br>\]</p>
+<p class="lbl">Where</p>
+<ul><li>f(n) = estimated total cost through node n</li><li>g(n) = cost from the start node to node n</li><li>h(n) = estimated cost from node n to the goal</li></ul>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Start from the initial node.</span></div>
+<div class="li"><b>2</b><span>Calculate the evaluation value f(n) for the available nodes.</span></div>
+<div class="li"><b>3</b><span>Select a node with the lowest evaluation value.</span></div>
+<div class="li"><b>4</b><span>Expand it and calculate the evaluation values of its successors.</span></div>
+<div class="li"><b>5</b><span>Continue until the goal is reached.</span></div>
+<h4 class="sub">Main feature</h4>
+<p>A* combines the actual path cost and the estimated remaining cost to guide the search.</p>
+<p>With a suitable admissible heuristic and the appropriate graph-search implementation, A* can find an optimal path.</p>
+<h4 class="sub">Important distinction</h4>
+<p>Your notes describe Greedy Search using h(n) as the estimate of the remaining cost and A* using g(n)+h(n).</p>
+<p>Learn the A formula exactly:* f(n)=g(n)+h(n).</p></div></details>
+<details class="q" data-k="4" data-p="low" data-r="1" data-o="63"><summary><span class="no">11</span><span class="tt">Who are MAX and MIN in the Minimax algorithm?</span><span class="meta"><span class="pk">M4</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">The two players are</p>
+<p>MAX: Tries to maximize the score.</p>
+<p>MIN: Tries to minimize the score.</p>
+<p>This was directly asked in the April 2026 examination.</p></div></details>
+<details class="q" data-k="4" data-p="low" data-r="1" data-o="64"><summary><span class="no">12</span><span class="tt">Name two games based on the Minimax algorithm.</span><span class="meta"><span class="pk">M4</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p class="lbl">According to your model question paper</p>
+<h4><i>1</i>Tic-Tac-Toe</h4>
+<h4><i>2</i>Last Coin Standing</h4>
+<p>Other games that can use Minimax include Chess and Checkers, although practical implementations may use depth limits and evaluation functions.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="65"><summary><span class="no">13</span><span class="tt">Define the Minimax algorithm.</span><span class="meta"><span class="pk">M4</span><span class="dgb">🖊️ Diagram</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Definition: Minimax is a recursive or backtracking algorithm used in game-playing AI to choose an optimal move, assuming that the opponent also plays optimally.</p>
+<h4 class="sub">Main points</h4>
+<div class="li"><b>1</b><span>It is used in two-player games with conflicting objectives.</span></div>
+<div class="li"><b>2</b><span>The two players are called MAX and MIN.</span></div>
+<div class="li"><b>3</b><span>MAX selects the move with the maximum possible value, while MIN selects the move with the minimum possible value.</span></div>
+<div class="li"><b>4</b><span>It explores the game tree using depth-first search and evaluates terminal states.</span></div>
+<div class="li"><b>5</b><span>It works backwards from the terminal states to determine the best move.</span></div>
+<p class="lbl">Examples</p>
+<ul><li>Tic-Tac-Toe</li><li>Chess</li><li>Checkers</li><li>Last Coin Standing</li></ul>
+<div class="note dg">🖊 LEARN DIAGRAM: A game tree showing MAX at the root, MIN at the next level, and numerical values at the leaf nodes.</div></div></details>
+<details class="q" data-k="4" data-p="high" data-r="7" data-o="66"><summary><span class="no">14</span><span class="tt">Explain the Minimax algorithm.</span><span class="meta"><span class="pk">M4</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>HIGH PRIORITY — Learn this answer properly.</p>
+<h4><i>1</i>Definition</h4>
+<p>The Minimax algorithm is a recursive search algorithm used in artificial intelligence and game theory. It determines an optimal move by assuming that the opponent also chooses the best possible moves.</p>
+<p>It is commonly used in two-player games such as Tic-Tac-Toe.</p>
+<h4><i>2</i>Players</h4>
+<p class="lbl">Minimax uses two players</p>
+<p>MAX: Attempts to obtain the maximum possible score.</p>
+<p>MIN: Attempts to obtain the minimum possible score.</p>
+<p>Each player tries to select a move that benefits them while limiting the opponent&#x27;s advantage.</p>
+<h4><i>3</i>Game tree</h4>
+<p>A game tree represents the possible moves and resulting states of a game.</p>
+<p>The root represents the current game state.</p>
+<p>Each branch represents a possible move.</p>
+<p>The child nodes represent the states resulting from those moves.</p>
+<p>The leaf nodes represent terminal states or states evaluated at the search-depth limit.</p>
+<h4><i>4</i>Terminal-state evaluation</h4>
+<p>When a terminal state is reached, the algorithm assigns a numerical value to it.</p>
+<ul><li>For Tic-Tac-Toe, your notes use the following utility values:</li><li>+1: Win</li><li>−1: Loss</li><li>0: Draw</li></ul>
+<p>These values are from the perspective of the player for whom the utility is defined.</p>
+<h4><i>5</i>Working of Minimax</h4>
+<div class="li"><b>1</b><span>Start from the current game state.</span></div>
+<div class="li"><b>2</b><span>Generate the possible moves.</span></div>
+<div class="li"><b>3</b><span>Explore the resulting game tree using depth-first search.</span></div>
+<div class="li"><b>4</b><span>Continue until terminal nodes or the chosen search-depth limit is reached.</span></div>
+<div class="li"><b>5</b><span>Assign evaluation values to the resulting states.</span></div>
+<div class="li"><b>6</b><span>Move backwards through the tree.</span></div>
+<div class="li"><b>7</b><span>At a MAX node, select the maximum child value.</span></div>
+<div class="li"><b>8</b><span>At a MIN node, select the minimum child value.</span></div>
+<div class="li"><b>9</b><span>Choose the move that gives the best value for the current player, assuming the opponent also plays optimally.</span></div>
+<h4><i>6</i>Decision rule</h4>
+<p class="lbl">For MAX</p>
+<p>\[<br>V(s)=\max_{a}V(\operatorname{Result}(s,a))<br>\]</p>
+<p class="lbl">For MIN</p>
+<p>\[<br>V(s)=\min_{a}V(\operatorname{Result}(s,a))<br>\]</p>
+<p>Here, V(s) represents the value of state s.</p>
+<h4><i>7</i>Advantages</h4>
+<div class="li"><b>1</b><span>It helps AI choose strategic moves.</span></div>
+<div class="li"><b>2</b><span>It considers the opponent&#x27;s possible responses.</span></div>
+<div class="li"><b>3</b><span>It can determine an optimal move when the relevant game tree is searched completely and the evaluation is correct.</span></div>
+<h4><i>8</i>Limitation</h4>
+<p>Minimax can examine a large number of game states. For complex games, this can require considerable processing time and memory.</p>
+<p>Conclusion: Minimax enables a game-playing AI to choose moves by considering both its own objectives and the opponent&#x27;s possible responses.</p>
+<div class="note dg">🖊 LEARN DIAGRAM: Draw a game tree with MAX at the top, MIN at the next level, leaf values, and arrows showing the maximum and minimum values being propagated upwards.</div>
+<h4 class="sub">If the question is only 3 marks</h4>
+<p class="lbl">Write</p>
+<p class="lbl">Definition</p>
+<ul><li>Roles of MAX and MIN</li><li>Game-tree exploration and selection of maximum/minimum values</li></ul>
+<p>You do not need the full seven-mark answer.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="5" data-o="67"><summary><span class="no">15</span><span class="tt">Explain Alpha-Beta Pruning.</span><span class="meta"><span class="pk">M4</span><span class="mk m7">3–5 marks</span></span></summary><div class="a"><p class="lbl">Definition</p>
+<p>Alpha-Beta Pruning is an optimization technique used with Minimax to avoid exploring game-tree branches that cannot affect the final decision.</p>
+<p>Why is it needed?</p>
+<p>Minimax may examine branches that are irrelevant to the final decision. Alpha-Beta Pruning avoids unnecessary exploration and can reduce the amount of work required.</p>
+<h4 class="sub">Important terms</h4>
+<p>Alpha (α): The best value MAX can guarantee so far; it acts as a lower bound.</p>
+<p>Beta (β): The best value MIN can guarantee so far; it acts as an upper bound.</p>
+<p class="lbl">Working</p>
+<div class="li"><b>1</b><span>Begin searching the game tree using Minimax.</span></div>
+<div class="li"><b>2</b><span>Maintain the current alpha and beta bounds.</span></div>
+<div class="li"><b>3</b><span>Update alpha when MAX finds a better value.</span></div>
+<div class="li"><b>4</b><span>Update beta when MIN finds a better value.</span></div>
+<div class="li"><b>5</b><span>When the bounds show that a branch cannot improve the final decision, stop exploring that branch.</span></div>
+<div class="li"><b>6</b><span>Continue evaluating the remaining relevant branches.</span></div>
+<p class="lbl">The common pruning condition is</p>
+<p>\[<br>\boxed{\alpha \geq \beta}<br>\]</p>
+<h4 class="sub">Advantages</h4>
+<div class="li"><b>1</b><span>Avoids unnecessary exploration of branches.</span></div>
+<div class="li"><b>2</b><span>Can make Minimax search more efficient.</span></div>
+<div class="li"><b>3</b><span>Can allow deeper searches with the same computational resources.</span></div>
+<div class="li"><b>4</b><span>Produces the same decision as ordinary Minimax when applied correctly.</span></div>
+<p>Remember: Alpha-Beta Pruning does not change the Minimax result; it reduces unnecessary search.</p></div></details>
+<details class="q" data-k="4" data-p="high" data-r="7" data-o="68"><summary><span class="no">16</span><span class="tt">Outline Combinatorial Search and discuss an algorithm.</span><span class="meta"><span class="pk">M4</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This is the alternative to the Tic-Tac-Toe question in your April 2026 paper.</p>
+<p>Your module notes cover search algorithms and game-tree exploration, while your solved model paper discusses Minimax, Alpha-Beta Pruning, and Negamax in this context.</p>
+<p>For the exam, a useful answer is to introduce search through possible states and explain Minimax as the algorithm.</p>
+<h4><i>1</i>Definition</h4>
+<p>Combinatorial search involves exploring possible combinations of states or actions to find a solution or make a decision.</p>
+<p>In game-playing AI, possible moves lead to different game states. Search algorithms examine these possibilities to select a suitable move.</p>
+<h4><i>2</i>Purpose</h4>
+<div class="li"><b>1</b><span>Explore possible solutions to a problem.</span></div>
+<div class="li"><b>2</b><span>Examine alternative actions.</span></div>
+<div class="li"><b>3</b><span>Evaluate possible outcomes.</span></div>
+<div class="li"><b>4</b><span>Select a suitable solution or move according to the objective.</span></div>
+<h4><i>3</i>Minimax algorithm</h4>
+<p>Minimax is a game-tree search algorithm used in two-player games where the players have conflicting objectives.</p>
+<p>It assumes that both players choose their moves optimally.</p>
+<h4><i>4</i>Players</h4>
+<p>MAX tries to maximize the evaluation value.</p>
+<p>MIN tries to minimize the evaluation value.</p>
+<h4><i>5</i>Working</h4>
+<div class="li"><b>1</b><span>Start from the current game state.</span></div>
+<div class="li"><b>2</b><span>Generate all legal moves.</span></div>
+<div class="li"><b>3</b><span>Construct the game tree from the possible moves.</span></div>
+<div class="li"><b>4</b><span>Explore the tree using depth-first search.</span></div>
+<div class="li"><b>5</b><span>Assign values to terminal states.</span></div>
+<div class="li"><b>6</b><span>Propagate the values backwards through the tree.</span></div>
+<div class="li"><b>7</b><span>MAX chooses the maximum value, and MIN chooses the minimum value.</span></div>
+<div class="li"><b>8</b><span>Select the best move for the current player.</span></div>
+<h4><i>6</i>Alpha-Beta Pruning</h4>
+<p>Alpha-Beta Pruning improves the efficiency of Minimax by skipping branches that cannot change the final decision.</p>
+<p>It uses alpha and beta bounds to determine when further exploration is unnecessary.</p>
+<h4><i>7</i>Applications</h4>
+<p class="lbl">Search techniques are used in</p>
+<ul><li>Tic-Tac-Toe</li><li>Chess</li><li>Checkers</li><li>Last Coin Standing</li><li>Route-finding and other problem-solving tasks</li></ul>
+<p>Conclusion: Combinatorial search explores possible states and actions to find solutions. Minimax is an important algorithm for choosing moves in competitive, two-player games.</p>
+<p>Important note: This answer combines the search and game-tree concepts covered in your notes. Your notes do not provide a single, fully developed formal definition of Combinatorial Search, so prioritise the exact terminology used in your class material if your teacher has supplied a separate definition.</p></div></details>
+<details class="q" data-k="4" data-p="high" data-r="7" data-o="69"><summary><span class="no">17</span><span class="tt">Illustrate the steps to develop a bot to play Tic-Tac-Toe.</span><span class="meta"><span class="pk">M4</span><span class="dgb">🖊️ Diagram</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>HIGH PRIORITY — This question appeared directly in April 2026.</p>
+<h4><i>1</i>Introduction</h4>
+<p>Tic-Tac-Toe is a two-player game played on a 3 \times 3 board. The players take turns placing their symbols in empty cells.</p>
+<p>A player wins by placing three matching symbols in a row, column, or diagonal. If the board becomes full without a winner, the game ends in a draw.</p>
+<p>An AI bot can use the Minimax algorithm to choose its moves.</p>
+<h4><i>2</i>Steps to develop the game</h4>
+<h4 class="sub">Step 1: Create an empty board</h4>
+<p>Create a 3 \times 3 board and initialise every cell as empty.</p>
+<h4 class="sub">Step 2: Create a function to display the board</h4>
+<p>Write a function that displays the current board so the human player can see the available positions.</p>
+<h4 class="sub">Step 3: Create a function to check for a win</h4>
+<p class="lbl">Check all possible winning combinations</p>
+<ul><li>Three rows</li><li>Three columns</li><li>Two diagonals</li></ul>
+<p>If any combination contains three matching symbols, the corresponding player wins.</p>
+<h4 class="sub">Step 4: Check whether the board is full</h4>
+<p>Create a function that checks whether any empty cells remain.</p>
+<p>If the board is full and neither player has won, the result is a draw.</p>
+<h4 class="sub">Step 5: Implement the human player&#x27;s move</h4>
+<p>Allow the human player to select an empty cell and place their symbol.</p>
+<p>The program should reject invalid moves.</p>
+<h4 class="sub">Step 6: Implement the AI move</h4>
+<p>Create a function that generates possible moves for the AI. Use Minimax to evaluate the possible outcomes and select the best move.</p>
+<h4 class="sub">Step 7: Repeat the game</h4>
+<p>Display the board, accept the human move, allow the AI to respond, and check for a win or draw after each move.</p>
+<h4 class="sub">Step 8: Display the result</h4>
+<p>Stop the game when a player wins or the board is full. Display the final board and announce the winner or draw.</p>
+<h4><i>3</i>Role of Minimax</h4>
+<p>Minimax examines possible future moves and evaluates their outcomes.</p>
+<p>The AI tries to maximise its score.</p>
+<p>The opponent is assumed to minimise the AI&#x27;s score.</p>
+<p>The AI selects the move with the best outcome under this assumption.</p>
+<h4><i>4</i>Conclusion</h4>
+<p>A Tic-Tac-Toe bot combines board representation, move generation, win detection, draw detection, and the Minimax algorithm to make strategic decisions.</p>
+<div class="note dg">🖊 LEARN DIAGRAM: Draw a 3 \times 3 board and label the three winning patterns: row, column, and diagonal.</div>
+<h4 class="sub">Short revision version</h4>
+<p class="lbl">Memorise these eight steps</p>
+<div class="li"><b>1</b><span>Create an empty 3 \times 3 board.</span></div>
+<div class="li"><b>2</b><span>Write a function to display the board.</span></div>
+<div class="li"><b>3</b><span>Check rows, columns, and diagonals for a win.</span></div>
+<div class="li"><b>4</b><span>Check whether the board is full.</span></div>
+<div class="li"><b>5</b><span>Accept the human player&#x27;s move.</span></div>
+<div class="li"><b>6</b><span>Use Minimax to select the AI&#x27;s move.</span></div>
+<div class="li"><b>7</b><span>Repeat until a win or draw occurs.</span></div>
+<div class="li"><b>8</b><span>Display the final result.</span></div>
+<p>If you remember only one long answer from Module 4, make it this one.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="5" data-o="70"><summary><span class="no">18</span><span class="tt">Explain the critical terms used in game-playing AI.</span><span class="meta"><span class="pk">M4</span><span class="mk m7">3–5 marks</span></span></summary><div class="a"><p>Your notes identify the following terms.</p>
+<div class="tw"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody><tr><td>Initial State</td><td>Specifies how the game is set up at the beginning.</td></tr><tr><td>Player(s)</td><td>Identifies which player has moved or is to move in the game state.</td></tr><tr><td>Action(s)</td><td>Returns the set of legal moves available in a state.</td></tr><tr><td>Result(s, a)</td><td>Describes the state resulting from action a in state s.</td></tr><tr><td>Terminal Test</td><td>Determines whether the game has ended.</td></tr><tr><td>Terminal State</td><td>A state in which the game has ended.</td></tr><tr><td>Utility Function</td><td>Assigns a numerical value to a terminal state for a particular player.</td></tr></tbody></table></div>
+<h4 class="sub">Example: Tic-Tac-Toe</h4>
+<p>Initial state: An empty 3 \times 3 board.</p>
+<p>Actions: Placing a symbol in an empty cell.</p>
+<p>Result: The updated board after the move.</p>
+<p>Terminal test: Checks whether there is a winner or draw.</p>
+<p>Utility: Your notes use +1, −1, and 0 for win, loss, and draw respectively.</p>
+<p>For a three-mark question, explain any three or four terms clearly, depending on the wording.</p></div></details>
+<details class="q" data-k="4" data-p="med" data-r="3" data-o="71"><summary><span class="no">19</span><span class="tt">Write the code snippet for installing and importing libraries needed for building game bots.</span><span class="meta"><span class="pk">M4</span><span class="mk m3">3 marks</span></span></summary><div class="a"><p>Your model question paper includes a question about installing and importing libraries for game bots.</p>
+<ul><li>Installation</li><li>pip install easyAI</li><li>Import statements</li></ul>
+<p>from easyAI import TwoPlayersGame, id_solve, Human_Player, AI_Player<br>from easyAI.AI import TT</p>
+<p class="lbl">Explanation</p>
+<p>TwoPlayersGame provides a base class for implementing two-player games.</p>
+<p>id_solve is a game-solving function.</p>
+<p>Human_Player represents a human player.</p>
+<p>AI_Player represents a computer-controlled player.</p>
+<p>TT is an AI search component provided by the library.</p>
+<p>Exam tip: If the question asks only for the code snippet, write the installation command and import statements. Add explanations if space and marks permit.</p></div></details>
+<details class="q" data-k="4" data-p="low" data-r="1" data-o="72"><summary><span class="no">20</span><span class="tt">What is a bot?</span><span class="meta"><span class="pk">M4</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>A bot is an automated software program that digitally replicates or performs certain human activities.</p>
+<p>A gaming bot is a computer-controlled player or character that performs actions within a game.</p></div></details>
+<details class="q" data-k="4" data-p="high" data-r="7" data-o="73"><summary><span class="no">21</span><span class="tt">Explain the steps to design a Last Coin Standing game using AI.</span><span class="meta"><span class="pk">M4</span><span class="mk m7">7 marks</span></span></summary><div class="a"><p>This topic appears in your Module 4 notes and the solved model paper, so prepare it after Tic-Tac-Toe and Minimax.</p>
+<h4><i>1</i>Introduction</h4>
+<p>Last Coin Standing is a game in which two players take turns removing coins from a pile. The winner depends on the game&#x27;s rules and the available moves.</p>
+<p>Your notes describe a version in which a player can remove 1, x, or y coins on a turn. The player who takes the last coin wins.</p>
+<h4><i>2</i>Steps</h4>
+<h4 class="sub">Step 1: Import the required packages</h4>
+<p>Import the libraries required to implement the game and its AI.</p>
+<h4 class="sub">Step 2: Create the game class</h4>
+<p>Create a class derived from TwoPlayersGame to handle the game&#x27;s operations.</p>
+<h4 class="sub">Step 3: Define the players</h4>
+<p>Specify the players and identify which player starts the game.</p>
+<h4 class="sub">Step 4: Initialise the coins</h4>
+<p>Define the number of coins in the pile and the permitted number of coins a player can remove per move.</p>
+<h4 class="sub">Step 5: Define the legal moves</h4>
+<p>Create a function that returns the possible moves available to the current player.</p>
+<h4 class="sub">Step 6: Implement coin removal</h4>
+<p>Create a function that updates the number of coins after a move.</p>
+<h4 class="sub">Step 7: Define the terminal condition</h4>
+<p>Determine when the game ends and which player wins.</p>
+<h4 class="sub">Step 8: Define the scoring function</h4>
+<p>Implement a function to calculate the outcome or score for the game state.</p>
+<h4 class="sub">Step 9: Run the game</h4>
+<p>Display the current number of coins, accept the player&#x27;s move, and allow the AI to make its move.</p>
+<p>Repeat until the game ends.</p>
+<h4 class="sub">Step 10: Display the result</h4>
+<p>Determine who took the last coin and display the winner.</p>
+<h4 class="sub">Conclusion</h4>
+<p>The game combines state management, legal-move generation, scoring, and game-playing logic to allow a human to play against an AI.</p></div></details>
+<details class="q" data-k="4" data-p="low" data-r="1" data-o="74"><summary><span class="no"></span><span class="tt">One-mark revision bank</span><span class="meta"><span class="pk">M4</span><span class="mk m1">1 mark</span></span></summary><div class="a"><p>Revise these before the exam.</p>
+<div class="tw"><table><thead><tr><th>Question</th><th>Answer</th></tr></thead><tbody><tr><td>What is a search problem?</td><td>A problem involving a state space, start state, and goal state.</td></tr><tr><td>What is a state space?</td><td>The set of all possible states of a problem.</td></tr><tr><td>Name two uninformed search algorithms.</td><td>DFS and BFS.</td></tr><tr><td>Which data structure does DFS use?</td><td>Stack.</td></tr><tr><td>Which data structure does BFS use?</td><td>FIFO queue.</td></tr><tr><td>Which data structure does UCS use?</td><td>Priority queue.</td></tr><tr><td>What is informed search also called?</td><td>Heuristic search.</td></tr><tr><td>What is a heuristic?</td><td>A function that estimates how close a state is to the goal.</td></tr><tr><td>Name two informed search algorithms.</td><td>Greedy Best-First Search and A* Search.</td></tr><tr><td>Write the A* evaluation function.</td><td>f(n)=g(n)+h(n).</td></tr><tr><td>What is adversarial search?</td><td>Search involving agents with conflicting objectives.</td></tr><tr><td>What are the two Minimax players?</td><td>MAX and MIN.</td></tr><tr><td>What does MAX do?</td><td>Selects the maximum value.</td></tr><tr><td>What does MIN do?</td><td>Selects the minimum value.</td></tr><tr><td>Name two games using Minimax.</td><td>Tic-Tac-Toe and Last Coin Standing.</td></tr><tr><td>What is Alpha-Beta Pruning?</td><td>A technique that skips game-tree branches that cannot affect the final Minimax decision.</td></tr><tr><td>What is a terminal state?</td><td>A state in which the game has ended.</td></tr><tr><td>What does a utility function do?</td><td>Assigns a numerical value to a terminal state.</td></tr><tr><td>What is a gaming bot?</td><td>A computer-controlled player or character.</td></tr><tr><td>Which Python package appears in your game-bot question?</td><td>easyAI.</td></tr></tbody></table></div>
+<div class="note tp">✅ FINAL EXAM STRATEGY — MODULE 4</div>
+<p class="lbl">If time is limited, prepare these in this order</p>
+<h4><i>1</i>Tic-Tac-Toe bot — 7 marks</h4>
+<h4><i>2</i>Minimax algorithm — 7 marks</h4>
+<h4><i>3</i>Combinatorial Search with an algorithm — 7 marks</h4>
+<h4><i>4</i>DFS, BFS and UCS — 3 marks each</h4>
+<h4><i>5</i>Alpha-Beta Pruning — 3–5 marks</h4>
+<h4><i>6</i>Heuristic Search and A — 3 marks each*</h4>
+<h4><i>7</i>Last Coin Standing — 7 marks</h4>
+<h4><i>8</i>One-mark revision bank</h4>
+<p>What appeared in your actual April 2026 paper?</p>
+<p>1 mark: Name two uninformed search algorithms.</p>
+<p>1 mark: Identify the MAX and MIN players.</p>
+<p>7 marks: Steps to develop a Tic-Tac-Toe bot OR Combinatorial Search and an algorithm.</p>
+<p>These are confirmed from the paper you provided; the other priorities are based on your Module 4 notes and model paper.</p>
+<p>Module 4 is now covered. Focus on understanding Minimax and memorising the Tic-Tac-Toe steps first; they connect several topics in this module.</p></div></details></div><p id="empty" hidden>Nothing matches. Clear the search or pick another filter.</p><div id="pool"></div></main>
+<script>
+const $=s=>[...document.querySelectorAll(s)];
+const list=document.getElementById('list'),pool=document.getElementById('pool'),cnt=document.getElementById('cnt'),empty=document.getElementById('empty'),s=document.getElementById('s'),ex=document.getElementById('ex');
+const all=$('details.q:not(.intro)'),intros=$('.intro');
+let cur=+location.hash.slice(2)||0,pr='all',sort='priority',qs='',shown=[];
+all.forEach(d=>{d._t=d.textContent.toLowerCase();d._o=+d.dataset.o;d._r=+d.dataset.r;d._k=+d.dataset.k});
+const PO={high:0,med:1,low:2,note:3};
+const PT={high:['High priority','directly asked or most important'],med:['Medium priority','important syllabus topics'],low:['Low priority','backup questions and quick facts'],note:['Notes and study plans','no priority tag']};
+const KEY={priority:d=>[PO[d.dataset.p],-d._r,d._o],repeat:d=>[-d._r,PO[d.dataset.p],d._o],syllabus:d=>[d._k,d._o]};
+const GID={priority:d=>d.dataset.p,repeat:d=>d._r,syllabus:d=>d._k};
+const TITLE=g=>sort==='priority'?PT[g]:sort==='repeat'?[g?g+(g>1?' marks':' mark'):'No marks tagged','']:['Module '+g,''];
+function apply(){
+ const inMod=all.filter(d=>(!cur||d._k===cur)&&(!qs||d._t.includes(qs)));
+ ['all','high','med','low','note'].forEach(p=>document.getElementById('c-'+p).textContent=inMod.filter(d=>p==='all'||d.dataset.p===p).length);
+ shown=inMod.filter(d=>pr==='all'||d.dataset.p===pr);
+ const k=KEY[sort];
+ shown.sort((a,b)=>{const x=k(a),y=k(b);for(let i=0;i<x.length;i++)if(x[i]!==y[i])return x[i]-y[i];return 0});
+ all.forEach(d=>pool.appendChild(d));
+ $('.gr').forEach(g=>g.remove());
+ let last,box;
+ shown.forEach(d=>{const g=GID[sort](d);
+  if(g!==last){last=g;box=document.createElement('div');box.className='gr';const t=TITLE(g);
+   box.innerHTML='<div class="sec s-'+(sort==='priority'?g:'x')+'"><b>'+t[0]+'</b><span>'+t[1]+'</span><em class="n"></em></div>';list.appendChild(box)}
+  box.appendChild(d)});
+ $('.gr').forEach(g=>g.querySelector('.n').textContent=g.querySelectorAll('details').length);
+ if(qs.length>2)shown.forEach(d=>d.open=true);
+ intros.forEach(d=>d.hidden=!(cur&&+d.dataset.k===cur&&!qs&&pr==='all'));
+ $('.tab').forEach(t=>t.setAttribute('aria-selected',+t.dataset.k===cur));
+ empty.hidden=shown.length>0;
+ cnt.textContent=shown.length+(shown.length===1?' question':' questions');
+}
+$('.tab').forEach(t=>t.onclick=()=>{cur=+t.dataset.k;history.replaceState(null,'','#m'+cur);apply();scrollTo(0,0)});
+$('#pc .chip').forEach(c=>c.onclick=()=>{pr=c.dataset.p;$('#pc .chip').forEach(x=>x.setAttribute('aria-pressed',x===c));apply()});
+document.getElementById('so').onchange=e=>{sort=e.target.value;apply()};
+s.oninput=()=>{qs=s.value.trim().toLowerCase();apply()};
+ex.onclick=()=>{const o=shown.some(d=>!d.open);shown.forEach(d=>d.open=o);ex.textContent=o?'Collapse all':'Expand all'};
+apply();
+</script>
+</body>
+</html>
